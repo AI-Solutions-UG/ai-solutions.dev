@@ -1,0 +1,1 @@
+import{j as o}from"./jsx-runtime.D_zvdyIk.js";import"./index.Cs678WvR.js";/* empty css                       */const l=({title:s})=>o.jsxs("div",{className:"container",children:[o.jsx("div",{className:"glow-orb glow-orb-1"}),o.jsx("div",{className:"glow-orb glow-orb-2"}),o.jsx("h1",{className:"title",children:s})]});export{l as Hero};
