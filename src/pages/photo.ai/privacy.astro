@@ -1,0 +1,409 @@
+---
+import { Footer } from '@components/Footer';
+import '@styles/global.css';
+---
+
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+		<meta charset="utf-8" />
+		<link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+		<link rel="icon" href="/favicon.ico" />
+		<meta name="viewport" content="width=device-width" />
+		<meta name="generator" content={Astro.generator} />
+		<title>Privacy Policy - Photo AI</title>
+		<link rel="preconnect" href="https://fonts.googleapis.com">
+		<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+		<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600&display=swap" rel="stylesheet">
+	</head>
+	<body>
+		<div class="page-content privacy-container">
+			<header>
+				<h1>Privacy Policy</h1>
+				<p class="effective-date">Effective Date: March 1, 2026</p>
+			</header>
+
+			<main>
+				<section>
+					<h2>1. Introduction</h2>
+					<p>
+						AI Solutions UG (haftungsbeschränkt) ("we", "us", or "our") operates the Photo AI application (the "App") for Shopify merchants. 
+						This Privacy Policy explains how we collect, use, disclose, and safeguard your information when you use our App.
+					</p>
+					<p>
+						By installing and using Photo AI, you agree to the collection and use of information in accordance with this policy.
+					</p>
+				</section>
+
+				<section>
+					<h2>2. Information We Collect</h2>
+					
+					<h3>2.1 Shopify Store Data</h3>
+					<p>When you install Photo AI, we collect and process the following data from your Shopify store:</p>
+					<ul>
+						<li><strong>Store Information:</strong> Your shop domain, store name, and contact email</li>
+						<li><strong>Product Data:</strong> Product names, descriptions, and images that you choose to enhance with our AI service</li>
+						<li><strong>Authentication Data:</strong> OAuth tokens and session tokens required for secure API access</li>
+						<li><strong>Account Information:</strong> Your Shopify account ID and store owner details</li>
+					</ul>
+
+					<h3>2.2 Generated Content</h3>
+					<p>We store and process:</p>
+					<ul>
+						<li><strong>Source Images:</strong> Original product images you upload or select for AI processing</li>
+						<li><strong>Generated Images:</strong> AI-enhanced images created by our service</li>
+						<li><strong>Prompts and Instructions:</strong> Text prompts and editing instructions you provide</li>
+						<li><strong>Image Metadata:</strong> Generation timestamp, processing duration, and technical parameters</li>
+					</ul>
+
+					<h3>2.3 Usage and Billing Data</h3>
+					<ul>
+						<li><strong>Subscription Information:</strong> Your current plan (Free, Basic, or Professional)</li>
+						<li><strong>Usage Metrics:</strong> Number of images generated, billing period data, and overage usage</li>
+						<li><strong>AI Call Logs:</strong> Requests sent to our AI engine, including prompts, token usage, and processing time</li>
+					</ul>
+
+					<h3>2.4 Technical Information</h3>
+					<ul>
+						<li><strong>Log Data:</strong> IP addresses, browser type, access times, and error logs</li>
+						<li><strong>Performance Data:</strong> App performance metrics and usage patterns</li>
+					</ul>
+				</section>
+
+				<section>
+					<h2>3. How We Use Your Information</h2>
+					<p>We use the collected information for the following purposes:</p>
+
+					<h3>3.1 Service Delivery</h3>
+					<ul>
+						<li>To provide and maintain the Photo AI service</li>
+						<li>To generate AI-powered product images based on your input</li>
+						<li>To enable you to view, download, and manage generated images</li>
+						<li>To sync generated images back to your Shopify product catalog</li>
+					</ul>
+
+					<h3>3.2 Billing and Account Management</h3>
+					<ul>
+						<li>To process subscription payments and manage billing periods</li>
+						<li>To track usage against your plan limits and calculate overage charges</li>
+						<li>To send billing notifications and receipts</li>
+					</ul>
+
+					<h3>3.3 Service Improvement</h3>
+					<ul>
+						<li>To analyze app performance and optimize AI processing</li>
+						<li>To understand usage patterns and improve user experience</li>
+						<li>To troubleshoot technical issues and provide customer support</li>
+					</ul>
+
+					<h3>3.4 Legal Compliance</h3>
+					<ul>
+						<li>To comply with legal obligations and respond to lawful requests</li>
+						<li>To enforce our Terms of Service and protect our rights</li>
+					</ul>
+				</section>
+
+				<section>
+					<h2>4. Data Sharing and Third-Party Services</h2>
+
+					<h3>4.1 Google Gemini AI</h3>
+					<p>
+						Photo AI uses Google's Gemini AI service to generate and enhance product images. 
+						When you use our service, your product images and text prompts are sent to Google's AI infrastructure for processing. 
+						Google's processing of this data is governed by their privacy policy and terms of service.
+					</p>
+					<p>
+						<strong>Data Minimization:</strong> We only send the minimum necessary data (images and prompts) to Google for processing.
+					</p>
+
+					<h3>4.2 Shopify</h3>
+					<p>
+						Our App operates within the Shopify ecosystem and uses Shopify's APIs to access your store data. 
+						Shopify's handling of your store data is governed by their privacy policy.
+					</p>
+
+					<h3>4.3 Payment Processing</h3>
+					<p>
+						Subscription payments are processed through Shopify's billing system. 
+						We do not directly collect or store your payment card information.
+					</p>
+
+					<h3>4.4 Hosting and Infrastructure</h3>
+					<p>
+						Our App is hosted on secure cloud infrastructure. Your data may be stored and processed on servers located in various regions 
+						to ensure optimal performance and reliability.
+					</p>
+
+					<h3>4.5 No Sale of Data</h3>
+					<p>
+						<strong>We do not sell, rent, or trade your personal information or generated images to third parties for their marketing purposes.</strong>
+					</p>
+				</section>
+
+				<section>
+					<h2>5. Data Storage and Security</h2>
+
+					<h3>5.1 Data Storage</h3>
+					<ul>
+						<li><strong>Database:</strong> Store and account data is stored in a PostgreSQL database with encryption at rest</li>
+						<li><strong>Image Storage:</strong> Generated images are stored securely and are accessible only to your store</li>
+						<li><strong>Backup:</strong> Regular backups are performed to prevent data loss</li>
+					</ul>
+
+					<h3>5.2 Security Measures</h3>
+					<p>We implement industry-standard security measures to protect your data:</p>
+					<ul>
+						<li>Encrypted data transmission (HTTPS/TLS)</li>
+						<li>Secure OAuth authentication with Shopify</li>
+						<li>Access controls and authentication requirements</li>
+						<li>Regular security audits and updates</li>
+						<li>Secure handling of API tokens and session data</li>
+					</ul>
+
+					<h3>5.3 Data Retention</h3>
+					<p>
+						We retain your data for as long as your account is active or as needed to provide you with services. 
+						When you uninstall the App, your data will be retained for a reasonable period (typically 90 days) 
+						to allow for potential reinstallation, after which it will be permanently deleted.
+					</p>
+				</section>
+
+				<section>
+					<h2>6. Your Data Rights (GDPR & Privacy Laws)</h2>
+					<p>Depending on your location, you may have the following rights:</p>
+
+					<h3>6.1 Access and Portability</h3>
+					<ul>
+						<li><strong>Right to Access:</strong> Request a copy of the personal data we hold about you</li>
+						<li><strong>Data Portability:</strong> Request your data in a machine-readable format</li>
+					</ul>
+
+					<h3>6.2 Correction and Deletion</h3>
+					<ul>
+						<li><strong>Right to Rectification:</strong> Request correction of inaccurate or incomplete data</li>
+						<li><strong>Right to Erasure:</strong> Request deletion of your personal data (subject to legal retention requirements)</li>
+					</ul>
+
+					<h3>6.3 Control and Restriction</h3>
+					<ul>
+						<li><strong>Right to Object:</strong> Object to processing of your personal data in certain circumstances</li>
+						<li><strong>Right to Restriction:</strong> Request restriction of processing in certain situations</li>
+					</ul>
+
+					<h3>6.4 Exercising Your Rights</h3>
+					<p>
+						To exercise any of these rights, please contact us at <a href="mailto:privacy@ai-solutions.dev">privacy@ai-solutions.dev</a>. 
+						We will respond to your request within 30 days.
+					</p>
+				</section>
+
+				<section>
+					<h2>7. Data Processing Location</h2>
+					<p>
+						Your data may be transferred to and processed in countries other than your country of residence. 
+						These countries may have data protection laws that are different from the laws of your country. 
+						We ensure that adequate safeguards are in place to protect your data in accordance with this Privacy Policy.
+					</p>
+				</section>
+
+				<section>
+					<h2>8. Children's Privacy</h2>
+					<p>
+						Our App is intended for use by businesses and is not directed to individuals under the age of 18. 
+						We do not knowingly collect personal information from children under 18.
+					</p>
+				</section>
+
+				<section>
+					<h2>9. Changes to This Privacy Policy</h2>
+					<p>
+						We may update this Privacy Policy from time to time. We will notify you of any changes by posting the new Privacy Policy 
+						on this page and updating the "Effective Date" at the top. Significant changes will be communicated via email or 
+						a prominent notice within the App.
+					</p>
+					<p>
+						You are advised to review this Privacy Policy periodically for any changes. 
+						Continued use of the App after changes constitutes acceptance of the updated policy.
+					</p>
+				</section>
+
+				<section>
+					<h2>10. Contact Us</h2>
+					<p>If you have any questions, concerns, or requests regarding this Privacy Policy or our data practices, please contact us:</p>
+					
+					<div class="contact-info">
+						<p><strong>AI Solutions UG (haftungsbeschränkt)</strong></p>
+						<p>Email: <a href="mailto:privacy@ai-solutions.dev">privacy@ai-solutions.dev</a></p>
+						<p>Support: <a href="mailto:support@ai-solutions.dev">support@ai-solutions.dev</a></p>
+					</div>
+
+					<p class="dpo-info">
+						For GDPR-related inquiries, please contact our Data Protection Officer at the email address above.
+					</p>
+				</section>
+
+				<section class="consent-notice">
+					<h2>11. Your Consent</h2>
+					<p>
+						By using Photo AI, you consent to this Privacy Policy and agree to its terms. 
+						If you do not agree with this policy, please do not use our App.
+					</p>
+				</section>
+			</main>
+
+			<footer>
+				<p>Last updated: March 1, 2026</p>
+			</footer>
+		</div>
+		<Footer client:load left={[{ href: '/photo.ai', label: 'Back to Photo AI' }]} />
+	</body>
+</html>
+
+<style>
+	.privacy-container {
+		max-width: 800px;
+		width: 100%;
+		margin: 0 auto;
+		padding: 3rem 2rem;
+		color: #f8fafc;
+		line-height: 1.7;
+	}
+
+	header {
+		margin-bottom: 3rem;
+		border-bottom: 2px solid rgba(139, 92, 246, 0.3);
+		padding-bottom: 2rem;
+	}
+
+	h1 {
+		font-size: 2.5rem;
+		font-weight: 700;
+		color: #fff;
+		margin-bottom: 0.5rem;
+		background: linear-gradient(135deg, #fff 0%, #8b5cf6 100%);
+		-webkit-background-clip: text;
+		-webkit-text-fill-color: transparent;
+		background-clip: text;
+	}
+
+	.effective-date {
+		color: #94a3b8;
+		font-size: 0.95rem;
+	}
+
+	main {
+		margin-bottom: 4rem;
+	}
+
+	section {
+		margin-bottom: 3rem;
+	}
+
+	h2 {
+		font-size: 1.75rem;
+		font-weight: 600;
+		color: #fff;
+		margin-bottom: 1rem;
+		margin-top: 2rem;
+	}
+
+	h3 {
+		font-size: 1.25rem;
+		font-weight: 600;
+		color: #e0e7ff;
+		margin-top: 1.5rem;
+		margin-bottom: 0.75rem;
+	}
+
+	p {
+		margin-bottom: 1rem;
+		color: #cbd5e1;
+	}
+
+	ul {
+		margin-bottom: 1.5rem;
+		margin-left: 1.5rem;
+		color: #cbd5e1;
+	}
+
+	li {
+		margin-bottom: 0.75rem;
+	}
+
+	strong {
+		color: #e0e7ff;
+		font-weight: 600;
+	}
+
+	a {
+		color: #8b5cf6;
+		text-decoration: none;
+		transition: color 0.2s;
+	}
+
+	a:hover {
+		color: #a78bfa;
+		text-decoration: underline;
+	}
+
+	.contact-info {
+		background: rgba(139, 92, 246, 0.1);
+		border-left: 3px solid #8b5cf6;
+		padding: 1.5rem;
+		margin: 1.5rem 0;
+		border-radius: 4px;
+	}
+
+	.contact-info p {
+		margin-bottom: 0.5rem;
+	}
+
+	.dpo-info {
+		font-size: 0.9rem;
+		color: #94a3b8;
+		font-style: italic;
+	}
+
+	.consent-notice {
+		background: rgba(59, 130, 246, 0.1);
+		border: 1px solid rgba(59, 130, 246, 0.3);
+		padding: 2rem;
+		border-radius: 8px;
+		margin-top: 3rem;
+	}
+
+	.consent-notice h2 {
+		margin-top: 0;
+		color: #60a5fa;
+	}
+
+	footer {
+		border-top: 2px solid rgba(139, 92, 246, 0.3);
+		padding-top: 2rem;
+		text-align: center;
+		color: #94a3b8;
+		font-size: 0.9rem;
+	}
+
+	footer p {
+		margin-bottom: 0.5rem;
+	}
+
+	@media (max-width: 768px) {
+		.privacy-container {
+			padding: 2rem 1.5rem;
+		}
+
+		h1 {
+			font-size: 2rem;
+		}
+
+		h2 {
+			font-size: 1.5rem;
+		}
+
+		h3 {
+			font-size: 1.1rem;
+		}
+	}
+</style>
