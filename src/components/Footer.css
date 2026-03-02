@@ -2,6 +2,8 @@
   display: flex;
   justify-content: space-between;
   padding: 2rem;
+  /* iOS Safe Area support */
+  padding-bottom: calc(2rem + env(safe-area-inset-bottom));
   flex-shrink: 0;
   z-index: 100;
   background: transparent;
@@ -28,6 +30,7 @@
 @media (max-width: 768px) {
   .footer {
     padding: 1rem;
+    padding-bottom: calc(1rem + env(safe-area-inset-bottom));
   }
 
   .footer-left,
