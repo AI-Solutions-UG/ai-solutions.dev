@@ -52,11 +52,14 @@ import '@styles/global.css';
 					<h3>2.2 Generated Content</h3>
 					<p>We store and process:</p>
 					<ul>
-						<li><strong>Source Images:</strong> Original product images you upload or select for AI processing</li>
-						<li><strong>Generated Images:</strong> AI-enhanced images created by our service</li>
+						<li><strong>Source Images:</strong> Original product images you upload or select for AI processing (which may include images containing people or identifiable individuals)</li>
+						<li><strong>Generated Images:</strong> AI-enhanced images created by our service (which may also contain people or identifiable individuals from the source images)</li>
 						<li><strong>Prompts and Instructions:</strong> Text prompts and editing instructions you provide</li>
 						<li><strong>Image Metadata:</strong> Generation timestamp, processing duration, and technical parameters</li>
 					</ul>
+					<p class="important-notice">
+						<strong>Important:</strong> You are responsible for ensuring you have the necessary rights and consents to use and process any images containing people or identifiable individuals. This includes obtaining appropriate model releases and consent for AI processing and publication.
+					</p>
 
 					<h3>2.3 Usage and Billing Data</h3>
 					<ul>
@@ -115,6 +118,9 @@ import '@styles/global.css';
 						Google's processing of this data is governed by their privacy policy and terms of service.
 					</p>
 					<p>
+						<strong>Images Containing People:</strong> If your source images contain people or identifiable individuals, these images will also be transmitted to Google Gemini for AI processing. The generated images may also contain these individuals. You are solely responsible for ensuring you have obtained all necessary rights, consents, and model releases before processing such images through our service.
+					</p>
+					<p>
 						<strong>Data Minimization:</strong> We only send the minimum necessary data (images and prompts) to Google for processing.
 					</p>
 
@@ -134,6 +140,10 @@ import '@styles/global.css';
 					<p>
 						Our App is hosted on secure cloud infrastructure. Your data may be stored and processed on servers located in various regions 
 						to ensure optimal performance and reliability.
+					</p>
+					<p>
+						<strong>Image Storage:</strong> Generated images are stored on Cloudflare R2, a secure object storage service. 
+						Cloudflare's handling of stored data is governed by their privacy policy and data processing agreement.
 					</p>
 
 					<h3>4.5 No Sale of Data</h3>
@@ -209,7 +219,35 @@ import '@styles/global.css';
 				</section>
 
 				<section>
-					<h2>8. Children's Privacy</h2>
+					<h2>8. Your Responsibilities as a Merchant</h2>
+					
+					<h3>8.1 Images Containing People</h3>
+					<p>
+						If you upload or process images containing people or identifiable individuals through Photo AI, <strong>you are solely responsible</strong> for:
+					</p>
+					<ul>
+						<li>Obtaining all necessary rights, licenses, and permissions to use these images</li>
+						<li>Obtaining valid model releases and consent from all individuals depicted in the images</li>
+						<li>Ensuring consent covers AI processing, modification, and commercial use of their likeness</li>
+						<li>Compliance with applicable privacy laws (including GDPR, CCPA, and other data protection regulations)</li>
+						<li>Ensuring compliance with laws protecting personality rights and image rights in your jurisdiction</li>
+						<li>Any claims, damages, or legal issues arising from unauthorized use of personal images</li>
+					</ul>
+					<p>
+						<strong>We do not verify</strong> whether you have obtained the necessary rights and consents. By using Photo AI to process images containing people, 
+						you represent and warrant that you have all required rights and consents. You agree to indemnify and hold us harmless from any claims 
+						arising from your failure to obtain such rights and consents.
+					</p>
+
+					<h3>8.2 Product and Content Compliance</h3>
+					<p>
+						You are responsible for ensuring that all content you process through Photo AI, including product images and prompts, 
+						complies with applicable laws and does not infringe on third-party rights.
+					</p>
+				</section>
+
+				<section>
+					<h2>9. Children's Privacy</h2>
 					<p>
 						Our App is intended for use by businesses and is not directed to individuals under the age of 18. 
 						We do not knowingly collect personal information from children under 18.
@@ -217,7 +255,7 @@ import '@styles/global.css';
 				</section>
 
 				<section>
-					<h2>9. Changes to This Privacy Policy</h2>
+					<h2>10. Changes to This Privacy Policy</h2>
 					<p>
 						We may update this Privacy Policy from time to time. We will notify you of any changes by posting the new Privacy Policy 
 						on this page and updating the "Effective Date" at the top. Significant changes will be communicated via email or 
@@ -230,7 +268,7 @@ import '@styles/global.css';
 				</section>
 
 				<section>
-					<h2>10. Contact Us</h2>
+					<h2>11. Contact Us</h2>
 					<p>If you have any questions, concerns, or requests regarding this Privacy Policy or our data practices, please contact us:</p>
 					
 					<div class="contact-info">
@@ -245,7 +283,7 @@ import '@styles/global.css';
 				</section>
 
 				<section class="consent-notice">
-					<h2>11. Your Consent</h2>
+					<h2>12. Your Consent</h2>
 					<p>
 						By using Photo AI, you consent to this Privacy Policy and agree to its terms. 
 						If you do not agree with this policy, please do not use our App.
@@ -346,6 +384,19 @@ import '@styles/global.css';
 	a:hover {
 		color: #a78bfa;
 		text-decoration: underline;
+	}
+
+	.important-notice {
+		background: rgba(239, 68, 68, 0.1);
+		border-left: 3px solid #ef4444;
+		padding: 1.5rem;
+		margin: 1.5rem 0;
+		border-radius: 4px;
+		color: #fca5a5;
+	}
+
+	.important-notice strong {
+		color: #fecaca;
 	}
 
 	.contact-info {
