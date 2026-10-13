@@ -1,17 +1,40 @@
 ---
-// Animierte Demo zu den Schmerzpunkten: Ein Anliegen in Klartext → KI baut die Software Schritt für Schritt
-// → ein Mauszeiger benutzt die fertige Anwendung. Die Schmerzpunkte darüber wählen das Beispiel.
+// Beispiele: Ein Anliegen in Klartext → der KI-Entwickler (links) baut die Software Schritt für Schritt
+// → die fertige Anwendung läuft im Browser (rechts) und wird von einem Mauszeiger benutzt.
 //
 // Die Mock-Anwendungen sind deklarativ:
 //   data-at="n"      sichtbar ab Schritt n (1–4 = Bauschritte, ab 5 = Benutzung)
 //   data-until="n"   ab Schritt n wieder ausgeblendet
 //   data-cursor="n"  der Mauszeiger klickt dieses Element, bevor Schritt n eintritt
 //   data-count-to    Zahl zählt beim Einblenden hoch
+import DemoApp from './DemoApp.astro';
+
+const groups = ['Vertrieb', 'Betrieb', 'Verwaltung & Daten'];
+
 const scenarios = [
 	{
+		id: 'erp',
+		group: 1,
+		pain: 'Das ERP ist veraltet und teuer.',
+		fix: 'Eigenes ERP für Ihre Abläufe',
+		app: 'Aufträge',
+		url: 'erp.ihr-unternehmen.de',
+		prompt: 'Unser ERP ist 15 Jahre alt, teuer und kann nicht, was wir brauchen. Wir wollen eins, das zu unseren Abläufen passt.',
+		steps: [
+			['Daten aus dem Alt-System übernehmen', 'migration.ts'],
+			['Aufträge, Kunden und Artikel', 'stammdaten.sql'],
+			['Ihr Ablauf statt Standard-Prozess', 'workflow.ts'],
+			['Rechte für jedes Team', 'rollen.ts'],
+		],
+		then: 'Lizenzkosten für ein System, das nie ganz passt',
+		now: 'ein ERP, das genau Ihre Abläufe abbildet',
+	},
+	{
 		id: 'angebot',
+		group: 0,
 		pain: 'Angebote dauern Tage.',
 		fix: 'Angebotstool aus Artikeln und Preisen',
+		app: 'Angebote',
 		url: 'angebote.ihr-unternehmen.de',
 		prompt: 'Unsere Angebote tippen wir in Word ab. Sie sollen automatisch aus unseren Artikeln und Preisen entstehen.',
 		steps: [
@@ -24,39 +47,45 @@ const scenarios = [
 		now: 'Angebot mit drei Klicks',
 	},
 	{
-		id: 'import',
-		pain: 'Daten werden abgetippt.',
-		fix: 'Import direkt ins ERP',
-		url: 'import.ihr-unternehmen.de',
-		prompt: 'Unser Lieferant schickt Preislisten als Excel. Die tippen wir von Hand ins ERP ab.',
+		id: 'controlling',
+		group: 2,
+		pain: 'Das Reporting ist Handarbeit.',
+		fix: 'Dashboard, jeden Morgen aktuell',
+		app: 'Controlling',
+		url: 'controlling.ihr-unternehmen.de',
+		prompt: 'Unser Monatsreporting bauen wir jedes Mal von Hand in Excel. Das soll auf Knopfdruck gehen.',
 		steps: [
-			['Upload für Lieferantendateien', 'upload.tsx'],
-			['Spalten dem ERP zuordnen', 'zuordnung.ts'],
-			['Daten automatisch prüfen', 'pruefung.ts'],
-			['Übergabe ans ERP', 'erp-import.ts'],
+			['Dashboard aufbauen', 'dashboard.tsx'],
+			['Zahlen aus der Buchhaltung holen', 'buchhaltung.ts'],
+			['Umsatz pro Monat auswerten', 'umsatz.sql'],
+			['Jeden Morgen aktualisieren', 'zeitplan.ts'],
 		],
-		then: 'Abtippen oder teure Schnittstelle',
-		now: 'eigenes Import-Tool in kurzer Zeit',
+		then: 'Excel-Arbeit an jedem Monatsende',
+		now: 'Dashboard, das sich selbst aktualisiert',
 	},
 	{
-		id: 'shop',
-		pain: 'Bestellungen kommen per Fax.',
-		fix: 'Eigenes Händlerportal',
-		url: 'shop.ihr-unternehmen.de',
-		prompt: 'Unsere Händler bestellen per Telefon und Fax. Wir wollen einen einfachen Online-Shop nur für sie.',
+		id: 'lager',
+		group: 1,
+		pain: 'Im Lager regiert der Zettel.',
+		fix: 'Bestände live auf dem Handy',
+		app: 'Lager',
+		url: 'lager.ihr-unternehmen.de',
+		prompt: 'Unsere Bestände stehen auf Zetteln und in Excel. Ständig fehlt etwas, und keiner merkt es rechtzeitig.',
 		steps: [
-			['Shop-Oberfläche', 'shop.tsx'],
-			['Artikel und Bilder übernehmen', 'artikel.sql'],
-			['Individuelle Händlerpreise', 'preise.ts'],
-			['Bestellung direkt ins ERP', 'bestellung.ts'],
+			['Artikel und Lagerplätze anlegen', 'lager.sql'],
+			['Buchen per Handy-Scan', 'scanner.tsx'],
+			['Mindestbestände überwachen', 'bestand.ts'],
+			['Nachbestellung vorschlagen', 'bestellung.ts'],
 		],
-		then: 'Shop-System von der Stange',
-		now: 'Händlerportal mit Ihren Regeln',
+		then: 'Zettel, Zählen, Fehlbestände',
+		now: 'Bestände live, Nachschub automatisch',
 	},
 	{
 		id: 'crm',
+		group: 0,
 		pain: 'Niemand weiß, wo der Kunde steht.',
 		fix: 'CRM für Ihren Vertrieb',
+		app: 'Vertrieb',
 		url: 'vertrieb.ihr-unternehmen.de',
 		prompt: 'Unsere Kunden stehen in Excel und Outlook. Wir wollen sehen, wo jeder Kunde im Vertrieb steht.',
 		steps: [
@@ -69,39 +98,45 @@ const scenarios = [
 		now: 'eigenes CRM, genau für Ihren Vertrieb',
 	},
 	{
-		id: 'controlling',
-		pain: 'Das Reporting ist Handarbeit.',
-		fix: 'Dashboard, jeden Morgen aktuell',
-		url: 'controlling.ihr-unternehmen.de',
-		prompt: 'Unser Monatsreporting bauen wir jedes Mal von Hand in Excel. Das soll auf Knopfdruck gehen.',
+		id: 'import',
+		group: 2,
+		pain: 'Daten werden abgetippt.',
+		fix: 'Import direkt ins ERP',
+		app: 'Lieferanten-Import',
+		url: 'import.ihr-unternehmen.de',
+		prompt: 'Unser Lieferant schickt Preislisten als Excel. Die tippen wir von Hand ins ERP ab.',
 		steps: [
-			['Dashboard aufbauen', 'dashboard.tsx'],
-			['Zahlen aus der Buchhaltung holen', 'buchhaltung.ts'],
-			['Umsatz pro Monat auswerten', 'umsatz.sql'],
-			['Jeden Morgen automatisch aktualisieren', 'zeitplan.ts'],
+			['Upload für Lieferantendateien', 'upload.tsx'],
+			['Spalten dem ERP zuordnen', 'zuordnung.ts'],
+			['Daten automatisch prüfen', 'pruefung.ts'],
+			['Übergabe ans ERP', 'erp-import.ts'],
 		],
-		then: 'Excel-Arbeit an jedem Monatsende',
-		now: 'Dashboard, das sich selbst aktualisiert',
+		then: 'Abtippen oder teure Schnittstelle',
+		now: 'eigenes Import-Tool in kurzer Zeit',
 	},
 	{
-		id: 'marketing',
-		pain: 'Für den Newsletter fehlt die Zeit.',
-		fix: 'Newsletter aus Ihren Daten',
-		url: 'newsletter.ihr-unternehmen.de',
-		prompt: 'Wir wollen jeden Monat einen Newsletter mit unseren Neuheiten an unsere Händler schicken.',
+		id: 'einsatz',
+		group: 1,
+		pain: 'Einsätze werden am Telefon geplant.',
+		fix: 'Einsatzplanung für Ihr Team',
+		app: 'Einsatzplanung',
+		url: 'einsatz.ihr-unternehmen.de',
+		prompt: 'Unsere Monteure planen wir per Telefon und Whiteboard. Bei jeder Änderung beginnt das Chaos.',
 		steps: [
-			['Newsletter-Editor', 'editor.tsx'],
-			['Neuheiten direkt aus dem Shop', 'produkte.ts'],
-			['Empfängerlisten aus dem CRM', 'kontakte.sql'],
-			['Versand planen', 'versand.ts'],
+			['Wochenplan für alle Teams', 'planung.tsx'],
+			['Aufträge aus dem ERP', 'auftraege.ts'],
+			['Infos aufs Handy der Monteure', 'monteur-app.tsx'],
+			['Kunden automatisch informieren', 'benachrichtigung.ts'],
 		],
-		then: 'Inhalte aus drei Systemen zusammenkopieren',
-		now: 'Newsletter aus Ihren eigenen Daten',
+		then: 'Whiteboard und Telefonketten',
+		now: 'ein Plan, den jeder sieht',
 	},
 	{
 		id: 'cms',
+		group: 2,
 		pain: 'Jede Website-Änderung braucht die Agentur.',
 		fix: 'Inhalte selbst pflegen',
+		app: 'Website',
 		url: 'cms.ihr-unternehmen.de',
 		prompt: 'Unsere Website pflegt eine Agentur. Wir wollen Texte und Bilder selbst ändern können.',
 		steps: [
@@ -115,8 +150,10 @@ const scenarios = [
 	},
 	{
 		id: 'konfigurator',
+		group: 0,
 		pain: 'Das Wissen steckt in Köpfen und Excel.',
 		fix: 'Konfigurator mit Preis und Stückliste',
+		app: 'Konfigurator',
 		url: 'konfigurator.ihr-unternehmen.de',
 		prompt: 'Wir brauchen einen Konfigurator für unsere Schränke. Mit Preis und Stückliste für die Fertigung.',
 		steps: [
@@ -133,311 +170,316 @@ const first = scenarios[0];
 ---
 
 <figure class="demo" data-demo data-phase="0" aria-label="Beispiele: Aus einem Satz wird mit KI eine funktionierende Software">
-	<div class="demo__tabs" role="tablist" aria-label="Schmerzpunkte">
+	<div class="demo__groups" role="tablist" aria-label="Typische Probleme">
 		{
-			scenarios.map((s, i) => (
-				<button type="button" role="tab" class="demo__tab" data-tab={i} aria-selected={i === 0 ? 'true' : 'false'}>
-					<strong>{s.pain}</strong>
-					<span>{s.fix}</span>
-				</button>
+			groups.map((g, gi) => (
+				<div class="demo__group">
+					<p class="demo__group-title">{g}</p>
+					{scenarios.map((s, i) =>
+						s.group === gi ? (
+							<button type="button" role="tab" class="demo__tab" data-tab={i} aria-selected={i === 0 ? 'true' : 'false'}>
+								<strong>{s.pain}</strong>
+								<span>{s.fix}</span>
+							</button>
+						) : null,
+					)}
+				</div>
 			))
 		}
 	</div>
 
-	<div class="demo__window">
-		<div class="demo__bar">
-			<span class="demo__dots" aria-hidden="true"><i></i><i></i><i></i></span>
-			<span class="demo__url" data-url>{first.url}</span>
-			<span class="demo__status" data-status>Bereit</span>
+	<div class="demo__body">
+		<!-- KI-Entwickler -->
+		<div class="demo__chat">
+			<div class="demo__chat-head">
+				<span class="demo__ai-avatar" aria-hidden="true"></span>
+				<b>KI-Entwickler</b>
+				<span class="demo__status" data-status>Bereit</span>
+			</div>
+			<p class="demo__label">Ihr Anliegen</p>
+			<p class="demo__msg"><span data-type></span><span class="demo__caret" aria-hidden="true"></span></p>
+			<div class="demo__ai">
+				<p class="demo__ai-text" data-ai-text>Ich baue Ihre Software …</p>
+				<ul class="demo__steps" data-steps>
+					{
+						first.steps.map(([label, file]) => (
+							<li>
+								<span class="demo__check" aria-hidden="true" />
+								<span>{label}</span>
+								<code>{file}</code>
+							</li>
+						))
+					}
+				</ul>
+				<div class="demo__progress" aria-hidden="true"><i data-progress></i></div>
+			</div>
 		</div>
 
-		<div class="demo__body">
-			<div class="demo__chat">
-				<p class="demo__label">Ihr Anliegen</p>
-				<p class="demo__msg"><span data-type></span><span class="demo__caret" aria-hidden="true"></span></p>
-
-				<div class="demo__ai">
-					<p class="demo__ai-head">
-						<span class="demo__ai-avatar" aria-hidden="true"></span>
-						<b>KI-Entwickler</b>
-						<span data-ai-text>baut Ihre Software …</span>
-					</p>
-					<ul class="demo__steps" data-steps>
-						{
-							first.steps.map(([label, file]) => (
-								<li>
-									<span class="demo__check" aria-hidden="true" />
-									<span>{label}</span>
-									<code>{file}</code>
-								</li>
-							))
-						}
-					</ul>
-					<div class="demo__progress" aria-hidden="true"><i data-progress></i></div>
-				</div>
+		<!-- Browser mit der entstehenden Anwendung -->
+		<div class="browser">
+			<div class="browser__top">
+				<span class="browser__lights" aria-hidden="true"><i></i><i></i><i></i></span>
+				<span class="browser__tab">
+					<span class="app__logo" aria-hidden="true"></span>
+					<span data-app-title>{first.app}</span>
+				</span>
+			</div>
+			<div class="browser__bar">
+				<span class="browser__nav" aria-hidden="true">
+					<svg viewBox="0 0 16 16"><path d="M10 3 5 8l5 5" /></svg>
+					<svg viewBox="0 0 16 16"><path d="m6 3 5 5-5 5" /></svg>
+					<svg viewBox="0 0 16 16"><path d="M13 8a5 5 0 1 1-1.5-3.6M13 3v3h-3" /></svg>
+				</span>
+				<span class="browser__url">
+					<svg viewBox="0 0 16 16" aria-hidden="true"><rect x="3.5" y="7" width="9" height="6.5" rx="1.5" /><path d="M5.5 7V5a2.5 2.5 0 0 1 5 0v2" /></svg>
+					<span data-url>{first.url}</span>
+				</span>
 			</div>
 
-			<div class="demo__stage" data-stage>
+			<div class="browser__view" data-stage>
 				<div class="demo__empty" aria-hidden="true">
 					<span class="demo__empty-icon"></span>
 					Hier entsteht Ihre Software
 				</div>
 
-				<!-- Konfigurator (bedienbar) -->
-				<div class="demo__app demo__app--config" data-app="konfigurator">
-					<div class="demo__preview" data-at="1">
-						<svg viewBox="0 0 220 150" data-cabinet aria-hidden="true"></svg>
-					</div>
-					<div class="demo__controls" data-at="2">
-						<div class="demo__row">
-							<span>Breite</span>
-							<div class="demo__seg" data-opt="width">
-								<button type="button" data-val="80">80 cm</button>
-								<button type="button" data-val="120">120 cm</button>
-								<button type="button" data-val="160">160 cm</button>
-							</div>
+				<!-- ERP -->
+				<div class="demo__app" data-app="erp">
+					<DemoApp title="Aufträge" crumb="Alle Teams">
+						<div class="pill-row">
+							<span class="chip chip--ok" data-at="2">✓ 12.480 Datensätze aus dem Alt-System</span>
+							<span class="chip" data-at="4">Ansicht: Vertrieb</span>
 						</div>
-						<div class="demo__row">
-							<span>Türen</span>
-							<div class="demo__seg" data-opt="doors">
-								<button type="button" data-val="0">Ohne</button>
-								<button type="button" data-val="1">Mit</button>
-							</div>
-						</div>
-						<div class="demo__row">
-							<span>Oberfläche</span>
-							<div class="demo__seg demo__seg--swatch" data-opt="color">
-								<button type="button" data-val="oak" aria-label="Eiche"><i style="background:#C89F6E"></i></button>
-								<button type="button" data-val="white" aria-label="Weiß"><i style="background:#EDEBE6"></i></button>
-								<button type="button" data-val="anthracite" aria-label="Anthrazit"><i style="background:#3B4048"></i></button>
-							</div>
-						</div>
-					</div>
-					<div class="demo__result">
-						<div data-at="3">
-							<span class="demo__small">Preis</span>
-							<strong data-price>–</strong>
-						</div>
-						<div class="demo__bom" data-at="4">
-							<span class="demo__small">Stückliste</span>
-							<span data-bom>–</span>
-						</div>
-					</div>
+						<table class="mock-table mock-table--erp">
+							<thead><tr><th>Auftrag</th><th>Kunde</th><th>Status</th><th>Betrag</th></tr></thead>
+							<tbody>
+								<tr data-at="2"><td>A-4711</td><td>Hofmann Logistik</td><td><span class="status status--new" data-at="3">Neu</span></td><td>8.420 €</td></tr>
+								<tr data-at="2" data-cursor="5"><td>A-4712</td><td>Bäckerei Krämer</td><td><span class="status status--prod" data-at="3" data-until="5">In Fertigung</span><span class="status status--done" data-at="5">Versandt</span></td><td>2.130 €</td></tr>
+								<tr data-at="2"><td>A-4713</td><td>Stadtwerke Ost</td><td><span class="status status--prod" data-at="3">In Fertigung</span></td><td>19.900 €</td></tr>
+								<tr data-at="2"><td>A-4714</td><td>Elektro Wagner</td><td><span class="status status--new" data-at="3">Neu</span></td><td>4.760 €</td></tr>
+							</tbody>
+						</table>
+						<span class="mock-toast" slot="actions" data-at="6">✓ Lieferschein erstellt, Kunde informiert</span>
+					</DemoApp>
 				</div>
 
 				<!-- Angebote -->
 				<div class="demo__app" data-app="angebot">
-					<div class="app" data-at="1">
-						<div class="app__bar"><span class="app__logo"></span><b>Angebote</b><span class="app__crumb">Neues Angebot</span></div>
-						<div class="app__body">
-							<div class="doc__head">
-								<div><b>Angebot 2026-0412</b><span>Müller Metallbau GmbH, Dortmund</span></div>
-								<span class="doc__logo" aria-hidden="true"></span>
-							</div>
-							<table class="mock-table">
-								<thead><tr><th>Artikel</th><th>Menge</th><th>Betrag</th></tr></thead>
-								<tbody>
-									<tr data-at="2"><td>Edelstahlgeländer, 4 m</td><td>1</td><td>2.480 €</td></tr>
-									<tr data-at="2"><td>Montage vor Ort</td><td>6 Std.</td><td>540 €</td></tr>
-									<tr data-at="2"><td>Pulverbeschichtung RAL 7016</td><td>1</td><td>320 €</td></tr>
-									<tr data-at="5"><td>Wartungsvertrag, 1 Jahr</td><td>1</td><td>390 €</td></tr>
-									<tr class="is-muted" data-at="3" data-until="5"><td>Projektrabatt 5 %</td><td></td><td>−167 €</td></tr>
-									<tr class="is-muted" data-at="5"><td>Projektrabatt 5 %</td><td></td><td>−187 €</td></tr>
-								</tbody>
-							</table>
-							<div class="doc__sum" data-at="3" data-until="5"><span>Summe netto</span><strong>3.173 €</strong></div>
-							<div class="doc__sum" data-at="5"><span>Summe netto</span><strong>3.543 €</strong></div>
+					<DemoApp title="Angebote" crumb="Neues Angebot">
+						<div class="doc__head">
+							<div><b>Angebot 2026-0412</b><span>Müller Metallbau GmbH, Dortmund</span></div>
+							<span class="doc__logo" aria-hidden="true"></span>
 						</div>
-						<div class="app__actions" data-at="4">
-							<span class="mock-btn mock-btn--ghost" data-cursor="5">+ Position</span>
-							<span class="mock-btn" data-until="6" data-cursor="6">Als PDF senden</span>
+						<table class="mock-table mock-table--offer">
+							<thead><tr><th>Artikel</th><th>Menge</th><th>Betrag</th></tr></thead>
+							<tbody>
+								<tr data-at="2"><td>Edelstahlgeländer, 4 m</td><td>1</td><td>2.480 €</td></tr>
+								<tr data-at="2"><td>Montage vor Ort</td><td>6 Std.</td><td>540 €</td></tr>
+								<tr data-at="5"><td>Wartungsvertrag, 1 Jahr</td><td>1</td><td>390 €</td></tr>
+								<tr class="is-muted" data-at="3" data-until="5"><td>Projektrabatt 5 %</td><td></td><td>−151 €</td></tr>
+								<tr class="is-muted" data-at="5"><td>Projektrabatt 5 %</td><td></td><td>−171 €</td></tr>
+							</tbody>
+						</table>
+						<div class="doc__sum" data-at="3" data-until="5"><span>Summe netto</span><strong>2.869 €</strong></div>
+						<div class="doc__sum" data-at="5"><span>Summe netto</span><strong>3.239 €</strong></div>
+						<Fragment slot="actions">
+							<span class="mock-btn mock-btn--ghost" data-at="4" data-cursor="5">+ Position</span>
+							<span class="mock-btn" data-at="4" data-until="6" data-cursor="6">Als PDF senden</span>
 							<span class="mock-toast" data-at="6">✓ PDF an Müller Metallbau gesendet</span>
-						</div>
-					</div>
-				</div>
-
-				<!-- CRM -->
-				<div class="demo__app" data-app="crm">
-					<div class="app" data-at="1">
-						<div class="app__bar"><span class="app__logo"></span><b>Vertrieb</b><span class="app__crumb">Pipeline</span></div>
-						<div class="app__body">
-							<div class="kanban">
-								<div class="kanban__col">
-									<p class="kanban__title">Neu <span data-at="3">60.000 €</span></p>
-									<div class="deal" data-at="2"><b>Bäckerei Krämer</b><span>12.000 €</span></div>
-									<div class="deal" data-at="2"><b>Hofmann Logistik</b><span>48.000 €</span><em data-at="4">Heute anrufen</em></div>
-								</div>
-								<div class="kanban__col">
-									<p class="kanban__title">Angebot <span data-at="3" data-until="5">118.000 €</span><span data-at="5">23.000 €</span></p>
-									<div class="deal" data-at="2" data-until="5" data-cursor="5"><b>Stadtwerke Ost</b><span>95.000 €</span></div>
-									<div class="deal" data-at="2"><b>Elektro Wagner</b><span>23.000 €</span></div>
-								</div>
-								<div class="kanban__col kanban__col--won">
-									<p class="kanban__title">Gewonnen <span data-at="3" data-until="5">0 €</span><span data-at="5">95.000 €</span></p>
-									<div class="deal deal--won" data-at="5"><b>Stadtwerke Ost</b><span>95.000 €</span></div>
-								</div>
-							</div>
-						</div>
-						<div class="app__actions">
-							<span class="mock-toast" data-at="6">✓ Auftrag an die Buchhaltung übergeben</span>
-						</div>
-					</div>
+						</Fragment>
+					</DemoApp>
 				</div>
 
 				<!-- Controlling -->
 				<div class="demo__app" data-app="controlling">
-					<div class="app" data-at="1">
-						<div class="app__bar"><span class="app__logo"></span><b>Controlling</b><span class="app__crumb">Geschäftsführung</span></div>
-						<div class="app__body">
-							<div class="kpis">
-								<div><span>Umsatz lfd. Jahr</span><strong data-at="2"><span data-count-to="1842">0</span> T€</strong><strong class="is-empty" data-until="2">–</strong></div>
-								<div><span>Rohertrag</span><strong data-at="2"><span data-count-to="31">0</span> %</strong><strong class="is-empty" data-until="2">–</strong></div>
-								<div><span>Offene Posten</span><strong data-at="2"><span data-count-to="86">0</span> T€</strong><strong class="is-empty" data-until="2">–</strong></div>
-							</div>
-							<div class="bars" data-at="3">
-								{
-									[
-										[48, 44],
-										[56, 50],
-										[52, 49],
-										[64, 55],
-										[71, 63],
-										[82, 70],
-									].map(([h, p], i) => (
-										<span style={`--h:${h}%;--r:${(p / h).toFixed(3)}`}>
-											<em data-at="5" />
-											<i>{['Jan', 'Feb', 'Mär', 'Apr', 'Mai', 'Jun'][i]}</i>
-										</span>
-									))
-								}
-							</div>
+					<DemoApp title="Controlling" crumb="Geschäftsführung">
+						<div class="kpis">
+							<div><span>Umsatz lfd. Jahr</span><strong data-at="2"><span data-count-to="1842">0</span> T€</strong><strong class="is-empty" data-until="2">–</strong></div>
+							<div><span>Rohertrag</span><strong data-at="2"><span data-count-to="31">0</span> %</strong><strong class="is-empty" data-until="2">–</strong></div>
+							<div><span>Offene Posten</span><strong data-at="2"><span data-count-to="86">0</span> T€</strong><strong class="is-empty" data-until="2">–</strong></div>
 						</div>
-						<div class="app__actions" data-at="4">
-							<span class="app__hint">Aktualisiert heute, 06:00 Uhr</span>
-							<span class="mock-btn mock-btn--ghost" data-until="5" data-cursor="5">Vorjahr vergleichen</span>
+						<div class="bars" data-at="3">
+							{
+								[
+									[48, 44],
+									[56, 50],
+									[52, 49],
+									[64, 55],
+									[71, 63],
+									[82, 70],
+								].map(([h, p], i) => (
+									<span style={`--h:${h}%;--r:${(p / h).toFixed(3)}`}>
+										<em data-at="5" />
+										<i>{['Jan', 'Feb', 'Mär', 'Apr', 'Mai', 'Jun'][i]}</i>
+									</span>
+								))
+							}
+						</div>
+						<Fragment slot="actions">
+							<span class="app__hint" data-at="4">Aktualisiert heute, 06:00 Uhr</span>
+							<span class="mock-btn mock-btn--ghost" data-at="4" data-until="5" data-cursor="5">Vorjahr vergleichen</span>
 							<span class="mock-toast" data-at="5">Umsatz +12 % zum Vorjahr</span>
+						</Fragment>
+					</DemoApp>
+				</div>
+
+				<!-- Lager -->
+				<div class="demo__app" data-app="lager">
+					<DemoApp title="Lager" crumb="Halle 2">
+						<div class="pill-row">
+							<span class="chip chip--ok" data-at="2">Scan: 4006381 · +40 Stk gebucht</span>
 						</div>
-					</div>
+						<ul class="stock">
+							<li data-at="1"><div><b>Schrauben M8 × 40</b><span>Regal A3</span></div><span class="stock__bar"><i style="--w:82%"></i></span><em>1.240</em></li>
+							<li data-at="1"><div><b>Dichtung DN 40</b><span>Regal B1</span></div><span class="stock__bar"><i class="is-low" style="--w:12%"></i></span><em>85</em><span class="status status--warn" data-at="3">Mindestbestand</span></li>
+							<li data-at="1"><div><b>Flanschplatte 120</b><span>Regal B4</span></div><span class="stock__bar"><i class="is-low" style="--w:18%"></i></span><em>14</em><span class="status status--warn" data-at="3">Mindestbestand</span></li>
+						</ul>
+						<Fragment slot="actions">
+							<span class="mock-btn" data-at="4" data-until="5" data-cursor="5">2 Artikel nachbestellen</span>
+							<span class="mock-toast" data-at="5">✓ Bestellung an Lieferanten vorbereitet</span>
+						</Fragment>
+					</DemoApp>
+				</div>
+
+				<!-- CRM -->
+				<div class="demo__app" data-app="crm">
+					<DemoApp title="Vertrieb" crumb="Pipeline">
+						<div class="kanban">
+							<div class="kanban__col">
+								<p class="kanban__title">Neu <span data-at="3">60.000 €</span></p>
+								<div class="deal" data-at="2"><b>Bäckerei Krämer</b><span>12.000 €</span></div>
+								<div class="deal" data-at="2"><b>Hofmann Logistik</b><span>48.000 €</span><em data-at="4">Heute anrufen</em></div>
+							</div>
+							<div class="kanban__col">
+								<p class="kanban__title">Angebot <span data-at="3" data-until="5">118.000 €</span><span data-at="5">23.000 €</span></p>
+								<div class="deal" data-at="2" data-until="5" data-cursor="5"><b>Stadtwerke Ost</b><span>95.000 €</span></div>
+								<div class="deal" data-at="2"><b>Elektro Wagner</b><span>23.000 €</span></div>
+							</div>
+							<div class="kanban__col kanban__col--won">
+								<p class="kanban__title">Gewonnen <span data-at="3" data-until="5">0 €</span><span data-at="5">95.000 €</span></p>
+								<div class="deal deal--won" data-at="5"><b>Stadtwerke Ost</b><span>95.000 €</span></div>
+							</div>
+						</div>
+						<span class="mock-toast" slot="actions" data-at="6">✓ Auftrag an die Buchhaltung übergeben</span>
+					</DemoApp>
 				</div>
 
 				<!-- Schnittstelle -->
 				<div class="demo__app" data-app="import">
-					<div class="app" data-at="1">
-						<div class="app__bar"><span class="app__logo"></span><b>Lieferanten-Import</b><span class="app__crumb">Preislisten</span></div>
-						<div class="app__body">
-							<div class="file">
-								<span class="file__icon" aria-hidden="true">XLSX</span>
-								<div><b>preisliste_lieferant.xlsx</b><span>1.249 Zeilen</span></div>
-							</div>
-							<div class="mapping" data-at="2">
-								<p><span>Art.-Nr.</span><i>→</i><b>Artikelnummer</b></p>
-								<p><span>Bezeichnung</span><i>→</i><b>Kurztext</b></p>
-								<p><span>EK netto</span><i>→</i><b>Einkaufspreis</b></p>
-							</div>
-							<div class="checks" data-at="3">
-								<p class="is-ok">✓ 1.248 Zeilen in Ordnung</p>
-								<p class="is-warn">! Zeile 214: Preis fehlt</p>
-							</div>
-							<div class="progress" data-at="5"><i></i></div>
+					<DemoApp title="Lieferanten-Import" crumb="Preislisten">
+						<div class="file">
+							<span class="file__icon" aria-hidden="true">XLSX</span>
+							<div><b>preisliste_lieferant.xlsx</b><span>1.249 Zeilen</span></div>
 						</div>
-						<div class="app__actions" data-at="4">
-							<span class="mock-btn" data-until="5" data-cursor="5">Ins ERP importieren</span>
+						<div class="mapping" data-at="2">
+							<p><span>Art.-Nr.</span><i>→</i><b>Artikelnummer</b></p>
+							<p><span>Bezeichnung</span><i>→</i><b>Kurztext</b></p>
+							<p><span>EK netto</span><i>→</i><b>Einkaufspreis</b></p>
+						</div>
+						<div class="pill-row" data-at="3">
+							<span class="chip chip--ok">✓ 1.248 Zeilen in Ordnung</span>
+							<span class="chip chip--warn">Zeile 214: Preis fehlt</span>
+						</div>
+						<div class="progress" data-at="5"><i></i></div>
+						<Fragment slot="actions">
+							<span class="mock-btn" data-at="4" data-until="5" data-cursor="5">Ins ERP importieren</span>
 							<span class="mock-toast" data-at="6">✓ 1.248 Artikel im ERP aktualisiert</span>
-						</div>
-					</div>
+						</Fragment>
+					</DemoApp>
 				</div>
 
-				<!-- Händler-Shop -->
-				<div class="demo__app" data-app="shop">
-					<div class="app" data-at="1">
-						<div class="app__bar">
-							<span class="app__logo"></span><b>Händlerportal</b><span class="app__crumb">Schmidt Sanitär GmbH</span>
-							<span class="cart" data-at="4">Warenkorb <b data-until="5">0</b><b data-at="5" data-until="6">1</b><b data-at="6">2</b></span>
+				<!-- Einsatzplanung -->
+				<div class="demo__app" data-app="einsatz">
+					<DemoApp title="Einsatzplanung" crumb="KW 42">
+						<div class="plan">
+							<span></span><b>Mo</b><b>Di</b><b>Mi</b><b>Do</b>
+							<em>Team Nord</em>
+							<i class="job" data-at="2" style="--c:2">Müller · Wartung</i>
+							<i class="job" data-at="2" style="--c:4">Krämer · Montage</i>
+							<em>Team Süd</em>
+							<i class="job" data-at="2" style="--c:2;--s:2">Stadtwerke · Umbau</i>
+							<i class="job" data-at="2" data-until="5" data-cursor="5" style="--c:5">Hofmann · Service</i>
+							<i class="job job--moved" data-at="5" style="--c:4">Hofmann · Service</i>
+							<em>Team West</em>
+							<i class="job" data-at="2" style="--c:3;--s:2">Wagner · Neubau</i>
 						</div>
-						<div class="app__body">
-							<div class="products">
-								<div class="product">
-									<i class="product__img"></i>
-									<div data-at="2"><b>Eckventil ½"</b><span>Listenpreis 6,90 €</span></div>
-									<p class="product__price" data-at="3">Ihr Preis 4,90 €</p>
-									<span class="product__btn" data-at="4" data-until="5" data-cursor="5">In den Warenkorb</span>
-									<span class="product__btn is-done" data-at="5">✓ Im Warenkorb</span>
-								</div>
-								<div class="product">
-									<i class="product__img product__img--b"></i>
-									<div data-at="2"><b>Siphon DN 40</b><span>Listenpreis 9,80 €</span></div>
-									<p class="product__price" data-at="3">Ihr Preis 7,20 €</p>
-									<span class="product__btn" data-at="4" data-until="6" data-cursor="6">In den Warenkorb</span>
-									<span class="product__btn is-done" data-at="6">✓ Im Warenkorb</span>
-								</div>
-								<div class="product">
-									<i class="product__img product__img--c"></i>
-									<div data-at="2"><b>Flexschlauch 50 cm</b><span>Listenpreis 4,90 €</span></div>
-									<p class="product__price" data-at="3">Ihr Preis 3,60 €</p>
-									<span class="product__btn" data-at="4">In den Warenkorb</span>
-								</div>
-							</div>
+						<div class="pill-row">
+							<span class="chip" data-at="3">Auf den Handys der Monteure</span>
+							<span class="chip chip--ok" data-at="4">Kunden werden per SMS informiert</span>
 						</div>
-						<div class="app__actions" data-at="4">
-							<span class="mock-btn" data-until="7" data-cursor="7">Bestellen</span>
-							<span class="mock-toast" data-at="7">✓ Bestellung 4711 ans ERP übergeben</span>
-						</div>
-					</div>
-				</div>
-
-				<!-- Marketing -->
-				<div class="demo__app" data-app="marketing">
-					<div class="app" data-at="1">
-						<div class="app__bar"><span class="app__logo"></span><b>Newsletter</b><span class="app__crumb">Ausgabe März</span></div>
-						<div class="app__body">
-							<div class="field"><span>Betreff</span><b data-at="2">Neu im März: zwei Lösungen für enge Bäder</b><i data-until="2"></i></div>
-							<div class="news">
-								<div class="news__item" data-at="2"><i class="product__img"></i><b>Eckventil Pro</b><span>Platzsparend, ab sofort lieferbar</span></div>
-								<div class="news__item" data-at="2"><i class="product__img product__img--b"></i><b>Siphon Slim</b><span>Nur 4 cm Bautiefe</span></div>
-							</div>
-							<div class="field" data-at="3"><span>Empfänger</span><b>Händler NRW · 2.340 Kontakte</b></div>
-							<div class="field" data-at="4"><span>Versand</span><b>Dienstag, 09:00 Uhr</b></div>
-						</div>
-						<div class="app__actions" data-at="4">
-							<span class="mock-btn" data-until="5" data-cursor="5">Versand planen</span>
-							<span class="mock-toast" data-at="5">✓ Geplant für 2.340 Empfänger</span>
-						</div>
-					</div>
+						<span class="mock-toast" slot="actions" data-at="6">✓ Termin verschoben, Hofmann per SMS informiert</span>
+					</DemoApp>
 				</div>
 
 				<!-- Website / CMS -->
 				<div class="demo__app" data-app="cms">
-					<div class="app" data-at="1">
-						<div class="app__bar"><span class="app__logo"></span><b>Website</b><span class="app__crumb">Startseite bearbeiten</span></div>
-						<div class="app__body">
-							<div class="site">
-								<div class="site__nav"><span class="app__logo"></span><i></i><i></i><i></i></div>
-								<div class="site__block" data-at="2">
-									<b class="site__title" data-until="5">Unsere Produkte</b>
-									<b class="site__title is-changed" data-at="5">Neu: die Serie 2026</b>
-									<span class="site__edit" data-at="3" data-cursor="5">✎ Bearbeiten</span>
+					<DemoApp title="Website" crumb="Startseite bearbeiten">
+						<div class="site">
+							<div class="site__nav"><span class="app__logo"></span><i></i><i></i><i></i></div>
+							<div class="site__block" data-at="2">
+								<b class="site__title" data-until="5">Unsere Produkte</b>
+								<b class="site__title is-changed" data-at="5">Neu: die Serie 2026</b>
+								<span class="site__edit" data-at="3" data-cursor="5">✎ Bearbeiten</span>
+							</div>
+							<div class="site__block site__text" data-at="2"><i></i><i></i><i class="is-short"></i></div>
+							<div class="site__block site__img" data-at="2"><span class="site__edit" data-at="3">✎ Bild tauschen</span></div>
+						</div>
+						<Fragment slot="actions">
+							<span class="mock-btn" data-at="4" data-until="6" data-cursor="6">Veröffentlichen</span>
+							<span class="mock-toast" data-at="6">✓ Live auf ihr-unternehmen.de</span>
+						</Fragment>
+					</DemoApp>
+				</div>
+
+				<!-- Konfigurator (bedienbar) -->
+				<div class="demo__app" data-app="konfigurator">
+					<DemoApp title="Konfigurator" crumb="Schrank nach Maß">
+						<div class="config">
+							<div class="demo__preview" data-at="1">
+								<svg viewBox="0 0 220 150" data-cabinet aria-hidden="true"></svg>
+							</div>
+							<div class="demo__controls" data-at="2">
+								<div class="demo__row">
+									<span>Breite</span>
+									<div class="demo__seg" data-opt="width">
+										<button type="button" data-val="80">80 cm</button>
+										<button type="button" data-val="120">120 cm</button>
+										<button type="button" data-val="160">160 cm</button>
+									</div>
 								</div>
-								<div class="site__block site__text" data-at="2"><i></i><i></i><i class="is-short"></i><span class="site__edit" data-at="3">✎</span></div>
-								<div class="site__block site__img" data-at="2"><span class="site__edit" data-at="3">✎ Bild tauschen</span></div>
+								<div class="demo__row">
+									<span>Türen</span>
+									<div class="demo__seg" data-opt="doors">
+										<button type="button" data-val="0">Ohne</button>
+										<button type="button" data-val="1">Mit</button>
+									</div>
+								</div>
+								<div class="demo__row">
+									<span>Oberfläche</span>
+									<div class="demo__seg demo__seg--swatch" data-opt="color">
+										<button type="button" data-val="oak" aria-label="Eiche"><i style="background:#C89F6E"></i></button>
+										<button type="button" data-val="white" aria-label="Weiß"><i style="background:#EDEBE6"></i></button>
+										<button type="button" data-val="anthracite" aria-label="Anthrazit"><i style="background:#3B4048"></i></button>
+									</div>
+								</div>
 							</div>
 						</div>
-						<div class="app__actions" data-at="4">
-							<span class="mock-btn" data-until="6" data-cursor="6">Veröffentlichen</span>
-							<span class="mock-toast" data-at="6">✓ Live auf ihr-unternehmen.de</span>
-						</div>
-					</div>
+						<Fragment slot="actions">
+							<div class="config__price" data-at="3"><span>Preis</span><strong data-price>–</strong></div>
+							<div class="config__bom" data-at="4"><span>Stückliste</span><b data-bom>–</b></div>
+						</Fragment>
+					</DemoApp>
 				</div>
 
 				<span class="demo__cursor" data-cursor-el aria-hidden="true"></span>
 			</div>
 		</div>
-
-		<figcaption class="demo__foot">
-			<span class="demo__then"><b>Früher</b> <span data-then>{first.then}</span></span>
-			<span class="demo__arrow" aria-hidden="true">→</span>
-			<span class="demo__now"><b>Mit KI</b> <span data-now>{first.now}</span></span>
-		</figcaption>
 	</div>
+
+	<figcaption class="demo__foot">
+		<span class="demo__then"><b>Früher</b> <span data-then>{first.then}</span></span>
+		<span class="demo__arrow" aria-hidden="true">→</span>
+		<span class="demo__now"><b>Mit KI</b> <span data-now>{first.now}</span></span>
+	</figcaption>
 </figure>
 
 <script define:vars={{ scenarios }}>
@@ -508,9 +550,9 @@ const first = scenarios[0];
 			el.classList.toggle('is-on', on);
 			if (on && !was) {
 				el.querySelectorAll('[data-count-to]').forEach(countUp);
-				if (highlight && at === step) {
+				if (highlight && at === step && at > 1) {
 					el.classList.add('is-new');
-					setTimeout(() => el.classList.remove('is-new'), 1100);
+					setTimeout(() => el.classList.remove('is-new'), 1200);
 				}
 			}
 		});
@@ -522,6 +564,7 @@ const first = scenarios[0];
 		const typeEl = root.querySelector('[data-type]');
 		const statusEl = root.querySelector('[data-status]');
 		const urlEl = root.querySelector('[data-url]');
+		const titleEl = root.querySelector('[data-app-title]');
 		const stepsEl = root.querySelector('[data-steps]');
 		const aiText = root.querySelector('[data-ai-text]');
 		const progress = root.querySelector('[data-progress]');
@@ -585,7 +628,7 @@ const first = scenarios[0];
 		async function clickWithCursor(el, my) {
 			const s = stage.getBoundingClientRect();
 			const r = el.getBoundingClientRect();
-			cursor.style.transform = `translate(${r.left - s.left + r.width / 2}px, ${r.top - s.top + r.height / 2}px)`;
+			cursor.style.transform = `translate(${r.left - s.left + Math.min(r.width / 2, 60)}px, ${r.top - s.top + r.height / 2}px)`;
 			cursor.classList.add('is-visible');
 			await wait(650, my);
 			cursor.classList.add('is-click');
@@ -603,14 +646,15 @@ const first = scenarios[0];
 
 		function show(i) {
 			const s = scenarios[i];
-			tabs.forEach((t, k) => t.setAttribute('aria-selected', String(k === i)));
+			tabs.forEach((t) => t.setAttribute('aria-selected', String(Number(t.dataset.tab) === i)));
 			Object.entries(apps).forEach(([id, a]) => a.classList.toggle('is-active', id === s.id));
 			urlEl.textContent = s.url;
+			titleEl.textContent = s.app;
 			thenEl.textContent = s.then;
 			nowEl.textContent = s.now;
 			renderSteps(s);
 			typeEl.textContent = '';
-			aiText.textContent = 'baut Ihre Software …';
+			aiText.textContent = 'Ich baue Ihre Software …';
 			progress.style.width = '0%';
 			statusEl.textContent = 'Bereit';
 			cursor.classList.remove('is-visible');
@@ -629,7 +673,7 @@ const first = scenarios[0];
 			typeEl.textContent = s.prompt;
 			stepsEl.querySelectorAll('li').forEach((li) => li.classList.add('is-done'));
 			progress.style.width = '100%';
-			aiText.textContent = 'fertig.';
+			aiText.textContent = 'Fertig. Probieren Sie es aus.';
 			statusEl.textContent = 'Live';
 			root.dataset.phase = '4';
 			const app = apps[s.id];
@@ -646,7 +690,7 @@ const first = scenarios[0];
 			root.dataset.phase = '1';
 			for (const ch of s.prompt) {
 				typeEl.textContent += ch;
-				await wait(ch === '.' ? 160 : 20, my);
+				await wait(ch === '.' ? 160 : 18, my);
 			}
 			await wait(350, my);
 
@@ -654,7 +698,7 @@ const first = scenarios[0];
 			root.dataset.phase = '2';
 			const items = [...stepsEl.querySelectorAll('li')];
 			for (let k = 1; k <= BUILD_STEPS; k++) {
-				statusEl.textContent = `Wird gebaut ${k}/${BUILD_STEPS}`;
+				statusEl.textContent = `Baut ${k}/${BUILD_STEPS}`;
 				items[k - 1].classList.add('is-active');
 				await wait(650, my);
 				items[k - 1].classList.remove('is-active');
@@ -663,7 +707,7 @@ const first = scenarios[0];
 				setStep(app, k, true);
 				await wait(300, my);
 			}
-			aiText.textContent = 'fertig. Probieren Sie es aus.';
+			aiText.textContent = 'Fertig. Probieren Sie es aus.';
 			statusEl.textContent = 'Live';
 			root.dataset.phase = '3';
 			await wait(700, my);
@@ -703,8 +747,9 @@ const first = scenarios[0];
 			}
 		}
 
-		tabs.forEach((t, i) =>
+		tabs.forEach((t) =>
 			t.addEventListener('click', () => {
+				const i = Number(t.dataset.tab);
 				stopped = false;
 				if (reduced) return showFinal(i);
 				loop(i);

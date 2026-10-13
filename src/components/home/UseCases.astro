@@ -1,5 +1,6 @@
 ---
 import Demo from './Demo.astro';
+import { contactHref } from './site';
 ---
 
 <section class="section" id="beispiele" aria-labelledby="einstieg-title">
@@ -14,7 +15,7 @@ import Demo from './Demo.astro';
 		</header>
 		<Demo />
 		<p class="usecases__more" data-reveal>
-			Und vieles mehr: Lager und Bestände, Einsatzplanung, Prüfprotokolle, Zeiterfassung …
+			Ihr Problem ist nicht dabei? <a href={contactHref}>Erzählen Sie es uns.</a>
 		</p>
 	</div>
 </section>
