@@ -1,69 +1,130 @@
 ---
-// Animierte Demo im Hero: Ein Anliegen in Klartext, KI baut daraus eine Anwendung.
-// Mehrere Beispiele laufen nacheinander durch; per Tab direkt anwählbar.
-// Mock-Anwendungen sind deklarativ: Elemente mit data-at="n" erscheinen ab Schritt n,
-// data-until="n" blendet sie ab Schritt n wieder aus, data-count-to zählt hoch.
+// Animierte Demo im Hero: Ein Anliegen in Klartext → KI baut die Software Schritt für Schritt
+// → ein Mauszeiger benutzt die fertige Anwendung. Mehrere Beispiele, per Tab anwählbar.
+//
+// Die Mock-Anwendungen sind deklarativ:
+//   data-at="n"      sichtbar ab Schritt n (1–4 = Bauschritte, ab 5 = Benutzung)
+//   data-until="n"   ab Schritt n wieder ausgeblendet
+//   data-cursor="n"  der Mauszeiger klickt dieses Element, bevor Schritt n eintritt
+//   data-count-to    Zahl zählt beim Einblenden hoch
 const scenarios = [
 	{
 		id: 'konfigurator',
 		label: 'Konfigurator',
 		url: 'konfigurator.ihr-unternehmen.de',
 		prompt: 'Wir brauchen einen Konfigurator für unsere Schränke. Mit Preis und Stückliste für die Fertigung.',
-		steps: ['Datenmodell aus Ihrer Preisliste', 'Regeln für Breite, Türen und Oberfläche', 'Preis wird live berechnet', 'Stückliste für die Fertigung'],
+		steps: [
+			['Produktvorschau zeichnen', 'vorschau.tsx'],
+			['Regeln für Breite, Türen, Oberfläche', 'regeln.ts'],
+			['Preise aus Ihrer Preisliste', 'preise.ts'],
+			['Stückliste für die Fertigung', 'stueckliste.ts'],
+		],
+		then: 'Agenturprojekt über viele Monate',
+		now: 'eigener Konfigurator in wenigen Tagen',
 	},
 	{
 		id: 'angebot',
 		label: 'Angebote',
 		url: 'angebote.ihr-unternehmen.de',
-		prompt: 'Unsere Angebote tippen wir in Word ab. Sie sollen automatisch aus Artikeln und Preisen entstehen.',
-		steps: ['Artikel und Preise übernommen', 'Rabatte und Staffelpreise', 'PDF in Ihrem Layout', 'Versand per E-Mail'],
+		prompt: 'Unsere Angebote tippen wir in Word ab. Sie sollen automatisch aus unseren Artikeln und Preisen entstehen.',
+		steps: [
+			['Angebotsvorlage in Ihrem Layout', 'angebot.tsx'],
+			['Artikel aus Ihrem Artikelstamm', 'artikel.sql'],
+			['Rabatte und Summen berechnen', 'preise.ts'],
+			['PDF erzeugen und versenden', 'pdf.ts'],
+		],
+		then: 'Word-Vorlage, abtippen, Tippfehler',
+		now: 'Angebot mit drei Klicks',
 	},
 	{
 		id: 'crm',
 		label: 'CRM',
-		url: 'crm.ihr-unternehmen.de',
-		prompt: 'Unsere Kundenkontakte liegen in Excel und Outlook. Wir wollen sehen, wo welcher Kunde steht.',
-		steps: ['Kontakte aus Excel importiert', 'E-Mails den Kunden zugeordnet', 'Vertriebsphasen auf einen Blick', 'Erinnerungen an Wiedervorlagen'],
+		url: 'vertrieb.ihr-unternehmen.de',
+		prompt: 'Unsere Kunden stehen in Excel und Outlook. Wir wollen sehen, wo jeder Kunde im Vertrieb steht.',
+		steps: [
+			['Vertriebsphasen anlegen', 'pipeline.tsx'],
+			['Kunden aus Excel übernehmen', 'import.ts'],
+			['Volumen pro Phase berechnen', 'auswertung.sql'],
+			['Wiedervorlagen einrichten', 'erinnerung.ts'],
+		],
+		then: 'Standard-CRM, das nie ganz passt',
+		now: 'eigenes CRM, genau für Ihren Vertrieb',
 	},
 	{
 		id: 'controlling',
 		label: 'Controlling',
 		url: 'controlling.ihr-unternehmen.de',
 		prompt: 'Unser Monatsreporting bauen wir jedes Mal von Hand in Excel. Das soll auf Knopfdruck gehen.',
-		steps: ['Buchhaltung angebunden', 'Kennzahlen festgelegt', 'Dashboard für die Geschäftsführung', 'Jeden Morgen aktuell'],
+		steps: [
+			['Dashboard aufbauen', 'dashboard.tsx'],
+			['Zahlen aus der Buchhaltung holen', 'buchhaltung.ts'],
+			['Umsatz pro Monat auswerten', 'umsatz.sql'],
+			['Jeden Morgen automatisch aktualisieren', 'zeitplan.ts'],
+		],
+		then: 'Excel-Arbeit an jedem Monatsende',
+		now: 'Dashboard, das sich selbst aktualisiert',
 	},
 	{
 		id: 'import',
 		label: 'Schnittstellen',
 		url: 'import.ihr-unternehmen.de',
-		prompt: 'Unser Lieferant schickt Preislisten als Excel. Die tippen wir ins ERP ab.',
-		steps: ['Excel-Format erkannt', 'Felder dem ERP zugeordnet', 'Fehler werden markiert', 'Import mit einem Klick'],
+		prompt: 'Unser Lieferant schickt Preislisten als Excel. Die tippen wir von Hand ins ERP ab.',
+		steps: [
+			['Upload für Lieferantendateien', 'upload.tsx'],
+			['Spalten dem ERP zuordnen', 'zuordnung.ts'],
+			['Daten automatisch prüfen', 'pruefung.ts'],
+			['Übergabe ans ERP', 'erp-import.ts'],
+		],
+		then: 'Abtippen oder teure Schnittstelle',
+		now: 'eigenes Import-Tool in kurzer Zeit',
 	},
 	{
 		id: 'shop',
 		label: 'Händler-Shop',
 		url: 'shop.ihr-unternehmen.de',
-		prompt: 'Unsere Händler bestellen per Telefon und Fax. Wir wollen einen einfachen Online-Shop für sie.',
-		steps: ['Artikel und Händlerpreise', 'Eigener Login pro Händler', 'Warenkorb und Bestellung', 'Weitergabe an den Auftrag'],
+		prompt: 'Unsere Händler bestellen per Telefon und Fax. Wir wollen einen einfachen Online-Shop nur für sie.',
+		steps: [
+			['Shop-Oberfläche', 'shop.tsx'],
+			['Artikel und Bilder übernehmen', 'artikel.sql'],
+			['Individuelle Händlerpreise', 'preise.ts'],
+			['Bestellung direkt ins ERP', 'bestellung.ts'],
+		],
+		then: 'Shop-System von der Stange',
+		now: 'Händlerportal mit Ihren Regeln',
 	},
 	{
 		id: 'marketing',
 		label: 'Marketing',
 		url: 'newsletter.ihr-unternehmen.de',
-		prompt: 'Wir wollen jeden Monat einen Newsletter verschicken. Aber niemand hat Zeit zum Schreiben.',
-		steps: ['Neuigkeiten und Produkte gesammelt', 'Texte in Ihrem Ton', 'Empfängerlisten gepflegt', 'Versand automatisch geplant'],
+		prompt: 'Wir wollen jeden Monat einen Newsletter mit unseren Neuheiten an unsere Händler schicken.',
+		steps: [
+			['Newsletter-Editor', 'editor.tsx'],
+			['Neuheiten direkt aus dem Shop', 'produkte.ts'],
+			['Empfängerlisten aus dem CRM', 'kontakte.sql'],
+			['Versand planen', 'versand.ts'],
+		],
+		then: 'Inhalte aus drei Systemen zusammenkopieren',
+		now: 'Newsletter aus Ihren eigenen Daten',
 	},
 	{
 		id: 'cms',
 		label: 'Website',
 		url: 'cms.ihr-unternehmen.de',
-		prompt: 'Unsere Website pflegt eine Agentur. Wir wollen Inhalte selbst ändern können.',
-		steps: ['Seiten übernommen', 'Bausteine für Ihr Design', 'Bearbeiten ohne Technik', 'Veröffentlichen mit einem Klick'],
+		prompt: 'Unsere Website pflegt eine Agentur. Wir wollen Texte und Bilder selbst ändern können.',
+		steps: [
+			['Seitenstruktur übernehmen', 'seiten.tsx'],
+			['Inhalte übertragen', 'inhalte.sql'],
+			['Direkt auf der Seite bearbeiten', 'editor.tsx'],
+			['Veröffentlichen mit einem Klick', 'deploy.ts'],
+		],
+		then: 'Agentur-Ticket für jede Änderung',
+		now: 'Inhalte selbst pflegen, sofort live',
 	},
 ];
+const first = scenarios[0];
 ---
 
-<figure class="demo" data-demo data-phase="0" aria-label="Animierte Beispiele: Aus einem Satz wird eine funktionierende Anwendung">
+<figure class="demo" data-demo data-phase="0" aria-label="Animierte Beispiele: Aus einem Satz wird mit KI eine funktionierende Software">
 	<div class="demo__tabs" role="tablist" aria-label="Beispiele">
 		{
 			scenarios.map((s, i) => (
@@ -77,7 +138,7 @@ const scenarios = [
 	<div class="demo__window">
 		<div class="demo__bar">
 			<span class="demo__dots" aria-hidden="true"><i></i><i></i><i></i></span>
-			<span class="demo__url" data-url>{scenarios[0].url}</span>
+			<span class="demo__url" data-url>{first.url}</span>
 			<span class="demo__status" data-status>Bereit</span>
 		</div>
 
@@ -85,18 +146,40 @@ const scenarios = [
 			<div class="demo__chat">
 				<p class="demo__label">Ihr Anliegen</p>
 				<p class="demo__msg"><span data-type></span><span class="demo__caret" aria-hidden="true"></span></p>
-				<ul class="demo__steps" data-steps>
-					{scenarios[0].steps.map((s) => <li><span class="demo__check" aria-hidden="true"></span><span>{s}</span></li>)}
-				</ul>
+
+				<div class="demo__ai">
+					<p class="demo__ai-head">
+						<span class="demo__ai-avatar" aria-hidden="true"></span>
+						<b>KI-Entwickler</b>
+						<span data-ai-text>baut Ihre Software …</span>
+					</p>
+					<ul class="demo__steps" data-steps>
+						{
+							first.steps.map(([label, file]) => (
+								<li>
+									<span class="demo__check" aria-hidden="true" />
+									<span>{label}</span>
+									<code>{file}</code>
+								</li>
+							))
+						}
+					</ul>
+					<div class="demo__progress" aria-hidden="true"><i data-progress></i></div>
+				</div>
 			</div>
 
-			<div class="demo__stage">
+			<div class="demo__stage" data-stage>
+				<div class="demo__empty" aria-hidden="true">
+					<span class="demo__empty-icon"></span>
+					Hier entsteht Ihre Software
+				</div>
+
 				<!-- Konfigurator (bedienbar) -->
 				<div class="demo__app demo__app--config" data-app="konfigurator">
-					<div class="demo__preview">
+					<div class="demo__preview" data-at="1">
 						<svg viewBox="0 0 220 150" data-cabinet aria-hidden="true"></svg>
 					</div>
-					<div class="demo__controls">
+					<div class="demo__controls" data-at="2">
 						<div class="demo__row">
 							<span>Breite</span>
 							<div class="demo__seg" data-opt="width">
@@ -122,170 +205,228 @@ const scenarios = [
 						</div>
 					</div>
 					<div class="demo__result">
-						<div>
+						<div data-at="3">
 							<span class="demo__small">Preis</span>
 							<strong data-price>–</strong>
 						</div>
-						<div class="demo__bom">
+						<div class="demo__bom" data-at="4">
 							<span class="demo__small">Stückliste</span>
 							<span data-bom>–</span>
 						</div>
 					</div>
 				</div>
 
-				<!-- Angebot -->
-				<div class="demo__app mock-doc" data-app="angebot">
-					<div class="mock-doc__head">
-						<div><b>Angebot 2026-0412</b><span>Müller Metallbau GmbH</span></div>
-						<span class="mock-logo" aria-hidden="true"></span>
-					</div>
-					<table class="mock-table">
-						<thead><tr><th>Pos.</th><th>Artikel</th><th>Menge</th><th>Betrag</th></tr></thead>
-						<tbody>
-							<tr data-at="1"><td>1</td><td>Edelstahlgeländer, 4 m</td><td>1</td><td>2.480 €</td></tr>
-							<tr data-at="2"><td>2</td><td>Montage vor Ort</td><td>6 Std.</td><td>540 €</td></tr>
-							<tr data-at="3"><td>3</td><td>Pulverbeschichtung RAL 7016</td><td>1</td><td>320 €</td></tr>
-							<tr data-at="4"><td>4</td><td>Projektrabatt 5 %</td><td></td><td>−167 €</td></tr>
-						</tbody>
-					</table>
-					<div class="mock-doc__sum" data-at="5"><span>Summe netto</span><strong><span data-count-to="3173">0</span> €</strong></div>
-					<div class="mock-actions">
-						<span class="mock-btn" data-at="6" data-until="8">Als PDF senden</span>
-						<span class="mock-toast" data-at="8">✓ PDF an einkauf@mueller-metallbau.de gesendet</span>
+				<!-- Angebote -->
+				<div class="demo__app" data-app="angebot">
+					<div class="app" data-at="1">
+						<div class="app__bar"><span class="app__logo"></span><b>Angebote</b><span class="app__crumb">Neues Angebot</span></div>
+						<div class="app__body">
+							<div class="doc__head">
+								<div><b>Angebot 2026-0412</b><span>Müller Metallbau GmbH, Dortmund</span></div>
+								<span class="doc__logo" aria-hidden="true"></span>
+							</div>
+							<table class="mock-table">
+								<thead><tr><th>Artikel</th><th>Menge</th><th>Betrag</th></tr></thead>
+								<tbody>
+									<tr data-at="2"><td>Edelstahlgeländer, 4 m</td><td>1</td><td>2.480 €</td></tr>
+									<tr data-at="2"><td>Montage vor Ort</td><td>6 Std.</td><td>540 €</td></tr>
+									<tr data-at="2"><td>Pulverbeschichtung RAL 7016</td><td>1</td><td>320 €</td></tr>
+									<tr data-at="5"><td>Wartungsvertrag, 1 Jahr</td><td>1</td><td>390 €</td></tr>
+									<tr class="is-muted" data-at="3" data-until="5"><td>Projektrabatt 5 %</td><td></td><td>−167 €</td></tr>
+									<tr class="is-muted" data-at="5"><td>Projektrabatt 5 %</td><td></td><td>−187 €</td></tr>
+								</tbody>
+							</table>
+							<div class="doc__sum" data-at="3" data-until="5"><span>Summe netto</span><strong>3.173 €</strong></div>
+							<div class="doc__sum" data-at="5"><span>Summe netto</span><strong>3.543 €</strong></div>
+						</div>
+						<div class="app__actions" data-at="4">
+							<span class="mock-btn mock-btn--ghost" data-cursor="5">+ Position</span>
+							<span class="mock-btn" data-until="6" data-cursor="6">Als PDF senden</span>
+							<span class="mock-toast" data-at="6">✓ PDF an Müller Metallbau gesendet</span>
+						</div>
 					</div>
 				</div>
 
 				<!-- CRM -->
 				<div class="demo__app" data-app="crm">
-					<div class="mock-kanban">
-						<div class="mock-col">
-							<p class="mock-col__title">Neu</p>
-							<div class="mock-card" data-at="1"><b>Bäckerei Krämer</b><span>12.000 €</span></div>
-							<div class="mock-card" data-at="2" data-until="6"><b>Hofmann Logistik</b><span>48.000 €</span></div>
+					<div class="app" data-at="1">
+						<div class="app__bar"><span class="app__logo"></span><b>Vertrieb</b><span class="app__crumb">Pipeline</span></div>
+						<div class="app__body">
+							<div class="kanban">
+								<div class="kanban__col">
+									<p class="kanban__title">Neu <span data-at="3">60.000 €</span></p>
+									<div class="deal" data-at="2"><b>Bäckerei Krämer</b><span>12.000 €</span></div>
+									<div class="deal" data-at="2"><b>Hofmann Logistik</b><span>48.000 €</span><em data-at="4">Heute anrufen</em></div>
+								</div>
+								<div class="kanban__col">
+									<p class="kanban__title">Angebot <span data-at="3" data-until="5">118.000 €</span><span data-at="5">23.000 €</span></p>
+									<div class="deal" data-at="2" data-until="5" data-cursor="5"><b>Stadtwerke Ost</b><span>95.000 €</span></div>
+									<div class="deal" data-at="2"><b>Elektro Wagner</b><span>23.000 €</span></div>
+								</div>
+								<div class="kanban__col kanban__col--won">
+									<p class="kanban__title">Gewonnen <span data-at="3" data-until="5">0 €</span><span data-at="5">95.000 €</span></p>
+									<div class="deal deal--won" data-at="5"><b>Stadtwerke Ost</b><span>95.000 €</span></div>
+								</div>
+							</div>
 						</div>
-						<div class="mock-col">
-							<p class="mock-col__title">Angebot</p>
-							<div class="mock-card" data-at="3" data-until="7"><b>Stadtwerke Ost</b><span>95.000 €</span></div>
-							<div class="mock-card mock-card--hot" data-at="6"><b>Hofmann Logistik</b><span>48.000 €</span></div>
+						<div class="app__actions">
+							<span class="mock-toast" data-at="6">✓ Auftrag an die Buchhaltung übergeben</span>
 						</div>
-						<div class="mock-col">
-							<p class="mock-col__title">Gewonnen</p>
-							<div class="mock-card mock-card--won" data-at="7"><b>Stadtwerke Ost</b><span>95.000 €</span></div>
-						</div>
-					</div>
-					<div class="mock-actions">
-						<span class="mock-kpi" data-at="4">Pipeline <strong><span data-count-to="155">0</span>.000 €</strong></span>
-						<span class="mock-toast" data-at="8">Erinnerung: Hofmann Logistik heute anrufen</span>
 					</div>
 				</div>
 
 				<!-- Controlling -->
 				<div class="demo__app" data-app="controlling">
-					<div class="mock-kpis">
-						<div data-at="1"><span>Umsatz lfd. Jahr</span><strong><span data-count-to="1842">0</span> T€</strong><em>+8 %</em></div>
-						<div data-at="2"><span>Rohertrag</span><strong><span data-count-to="31">0</span> %</strong><em>+2 Pkt.</em></div>
-						<div data-at="3"><span>Offene Posten</span><strong><span data-count-to="86">0</span> T€</strong><em class="is-neg">−12 %</em></div>
-					</div>
-					<div class="mock-bars" data-at="4">
-						{[48, 56, 52, 64, 71, 82].map((h, i) => (
-							<span style={`--h:${h}%`}><i>{['Jan', 'Feb', 'Mär', 'Apr', 'Mai', 'Jun'][i]}</i></span>
-						))}
-					</div>
-					<div class="mock-actions">
-						<span class="mock-toast" data-at="7">Automatisch aktualisiert: heute, 06:00 Uhr</span>
+					<div class="app" data-at="1">
+						<div class="app__bar"><span class="app__logo"></span><b>Controlling</b><span class="app__crumb">Geschäftsführung</span></div>
+						<div class="app__body">
+							<div class="kpis">
+								<div><span>Umsatz lfd. Jahr</span><strong data-at="2"><span data-count-to="1842">0</span> T€</strong><strong class="is-empty" data-until="2">–</strong></div>
+								<div><span>Rohertrag</span><strong data-at="2"><span data-count-to="31">0</span> %</strong><strong class="is-empty" data-until="2">–</strong></div>
+								<div><span>Offene Posten</span><strong data-at="2"><span data-count-to="86">0</span> T€</strong><strong class="is-empty" data-until="2">–</strong></div>
+							</div>
+							<div class="bars" data-at="3">
+								{
+									[
+										[48, 44],
+										[56, 50],
+										[52, 49],
+										[64, 55],
+										[71, 63],
+										[82, 70],
+									].map(([h, p], i) => (
+										<span style={`--h:${h}%;--r:${(p / h).toFixed(3)}`}>
+											<em data-at="5" />
+											<i>{['Jan', 'Feb', 'Mär', 'Apr', 'Mai', 'Jun'][i]}</i>
+										</span>
+									))
+								}
+							</div>
+						</div>
+						<div class="app__actions" data-at="4">
+							<span class="app__hint">Aktualisiert heute, 06:00 Uhr</span>
+							<span class="mock-btn mock-btn--ghost" data-until="5" data-cursor="5">Vorjahr vergleichen</span>
+							<span class="mock-toast" data-at="5">Umsatz +12 % zum Vorjahr</span>
+						</div>
 					</div>
 				</div>
 
 				<!-- Schnittstelle -->
 				<div class="demo__app" data-app="import">
-					<div class="mock-convert">
-						<div class="mock-file">
-							<p class="mock-file__name">preisliste_lieferant.xlsx</p>
-							<ul>
-								<li><span>A-1042</span><span>12,40</span></li>
-								<li><span>A-1043</span><span>13,10</span></li>
-								<li class="is-bad"><span>A-10x4</span><span>9,80</span></li>
-								<li><span>A-1045</span><span>15,95</span></li>
-							</ul>
+					<div class="app" data-at="1">
+						<div class="app__bar"><span class="app__logo"></span><b>Lieferanten-Import</b><span class="app__crumb">Preislisten</span></div>
+						<div class="app__body">
+							<div class="file">
+								<span class="file__icon" aria-hidden="true">XLSX</span>
+								<div><b>preisliste_lieferant.xlsx</b><span>1.249 Zeilen</span></div>
+							</div>
+							<div class="mapping" data-at="2">
+								<p><span>Art.-Nr.</span><i>→</i><b>Artikelnummer</b></p>
+								<p><span>Bezeichnung</span><i>→</i><b>Kurztext</b></p>
+								<p><span>EK netto</span><i>→</i><b>Einkaufspreis</b></p>
+							</div>
+							<div class="checks" data-at="3">
+								<p class="is-ok">✓ 1.248 Zeilen in Ordnung</p>
+								<p class="is-warn">! Zeile 214: Preis fehlt</p>
+							</div>
+							<div class="progress" data-at="5"><i></i></div>
 						</div>
-						<span class="mock-arrow" data-at="1" aria-hidden="true">→</span>
-						<div class="mock-file mock-file--target">
-							<p class="mock-file__name">ERP-Import</p>
-							<ul>
-								<li data-at="2"><span>A-1042</span><span>✓</span></li>
-								<li data-at="3"><span>A-1043</span><span>✓</span></li>
-								<li data-at="4" class="is-bad"><span>A-10x4</span><span>prüfen</span></li>
-								<li data-at="5"><span>A-1045</span><span>✓</span></li>
-							</ul>
+						<div class="app__actions" data-at="4">
+							<span class="mock-btn" data-until="5" data-cursor="5">Ins ERP importieren</span>
+							<span class="mock-toast" data-at="6">✓ 1.248 Artikel im ERP aktualisiert</span>
 						</div>
-					</div>
-					<div class="mock-actions">
-						<span class="mock-kpi" data-at="6"><strong><span data-count-to="1248">0</span></strong> Artikel übertragen</span>
-						<span class="mock-toast" data-at="7">1 Fehler markiert, Rest automatisch importiert</span>
 					</div>
 				</div>
 
-				<!-- Shop -->
+				<!-- Händler-Shop -->
 				<div class="demo__app" data-app="shop">
-					<div class="mock-shopbar">
-						<span>Händlerportal · Schmidt Sanitär</span>
-						<span class="mock-cart">Warenkorb <b data-at="3" data-until="5">1</b><b data-at="5">2</b></span>
-					</div>
-					<div class="mock-products">
-						<div class="mock-product" data-at="1"><i class="mock-img"></i><b>Eckventil ½"</b><span>Händlerpreis 4,90 €</span><em data-at="2" data-until="3">In den Warenkorb</em><em class="is-done" data-at="3">✓ Im Warenkorb</em></div>
-						<div class="mock-product" data-at="1"><i class="mock-img mock-img--b"></i><b>Siphon DN 40</b><span>Händlerpreis 7,20 €</span><em data-at="4" data-until="5">In den Warenkorb</em><em class="is-done" data-at="5">✓ Im Warenkorb</em></div>
-						<div class="mock-product" data-at="1"><i class="mock-img mock-img--c"></i><b>Flexschlauch 50 cm</b><span>Händlerpreis 3,60 €</span></div>
-					</div>
-					<div class="mock-actions">
-						<span class="mock-toast" data-at="7">Bestellung 4711 an die Auftragsbearbeitung übergeben</span>
+					<div class="app" data-at="1">
+						<div class="app__bar">
+							<span class="app__logo"></span><b>Händlerportal</b><span class="app__crumb">Schmidt Sanitär GmbH</span>
+							<span class="cart" data-at="4">Warenkorb <b data-until="5">0</b><b data-at="5" data-until="6">1</b><b data-at="6">2</b></span>
+						</div>
+						<div class="app__body">
+							<div class="products">
+								<div class="product">
+									<i class="product__img"></i>
+									<div data-at="2"><b>Eckventil ½"</b><span>Listenpreis 6,90 €</span></div>
+									<p class="product__price" data-at="3">Ihr Preis 4,90 €</p>
+									<span class="product__btn" data-at="4" data-until="5" data-cursor="5">In den Warenkorb</span>
+									<span class="product__btn is-done" data-at="5">✓ Im Warenkorb</span>
+								</div>
+								<div class="product">
+									<i class="product__img product__img--b"></i>
+									<div data-at="2"><b>Siphon DN 40</b><span>Listenpreis 9,80 €</span></div>
+									<p class="product__price" data-at="3">Ihr Preis 7,20 €</p>
+									<span class="product__btn" data-at="4" data-until="6" data-cursor="6">In den Warenkorb</span>
+									<span class="product__btn is-done" data-at="6">✓ Im Warenkorb</span>
+								</div>
+								<div class="product">
+									<i class="product__img product__img--c"></i>
+									<div data-at="2"><b>Flexschlauch 50 cm</b><span>Listenpreis 4,90 €</span></div>
+									<p class="product__price" data-at="3">Ihr Preis 3,60 €</p>
+									<span class="product__btn" data-at="4">In den Warenkorb</span>
+								</div>
+							</div>
+						</div>
+						<div class="app__actions" data-at="4">
+							<span class="mock-btn" data-until="7" data-cursor="7">Bestellen</span>
+							<span class="mock-toast" data-at="7">✓ Bestellung 4711 ans ERP übergeben</span>
+						</div>
 					</div>
 				</div>
 
 				<!-- Marketing -->
 				<div class="demo__app" data-app="marketing">
-					<p class="demo__small">Newsletter März · Betreffzeile wählen</p>
-					<ul class="mock-options">
-						<li data-at="1">Neu im Sortiment: drei Lösungen für enge Bäder</li>
-						<li data-at="2" class="is-picked">Frühjahrsaktion: 10 % auf alle Armaturen</li>
-						<li data-at="3">Was Kunden im März am häufigsten fragen</li>
-					</ul>
-					<div class="mock-preview" data-at="4">
-						<i></i><i></i><i class="is-short"></i>
-					</div>
-					<div class="mock-actions">
-						<span class="mock-kpi" data-at="5"><strong><span data-count-to="2340">0</span></strong> Empfänger</span>
-						<span class="mock-toast" data-at="6">Versand geplant: Dienstag, 9:00 Uhr</span>
+					<div class="app" data-at="1">
+						<div class="app__bar"><span class="app__logo"></span><b>Newsletter</b><span class="app__crumb">Ausgabe März</span></div>
+						<div class="app__body">
+							<div class="field"><span>Betreff</span><b data-at="2">Neu im März: zwei Lösungen für enge Bäder</b><i data-until="2"></i></div>
+							<div class="news">
+								<div class="news__item" data-at="2"><i class="product__img"></i><b>Eckventil Pro</b><span>Platzsparend, ab sofort lieferbar</span></div>
+								<div class="news__item" data-at="2"><i class="product__img product__img--b"></i><b>Siphon Slim</b><span>Nur 4 cm Bautiefe</span></div>
+							</div>
+							<div class="field" data-at="3"><span>Empfänger</span><b>Händler NRW · 2.340 Kontakte</b></div>
+							<div class="field" data-at="4"><span>Versand</span><b>Dienstag, 09:00 Uhr</b></div>
+						</div>
+						<div class="app__actions" data-at="4">
+							<span class="mock-btn" data-until="5" data-cursor="5">Versand planen</span>
+							<span class="mock-toast" data-at="5">✓ Geplant für 2.340 Empfänger</span>
+						</div>
 					</div>
 				</div>
 
-				<!-- CMS -->
+				<!-- Website / CMS -->
 				<div class="demo__app" data-app="cms">
-					<div class="mock-cms">
-						<ul class="mock-palette">
-							<li>Überschrift</li>
-							<li>Text</li>
-							<li>Bild</li>
-							<li>Kontakt</li>
-						</ul>
-						<div class="mock-page">
-							<div class="mock-block mock-block--title" data-at="1">Unsere neue Produktlinie</div>
-							<div class="mock-block mock-block--text" data-at="2"><i></i><i></i><i class="is-short"></i></div>
-							<div class="mock-block mock-block--img" data-at="3"></div>
-							<div class="mock-block mock-block--cta" data-at="4">Beratung anfragen</div>
+					<div class="app" data-at="1">
+						<div class="app__bar"><span class="app__logo"></span><b>Website</b><span class="app__crumb">Startseite bearbeiten</span></div>
+						<div class="app__body">
+							<div class="site">
+								<div class="site__nav"><span class="app__logo"></span><i></i><i></i><i></i></div>
+								<div class="site__block" data-at="2">
+									<b class="site__title" data-until="5">Unsere Produkte</b>
+									<b class="site__title is-changed" data-at="5">Neu: die Serie 2026</b>
+									<span class="site__edit" data-at="3" data-cursor="5">✎ Bearbeiten</span>
+								</div>
+								<div class="site__block site__text" data-at="2"><i></i><i></i><i class="is-short"></i><span class="site__edit" data-at="3">✎</span></div>
+								<div class="site__block site__img" data-at="2"><span class="site__edit" data-at="3">✎ Bild tauschen</span></div>
+							</div>
+						</div>
+						<div class="app__actions" data-at="4">
+							<span class="mock-btn" data-until="6" data-cursor="6">Veröffentlichen</span>
+							<span class="mock-toast" data-at="6">✓ Live auf ihr-unternehmen.de</span>
 						</div>
 					</div>
-					<div class="mock-actions">
-						<span class="mock-btn" data-at="5" data-until="6">Veröffentlichen</span>
-						<span class="mock-toast" data-at="6">✓ Live auf ihr-unternehmen.de</span>
-					</div>
 				</div>
+
+				<span class="demo__cursor" data-cursor-el aria-hidden="true"></span>
 			</div>
 		</div>
 
 		<figcaption class="demo__foot">
-			<span class="demo__then"><b>Früher</b> Lastenheft, Agentur, Monate Wartezeit</span>
+			<span class="demo__then"><b>Früher</b> <span data-then>{first.then}</span></span>
 			<span class="demo__arrow" aria-hidden="true">→</span>
-			<span class="demo__now"><b>Mit KI</b> funktionierender Prototyp in Tagen</span>
+			<span class="demo__now"><b>Mit KI</b> <span data-now>{first.now}</span></span>
 		</figcaption>
 	</div>
 </figure>
@@ -297,6 +438,7 @@ const scenarios = [
 		white: { fill: '#EDEBE6', line: '#A9A49A' },
 		anthracite: { fill: '#3B4048', line: '#1E2228' },
 	};
+	const BUILD_STEPS = 4;
 	const euro = new Intl.NumberFormat('de-DE', { style: 'currency', currency: 'EUR', maximumFractionDigits: 0 });
 	const num = new Intl.NumberFormat('de-DE');
 	const reduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
@@ -348,23 +490,36 @@ const scenarios = [
 		requestAnimationFrame(tick);
 	}
 
-	/** Show elements of a declarative mock up to the given step. */
-	function setStep(app, step) {
-		app.querySelectorAll('[data-at]').forEach((el) => {
-			const on = step >= Number(el.dataset.at) && (!el.dataset.until || step < Number(el.dataset.until));
+	/** Show the parts of a declarative mock up to the given step; flag freshly built parts. */
+	function setStep(app, step, highlight) {
+		app.querySelectorAll('[data-at], [data-until]').forEach((el) => {
+			const at = el.dataset.at ? Number(el.dataset.at) : 0;
+			const on = step >= at && (!el.dataset.until || step < Number(el.dataset.until));
 			const was = el.classList.contains('is-on');
 			el.classList.toggle('is-on', on);
-			if (on && !was) el.querySelectorAll('[data-count-to]').forEach(countUp);
-			if (on && !was && el.dataset.countTo) countUp(el);
+			if (on && !was) {
+				el.querySelectorAll('[data-count-to]').forEach(countUp);
+				if (highlight && at === step) {
+					el.classList.add('is-new');
+					setTimeout(() => el.classList.remove('is-new'), 1100);
+				}
+			}
 		});
 	}
-	const maxStep = (app) => Math.max(0, ...[...app.querySelectorAll('[data-at]')].map((el) => Number(el.dataset.at)));
+	const maxStep = (app) =>
+		Math.max(BUILD_STEPS, ...[...app.querySelectorAll('[data-at],[data-until]')].map((el) => Number(el.dataset.at || 0)));
 
 	for (const root of document.querySelectorAll('[data-demo]')) {
 		const typeEl = root.querySelector('[data-type]');
 		const statusEl = root.querySelector('[data-status]');
 		const urlEl = root.querySelector('[data-url]');
 		const stepsEl = root.querySelector('[data-steps]');
+		const aiText = root.querySelector('[data-ai-text]');
+		const progress = root.querySelector('[data-progress]');
+		const thenEl = root.querySelector('[data-then]');
+		const nowEl = root.querySelector('[data-now]');
+		const stage = root.querySelector('[data-stage]');
+		const cursor = root.querySelector('[data-cursor-el]');
 		const tabs = [...root.querySelectorAll('[data-tab]')];
 		const apps = Object.fromEntries([...root.querySelectorAll('[data-app]')].map((a) => [a.dataset.app, a]));
 
@@ -405,10 +560,12 @@ const scenarios = [
 			renderCfg();
 		}
 		cfg.querySelectorAll('[data-opt] button').forEach((b) => {
-			b.addEventListener('click', () => {
+			b.addEventListener('click', (e) => {
+				if (!e.isTrusted) return;
 				// Visitor takes over: stop the slideshow and let them play.
 				stopped = true;
 				token++;
+				cursor.classList.remove('is-visible');
 				root.dataset.phase = '4';
 				setCfg(b.parentElement.dataset.opt, b.dataset.val);
 			});
@@ -416,22 +573,45 @@ const scenarios = [
 
 		const wait = (ms, my) => new Promise((resolve, reject) => setTimeout(() => (my === token ? resolve() : reject('cancel')), ms));
 
+		async function clickWithCursor(el, my) {
+			const s = stage.getBoundingClientRect();
+			const r = el.getBoundingClientRect();
+			cursor.style.transform = `translate(${r.left - s.left + r.width / 2}px, ${r.top - s.top + r.height / 2}px)`;
+			cursor.classList.add('is-visible');
+			await wait(650, my);
+			cursor.classList.add('is-click');
+			el.classList.add('is-pressed');
+			await wait(220, my);
+			cursor.classList.remove('is-click');
+			el.classList.remove('is-pressed');
+		}
+
+		function renderSteps(s) {
+			stepsEl.innerHTML = s.steps
+				.map(([label, file]) => `<li><span class="demo__check" aria-hidden="true"></span><span>${label}</span><code>${file}</code></li>`)
+				.join('');
+		}
+
 		function show(i) {
 			const s = scenarios[i];
 			tabs.forEach((t, k) => t.setAttribute('aria-selected', String(k === i)));
 			Object.entries(apps).forEach(([id, a]) => a.classList.toggle('is-active', id === s.id));
 			urlEl.textContent = s.url;
-			stepsEl.innerHTML = s.steps.map((t) => `<li><span class="demo__check" aria-hidden="true"></span><span>${t}</span></li>`).join('');
+			thenEl.textContent = s.then;
+			nowEl.textContent = s.now;
+			renderSteps(s);
 			typeEl.textContent = '';
+			aiText.textContent = 'baut Ihre Software …';
+			progress.style.width = '0%';
 			statusEl.textContent = 'Bereit';
+			cursor.classList.remove('is-visible');
 			root.dataset.phase = '0';
 			if (s.id === 'konfigurator') {
 				Object.assign(state, { width: 120, doors: false, color: 'oak' });
 				shownPrice = 0;
 				renderCfg();
-			} else {
-				setStep(apps[s.id], 0);
 			}
+			setStep(apps[s.id], 0, false);
 		}
 
 		function showFinal(i) {
@@ -439,47 +619,66 @@ const scenarios = [
 			show(i);
 			typeEl.textContent = s.prompt;
 			stepsEl.querySelectorAll('li').forEach((li) => li.classList.add('is-done'));
-			statusEl.textContent = 'Läuft';
+			progress.style.width = '100%';
+			aiText.textContent = 'fertig.';
+			statusEl.textContent = 'Live';
 			root.dataset.phase = '4';
-			if (s.id !== 'konfigurator') setStep(apps[s.id], maxStep(apps[s.id]));
+			const app = apps[s.id];
+			setStep(app, s.id === 'konfigurator' ? BUILD_STEPS : maxStep(app), false);
 		}
 
 		async function play(i, my) {
 			const s = scenarios[i];
+			const app = apps[s.id];
 			show(i);
 			await wait(500, my);
+
+			// 1. Anliegen tippen
 			root.dataset.phase = '1';
 			for (const ch of s.prompt) {
 				typeEl.textContent += ch;
-				await wait(ch === '.' ? 180 : 22, my);
+				await wait(ch === '.' ? 160 : 20, my);
 			}
-			await wait(300, my);
+			await wait(350, my);
+
+			// 2. KI baut, Baustein für Baustein
 			root.dataset.phase = '2';
-			statusEl.textContent = 'KI baut …';
-			for (const li of stepsEl.querySelectorAll('li')) {
-				await wait(420, my);
-				li.classList.add('is-done');
+			const items = [...stepsEl.querySelectorAll('li')];
+			for (let k = 1; k <= BUILD_STEPS; k++) {
+				statusEl.textContent = `Wird gebaut ${k}/${BUILD_STEPS}`;
+				items[k - 1].classList.add('is-active');
+				await wait(650, my);
+				items[k - 1].classList.remove('is-active');
+				items[k - 1].classList.add('is-done');
+				progress.style.width = `${(k / BUILD_STEPS) * 100}%`;
+				setStep(app, k, true);
+				await wait(300, my);
 			}
-			await wait(300, my);
+			aiText.textContent = 'fertig. Probieren Sie es aus.';
+			statusEl.textContent = 'Live';
 			root.dataset.phase = '3';
-			statusEl.textContent = 'Läuft';
-			await wait(600, my);
+			await wait(700, my);
 			root.dataset.phase = '4';
+
+			// 3. Software benutzen
 			if (s.id === 'konfigurator') {
-				for (const [opt, val] of [['width', '160'], ['doors', '1'], ['color', 'white'], ['width', '80'], ['color', 'anthracite']]) {
-					await wait(1000, my);
+				for (const [opt, val] of [['width', '160'], ['doors', '1'], ['color', 'white'], ['width', '80']]) {
+					const btn = cfg.querySelector(`[data-opt="${opt}"] [data-val="${val}"]`);
+					await clickWithCursor(btn, my);
 					setCfg(opt, val);
+					await wait(500, my);
 				}
-				await wait(1800, my);
 			} else {
-				const app = apps[s.id];
-				const n = maxStep(app);
-				for (let k = 1; k <= n; k++) {
-					await wait(600, my);
-					setStep(app, k);
+				for (let k = BUILD_STEPS + 1; k <= maxStep(app); k++) {
+					const target = app.querySelector(`[data-cursor="${k}"]`);
+					if (target) await clickWithCursor(target, my);
+					else await wait(400, my);
+					setStep(app, k, false);
+					await wait(900, my);
 				}
-				await wait(2600, my);
 			}
+			cursor.classList.remove('is-visible');
+			await wait(2400, my);
 		}
 
 		async function loop(from) {

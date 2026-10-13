@@ -11,5 +11,8 @@ export default defineConfig({
   // (e.g. /pr-preview/pr-3/) by the preview workflow via BASE_PATH.
   base: process.env.BASE_PATH || "/",
 
+  // Inline CSS so nothing blocks the first paint (Lighthouse 100 on mobile).
+  build: { inlineStylesheets: "always" },
+
   integrations: [react()],
 });

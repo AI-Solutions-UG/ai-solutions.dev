@@ -1,33 +1,34 @@
 ---
-const cases = [
-	{ title: 'Angebote & Aufträge', text: 'Angebote entstehen aus Ihren Artikeln und Preisen. Als PDF, ohne Abtippen.' },
-	{ title: 'CRM & Vertrieb', text: 'Kunden, Kontakte und Chancen an einem Ort. Mit Erinnerungen, damit nichts liegen bleibt.' },
-	{ title: 'Reporting & Controlling', text: 'Kennzahlen auf Knopfdruck statt Excel-Arbeit am Monatsende.' },
-	{ title: 'Lager & Warenwirtschaft', text: 'Bestände, Bestellungen und Nachschub immer im Blick.' },
-	{ title: 'Schnittstellen', text: 'Dateien umwandeln und Systeme verbinden. Daten werden nicht mehr abgetippt.' },
-	{ title: 'Shop & Händlerportal', text: 'Kunden und Händler bestellen online statt per Telefon und Fax.' },
-	{ title: 'Marketing', text: 'Newsletter, Produkttexte und Kampagnen mit deutlich weniger Aufwand.' },
-	{ title: 'Website & CMS', text: 'Inhalte selbst pflegen, ohne für jede Änderung eine Agentur zu beauftragen.' },
-	{ title: 'Konfiguratoren', text: 'Produkte mit vielen Varianten einfach verkaufen. Mit Preis und Stückliste.' },
+// Konkrete Schmerzpunkte aus dem Alltag – und was eigene Software daraus macht.
+const pains = [
+	{ pain: 'Angebote dauern Tage.', fix: 'Ein Angebotstool erstellt sie aus Artikeln und Preisen. In Minuten, ohne Tippfehler.' },
+	{ pain: 'Daten werden abgetippt.', fix: 'Schnittstellen übertragen Preislisten, Aufträge und Rechnungen automatisch zwischen Ihren Systemen.' },
+	{ pain: 'Bestellungen kommen per Fax und Telefon.', fix: 'Ein Bestellportal für Kunden und Händler, direkt verbunden mit Ihrem ERP.' },
+	{ pain: 'Niemand weiß, wo der Kunde steht.', fix: 'Ein CRM, das genau Ihren Vertrieb abbildet. Mit Wiedervorlagen, damit nichts liegen bleibt.' },
+	{ pain: 'Das Reporting ist Handarbeit.', fix: 'Ein Dashboard holt die Zahlen selbst und ist jeden Morgen aktuell.' },
+	{ pain: 'Das Wissen steckt in Köpfen und Excel.', fix: 'Kalkulation und Variantenregeln werden zu Software, die jeder im Team nutzen kann.' },
+	{ pain: 'In Lager und Werkstatt regiert der Zettel.', fix: 'Bestände, Zeiten und Prüfprotokolle werden direkt am Tablet erfasst.' },
+	{ pain: 'Einsätze werden am Telefon geplant.', fix: 'Eine Einsatzplanung für Service und Montage, mit Infos für jeden Techniker.' },
+	{ pain: 'Für jede Website-Änderung braucht es die Agentur.', fix: 'Ein eigenes System, mit dem Sie Inhalte selbst pflegen. Sofort live.' },
 ];
 ---
 
 <section class="section" aria-labelledby="einstieg-title">
 	<div class="wrap">
 		<header class="section-head" data-reveal>
-			<p class="eyebrow">Wo KI hilft</p>
-			<h2 id="einstieg-title">Nicht nur Konfiguratoren. <span class="accent">Fast jeder Ablauf geht besser.</span></h2>
+			<p class="eyebrow">Wo es sich lohnt</p>
+			<h2 id="einstieg-title">Erkennen Sie sich wieder? <span class="accent">Genau dort fangen wir an.</span></h2>
 			<p class="section-lead">
-				Jedes Unternehmen hat Aufgaben, die unnötig Zeit kosten. Eigene Software nimmt Ihnen genau diese Arbeit ab. Ein
-				paar Beispiele:
+				In fast jedem Unternehmen gibt es Abläufe, die jeden Tag Zeit und Nerven kosten. Für jeden davon lässt sich heute
+				schnell eigene Software bauen.
 			</p>
 		</header>
-		<ul class="usecases">
+		<ul class="pains">
 			{
-				cases.map((c) => (
+				pains.map((p) => (
 					<li data-reveal>
-						<h3>{c.title}</h3>
-						<p>{c.text}</p>
+						<h3>{p.pain}</h3>
+						<p>{p.fix}</p>
 					</li>
 				))
 			}

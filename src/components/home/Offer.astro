@@ -18,40 +18,28 @@ import { contactHref } from './site';
 				</div>
 				<h3>Der Beweis</h3>
 				<p>
-					Sie nennen uns ein Problem, das Sie schon lange stört. Wir bauen dafür einen funktionierenden Prototyp.
-				</p>
-				<p>
-					Und Sie sind dabei. Wir zeigen Ihnen, wie wir mit KI arbeiten. Wer möchte, setzt sich selbst ans Steuer, zum
-					Beispiel mit Claude Code. <strong>Das ist meist der Moment, in dem es „klick“ macht.</strong>
+					Sie nennen uns ein Problem, das Sie lange stört. Wir bauen dafür einen funktionierenden Prototyp. Und Sie
+					sitzen mit am Steuer, zum Beispiel mit Claude Code.
 				</p>
 				<p class="offer__meta">ca. 2 Wochen · 0 €</p>
 			</li>
 
-			<li class="offer__step offer__step--wide" data-reveal>
+			<li class="offer__step" data-reveal data-choice-root>
 				<div class="offer__top">
 					<span class="offer__num" aria-hidden="true">2</span>
 					<span class="tag">Ohne Risiko</span>
 				</div>
 				<h3>Der Aufbau</h3>
-				<p>Danach bauen wir die Kompetenz bei Ihnen auf. Dafür gibt es zwei Wege:</p>
-				<div class="paths">
-					<div class="paths__item">
-						<p class="paths__label">Weg A</p>
-						<h4>Unser Experte für Sie</h4>
-						<p>
-							Ein erfahrener KI-Digitalisierungsexperte von uns arbeitet für Ihr Unternehmen. Wenn es passt, kann er
-							später fest zu Ihnen wechseln.
-						</p>
-					</div>
-					<div class="paths__item">
-						<p class="paths__label">Weg B</p>
-						<h4>Ihr Mitarbeiter wird zum Experten</h4>
-						<p>
-							Sie haben schon jemanden, der sich für KI begeistert? Wir übernehmen Anleitung und Support, bis er
-							selbstständig arbeitet.
-						</p>
-					</div>
+				<div class="choice" role="group" aria-label="Weg wählen">
+					<button type="button" aria-pressed="true" data-choice="a">Unser Experte</button>
+					<button type="button" aria-pressed="false" data-choice="b">Ihr Mitarbeiter</button>
 				</div>
+				<p data-choice-text="a">
+					Ein erfahrener KI-Digitalisierungsexperte von uns arbeitet für Sie. Passt es, wechselt er später fest zu Ihnen.
+				</p>
+				<p data-choice-text="b" hidden>
+					Sie haben jemanden, der für KI brennt? Wir machen ihn mit Anleitung und Support zu Ihrem Experten.
+				</p>
 				<p class="offer__meta">flexibel, ohne lange Bindung</p>
 			</li>
 
@@ -62,7 +50,7 @@ import { contactHref } from './site';
 				</div>
 				<h3>Das Ergebnis</h3>
 				<p>
-					Sie haben eigene Leute, die mit KI Software bauen. Software, Daten und Wissen gehören Ihnen. Und wir bleiben
+					Sie haben eigene Leute, die mit KI Software bauen. Software, Daten und Wissen gehören Ihnen. Wir bleiben
 					ansprechbar, wenn Sie uns brauchen.
 				</p>
 				<p class="offer__meta">Die Kompetenz bleibt im Haus</p>
@@ -77,3 +65,18 @@ import { contactHref } from './site';
 		</div>
 	</div>
 </section>
+
+<script>
+	// Weg A / Weg B im zweiten Schritt umschalten.
+	for (const root of document.querySelectorAll<HTMLElement>('[data-choice-root]')) {
+		const buttons = root.querySelectorAll<HTMLButtonElement>('[data-choice]');
+		buttons.forEach((b) =>
+			b.addEventListener('click', () => {
+				buttons.forEach((o) => o.setAttribute('aria-pressed', String(o === b)));
+				root.querySelectorAll<HTMLElement>('[data-choice-text]').forEach((t) => {
+					t.hidden = t.dataset.choiceText !== b.dataset.choice;
+				});
+			}),
+		);
+	}
+</script>
