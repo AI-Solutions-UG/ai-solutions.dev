@@ -4,36 +4,26 @@ const steps = [
 		when: 'Bisher',
 		title: 'Individuelle Software war zu teuer.',
 		text: 'Ein Konfigurator, ein Angebotstool, eine Anbindung an die Fertigung: Das kostete schnell sechsstellig. Also blieben Excel, Standardsoftware und Umwege. Der Bedarf war immer da. Nur das Budget nicht.',
-		key: '6-stellig',
-		keySub: 'kostete individuelle Software',
 	},
 	{
 		when: 'Jetzt',
 		title: 'KI baut Software. Und zwar schnell.',
 		text: 'Was früher Monate dauerte, geht heute in Tagen. Es gibt plötzlich viel mehr Software-Leistung als Nachfrage. Die Preise fallen.',
-		key: 'Tage',
-		keySub: 'statt Monate',
 	},
 	{
 		when: 'Die Folge',
 		title: 'Gute Entwickler werden frei.',
 		text: 'Ein Entwickler mit KI schafft heute, wofür früher ein Team nötig war. Viele Software-Firmen brauchen nicht mehr alle ihre Leute.',
-		key: '1 statt 5',
-		keySub: 'Entwickler für dasselbe Projekt',
 	},
 	{
 		when: 'Die Wende',
 		title: 'Plötzlich lohnt es sich.',
 		text: 'Wird Software günstig, heißt es nicht mehr „zu teuer“, sondern „warum nicht?“. Unternehmen holen nach, was sie lange aufgeschoben haben. Es wird mehr Software gebaut, nicht weniger.',
-		key: '„Warum nicht?“',
-		keySub: 'statt „zu teuer“',
 	},
 	{
 		when: 'In fünf Jahren',
 		title: 'Software wird Kernkompetenz.',
 		text: 'Erfolgreiche Unternehmen haben eigene KI-Digitalisierungsexperten. Die bauen genau die Software, die das Geschäft braucht. Ohne Abhängigkeit von Standardsoftware oder Agenturen.',
-		key: 'Ihr Team',
-		keySub: 'baut Ihre Software',
 	},
 ];
 ---
@@ -50,16 +40,13 @@ const steps = [
 		</header>
 
 		<div class="path__grid" data-path>
-			<ol class="path__steps">
+			<ol class="path__steps" data-path-steps>
 				{
 					steps.map((step, i) => (
 						<li class:list={['path__step', { 'is-active': i === 0 }]} data-step={i}>
 							<span class="path__num" aria-hidden="true">{String(i + 1).padStart(2, '0')}</span>
 							<div>
 								<p class="path__when">{step.when}</p>
-								<p class="path__key">
-									<strong>{step.key}</strong> <span>{step.keySub}</span>
-								</p>
 								<h3>{step.title}</h3>
 								<p>{step.text}</p>
 							</div>
@@ -67,25 +54,6 @@ const steps = [
 					))
 				}
 			</ol>
-
-			<div class="keyword" aria-hidden="true">
-				<div class="keyword__stage">
-					{
-						steps.map((step, i) => (
-							<div class:list={['keyword__item', { 'is-active': i === 0 }]} data-key={i}>
-								<p class="keyword__when">
-									{String(i + 1).padStart(2, '0')} · {step.when}
-								</p>
-								<p class="keyword__word">{step.key}</p>
-								<p class="keyword__sub">{step.keySub}</p>
-							</div>
-						))
-					}
-				</div>
-				<div class="keyword__ticks">
-					{steps.map((_, i) => <i class:list={{ 'is-active': i === 0 }} data-tick={i} />)}
-				</div>
-			</div>
 		</div>
 
 		<p class="path__closing" data-reveal>
@@ -95,21 +63,34 @@ const steps = [
 </section>
 
 <script>
-	// The step crossing the middle of the viewport decides which keyword is shown.
+	// Highlight the step at the centre of the viewport and fill the centre line up to it.
 	const root = document.querySelector<HTMLElement>('[data-path]');
 	if (root) {
+		const list = root.querySelector<HTMLElement>('[data-path-steps]')!;
 		const steps = [...root.querySelectorAll<HTMLElement>('[data-step]')];
-		const keys = [...root.querySelectorAll<HTMLElement>('[data-key]')];
-		const ticks = [...root.querySelectorAll<HTMLElement>('[data-tick]')];
-		const activate = (idx: number) => {
-			for (const list of [steps, keys, ticks]) list.forEach((el, i) => el.classList.toggle('is-active', i === idx));
-		};
 		const io = new IntersectionObserver(
 			(entries) => {
-				for (const e of entries) if (e.isIntersecting) activate(Number((e.target as HTMLElement).dataset.step));
+				for (const e of entries) {
+					if (!e.isIntersecting) continue;
+					const idx = Number((e.target as HTMLElement).dataset.step);
+					steps.forEach((el, i) => {
+						el.classList.toggle('is-active', i === idx);
+						el.classList.toggle('is-past', i < idx);
+					});
+				}
 			},
 			{ rootMargin: '-45% 0px -45% 0px' },
 		);
 		steps.forEach((s) => io.observe(s));
+
+		let ticking = false;
+		const fill = () => {
+			ticking = false;
+			const r = list.getBoundingClientRect();
+			const p = Math.min(1, Math.max(0, (innerHeight / 2 - r.top) / r.height));
+			list.style.setProperty('--p', p.toFixed(3));
+		};
+		addEventListener('scroll', () => !ticking && (ticking = true) && requestAnimationFrame(fill), { passive: true });
+		fill();
 	}
 </script>
