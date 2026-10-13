@@ -2,8 +2,8 @@
 import { contactHref } from './site';
 
 const stations = [
-	{ title: 'Beweisen', text: 'Ihr Problem, unser Prototyp. Kostenlos.' },
-	{ title: 'Aufbauen', text: 'Ihr Team lernt mit uns, Software mit KI zu bauen.' },
+	{ title: 'Beweisen', text: 'Sie erleben an Ihrem Problem, was KI kann. Kostenlos.' },
+	{ title: 'Aufbauen', text: 'Wir bauen das Know-how bei Ihnen auf.' },
 	{ title: 'Selbst können', text: 'Sie entwickeln Ihre Software selbst.' },
 ];
 ---
@@ -16,8 +16,8 @@ const stations = [
 			<span class="accent">Bald auch Ihre Software.</span>
 		</h1>
 		<p class="hero__lead">
-			KI macht eigene Software-Entwicklung für jedes Unternehmen möglich. Wir bauen diese Kompetenz bei Ihnen auf.
-			Zuerst mit einem kostenlosen Prototyp für ein echtes Problem.
+			KI macht eigene Software-Entwicklung für jedes Unternehmen möglich. Was das heißt, zeigen wir Ihnen an einem
+			echten Problem aus Ihrem Alltag. Kostenlos. Danach bauen wir die Kompetenz bei Ihnen auf.
 		</p>
 		<div class="hero__actions">
 			<a href={contactHref} class="btn">Problem schildern</a>
@@ -27,7 +27,6 @@ const stations = [
 		<figure class="model" aria-label="Unser Modell: Beweisen, Aufbauen, Selbst können">
 			<div class="model__track" aria-hidden="true">
 				<span class="model__flow"></span>
-				<span class="model__ends"><span>bei uns</span><span>bei Ihnen</span></span>
 			</div>
 			<ol class="model__stations">
 				{
@@ -40,7 +39,6 @@ const stations = [
 					))
 				}
 			</ol>
-			<figcaption class="model__caption">Die Kompetenz wandert von uns zu Ihnen. Software, Daten und Wissen gehören Ihnen.</figcaption>
 		</figure>
 	</div>
 </section>

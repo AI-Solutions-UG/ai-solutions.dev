@@ -358,7 +358,7 @@ p {
 .model {
   position: relative;
   max-width: 920px;
-  margin: clamp(80px, 10vw, 112px) auto 0;
+  margin: clamp(56px, 8vw, 88px) auto 0;
 }
 
 .model__track {
@@ -400,28 +400,8 @@ p {
   }
 }
 
-.model__ends {
-  position: absolute;
-  top: -50px;
-  left: 0;
-  right: 0;
-  display: flex;
-  justify-content: space-between;
-  font-size: 0.75rem;
-  font-weight: 650;
-  letter-spacing: 0.06em;
-  text-transform: uppercase;
-}
 
-.model__ends span:first-child {
-  color: var(--ink-2);
-  transform: translateX(-50%);
-}
 
-.model__ends span:last-child {
-  color: var(--accent-hover);
-  transform: translateX(50%);
-}
 
 .model__stations {
   list-style: none;
@@ -485,11 +465,6 @@ p {
   max-width: 240px;
 }
 
-.model__caption {
-  margin-top: 28px;
-  font-size: 0.92rem;
-  color: var(--ink-2);
-}
 
 @media (max-width: 640px) {
   .model__track {
@@ -501,8 +476,7 @@ p {
     height: auto;
     background: linear-gradient(180deg, var(--navy), var(--accent));
   }
-  .model__flow,
-  .model__ends {
+  .model__flow {
     display: none;
   }
   .model__stations {
