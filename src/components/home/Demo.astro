@@ -1,6 +1,6 @@
 ---
-// Animierte Demo im Hero: Ein Anliegen in Klartext → KI baut die Software Schritt für Schritt
-// → ein Mauszeiger benutzt die fertige Anwendung. Mehrere Beispiele, per Tab anwählbar.
+// Animierte Demo zu den Schmerzpunkten: Ein Anliegen in Klartext → KI baut die Software Schritt für Schritt
+// → ein Mauszeiger benutzt die fertige Anwendung. Die Schmerzpunkte darüber wählen das Beispiel.
 //
 // Die Mock-Anwendungen sind deklarativ:
 //   data-at="n"      sichtbar ab Schritt n (1–4 = Bauschritte, ab 5 = Benutzung)
@@ -9,22 +9,9 @@
 //   data-count-to    Zahl zählt beim Einblenden hoch
 const scenarios = [
 	{
-		id: 'konfigurator',
-		label: 'Konfigurator',
-		url: 'konfigurator.ihr-unternehmen.de',
-		prompt: 'Wir brauchen einen Konfigurator für unsere Schränke. Mit Preis und Stückliste für die Fertigung.',
-		steps: [
-			['Produktvorschau zeichnen', 'vorschau.tsx'],
-			['Regeln für Breite, Türen, Oberfläche', 'regeln.ts'],
-			['Preise aus Ihrer Preisliste', 'preise.ts'],
-			['Stückliste für die Fertigung', 'stueckliste.ts'],
-		],
-		then: 'Agenturprojekt über viele Monate',
-		now: 'eigener Konfigurator in wenigen Tagen',
-	},
-	{
 		id: 'angebot',
-		label: 'Angebote',
+		pain: 'Angebote dauern Tage.',
+		fix: 'Angebotstool aus Artikeln und Preisen',
 		url: 'angebote.ihr-unternehmen.de',
 		prompt: 'Unsere Angebote tippen wir in Word ab. Sie sollen automatisch aus unseren Artikeln und Preisen entstehen.',
 		steps: [
@@ -37,36 +24,9 @@ const scenarios = [
 		now: 'Angebot mit drei Klicks',
 	},
 	{
-		id: 'crm',
-		label: 'CRM',
-		url: 'vertrieb.ihr-unternehmen.de',
-		prompt: 'Unsere Kunden stehen in Excel und Outlook. Wir wollen sehen, wo jeder Kunde im Vertrieb steht.',
-		steps: [
-			['Vertriebsphasen anlegen', 'pipeline.tsx'],
-			['Kunden aus Excel übernehmen', 'import.ts'],
-			['Volumen pro Phase berechnen', 'auswertung.sql'],
-			['Wiedervorlagen einrichten', 'erinnerung.ts'],
-		],
-		then: 'Standard-CRM, das nie ganz passt',
-		now: 'eigenes CRM, genau für Ihren Vertrieb',
-	},
-	{
-		id: 'controlling',
-		label: 'Controlling',
-		url: 'controlling.ihr-unternehmen.de',
-		prompt: 'Unser Monatsreporting bauen wir jedes Mal von Hand in Excel. Das soll auf Knopfdruck gehen.',
-		steps: [
-			['Dashboard aufbauen', 'dashboard.tsx'],
-			['Zahlen aus der Buchhaltung holen', 'buchhaltung.ts'],
-			['Umsatz pro Monat auswerten', 'umsatz.sql'],
-			['Jeden Morgen automatisch aktualisieren', 'zeitplan.ts'],
-		],
-		then: 'Excel-Arbeit an jedem Monatsende',
-		now: 'Dashboard, das sich selbst aktualisiert',
-	},
-	{
 		id: 'import',
-		label: 'Schnittstellen',
+		pain: 'Daten werden abgetippt.',
+		fix: 'Import direkt ins ERP',
 		url: 'import.ihr-unternehmen.de',
 		prompt: 'Unser Lieferant schickt Preislisten als Excel. Die tippen wir von Hand ins ERP ab.',
 		steps: [
@@ -80,7 +40,8 @@ const scenarios = [
 	},
 	{
 		id: 'shop',
-		label: 'Händler-Shop',
+		pain: 'Bestellungen kommen per Fax.',
+		fix: 'Eigenes Händlerportal',
 		url: 'shop.ihr-unternehmen.de',
 		prompt: 'Unsere Händler bestellen per Telefon und Fax. Wir wollen einen einfachen Online-Shop nur für sie.',
 		steps: [
@@ -93,8 +54,39 @@ const scenarios = [
 		now: 'Händlerportal mit Ihren Regeln',
 	},
 	{
+		id: 'crm',
+		pain: 'Niemand weiß, wo der Kunde steht.',
+		fix: 'CRM für Ihren Vertrieb',
+		url: 'vertrieb.ihr-unternehmen.de',
+		prompt: 'Unsere Kunden stehen in Excel und Outlook. Wir wollen sehen, wo jeder Kunde im Vertrieb steht.',
+		steps: [
+			['Vertriebsphasen anlegen', 'pipeline.tsx'],
+			['Kunden aus Excel übernehmen', 'import.ts'],
+			['Volumen pro Phase berechnen', 'auswertung.sql'],
+			['Wiedervorlagen einrichten', 'erinnerung.ts'],
+		],
+		then: 'Standard-CRM, das nie ganz passt',
+		now: 'eigenes CRM, genau für Ihren Vertrieb',
+	},
+	{
+		id: 'controlling',
+		pain: 'Das Reporting ist Handarbeit.',
+		fix: 'Dashboard, jeden Morgen aktuell',
+		url: 'controlling.ihr-unternehmen.de',
+		prompt: 'Unser Monatsreporting bauen wir jedes Mal von Hand in Excel. Das soll auf Knopfdruck gehen.',
+		steps: [
+			['Dashboard aufbauen', 'dashboard.tsx'],
+			['Zahlen aus der Buchhaltung holen', 'buchhaltung.ts'],
+			['Umsatz pro Monat auswerten', 'umsatz.sql'],
+			['Jeden Morgen automatisch aktualisieren', 'zeitplan.ts'],
+		],
+		then: 'Excel-Arbeit an jedem Monatsende',
+		now: 'Dashboard, das sich selbst aktualisiert',
+	},
+	{
 		id: 'marketing',
-		label: 'Marketing',
+		pain: 'Für den Newsletter fehlt die Zeit.',
+		fix: 'Newsletter aus Ihren Daten',
 		url: 'newsletter.ihr-unternehmen.de',
 		prompt: 'Wir wollen jeden Monat einen Newsletter mit unseren Neuheiten an unsere Händler schicken.',
 		steps: [
@@ -108,7 +100,8 @@ const scenarios = [
 	},
 	{
 		id: 'cms',
-		label: 'Website',
+		pain: 'Jede Website-Änderung braucht die Agentur.',
+		fix: 'Inhalte selbst pflegen',
 		url: 'cms.ihr-unternehmen.de',
 		prompt: 'Unsere Website pflegt eine Agentur. Wir wollen Texte und Bilder selbst ändern können.',
 		steps: [
@@ -120,16 +113,32 @@ const scenarios = [
 		then: 'Agentur-Ticket für jede Änderung',
 		now: 'Inhalte selbst pflegen, sofort live',
 	},
+	{
+		id: 'konfigurator',
+		pain: 'Das Wissen steckt in Köpfen und Excel.',
+		fix: 'Konfigurator mit Preis und Stückliste',
+		url: 'konfigurator.ihr-unternehmen.de',
+		prompt: 'Wir brauchen einen Konfigurator für unsere Schränke. Mit Preis und Stückliste für die Fertigung.',
+		steps: [
+			['Produktvorschau zeichnen', 'vorschau.tsx'],
+			['Regeln für Breite, Türen, Oberfläche', 'regeln.ts'],
+			['Preise aus Ihrer Preisliste', 'preise.ts'],
+			['Stückliste für die Fertigung', 'stueckliste.ts'],
+		],
+		then: 'Agenturprojekt über viele Monate',
+		now: 'eigener Konfigurator in wenigen Tagen',
+	},
 ];
 const first = scenarios[0];
 ---
 
-<figure class="demo" data-demo data-phase="0" aria-label="Animierte Beispiele: Aus einem Satz wird mit KI eine funktionierende Software">
-	<div class="demo__tabs" role="tablist" aria-label="Beispiele">
+<figure class="demo" data-demo data-phase="0" aria-label="Beispiele: Aus einem Satz wird mit KI eine funktionierende Software">
+	<div class="demo__tabs" role="tablist" aria-label="Schmerzpunkte">
 		{
 			scenarios.map((s, i) => (
 				<button type="button" role="tab" class="demo__tab" data-tab={i} aria-selected={i === 0 ? 'true' : 'false'}>
-					{s.label}
+					<strong>{s.pain}</strong>
+					<span>{s.fix}</span>
 				</button>
 			))
 		}

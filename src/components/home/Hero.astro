@@ -1,28 +1,46 @@
 ---
 import { contactHref } from './site';
-import HeroDemo from './HeroDemo.astro';
+
+const stations = [
+	{ title: 'Beweisen', text: 'Ihr Problem, unser Prototyp. Kostenlos.' },
+	{ title: 'Aufbauen', text: 'Ihr Team lernt mit uns, Software mit KI zu bauen.' },
+	{ title: 'Selbst können', text: 'Sie entwickeln Ihre Software selbst.' },
+];
 ---
 
 <section class="hero" id="top">
 	<div class="wrap">
-		<p class="eyebrow">Software mit KI</p>
+		<p class="eyebrow">Kompetenzaufbau statt Agentur</p>
 		<h1 class="hero__title">
-			Software nach Maß war bisher zu teuer.
-			<span class="accent">Mit KI nicht mehr.</span>
+			Ihren Vertrieb machen Sie selbst.
+			<span class="accent">Bald auch Ihre Software.</span>
 		</h1>
 		<p class="hero__lead">
-			KI macht individuelle Software schnell und bezahlbar. Wir beweisen es Ihnen an einem echten Problem aus Ihrem
-			Unternehmen. Kostenlos. Danach bauen wir das Wissen bei Ihnen im Haus auf.
+			KI macht eigene Software-Entwicklung für jedes Unternehmen möglich. Wir bauen diese Kompetenz bei Ihnen auf.
+			Zuerst mit einem kostenlosen Prototyp für ein echtes Problem.
 		</p>
 		<div class="hero__actions">
 			<a href={contactHref} class="btn">Problem schildern</a>
-			<a href="#weg" class="btn btn--ghost">Unsere These lesen ↓</a>
+			<a href="#weg" class="btn btn--ghost">Warum jetzt? ↓</a>
 		</div>
-		<HeroDemo />
-		<ul class="hero__facts" aria-label="Das Wichtigste in Kürze">
-			<li><strong>Kostenloser Prototyp</strong><span>für ein echtes Problem aus Ihrem Alltag</span></li>
-			<li><strong>Ohne Risiko</strong><span>Software, Daten und Wissen gehören Ihnen</span></li>
-			<li><strong>Seit 1998</strong><span>Erfahrung mit individueller Software</span></li>
-		</ul>
+
+		<figure class="model" aria-label="Unser Modell: Beweisen, Aufbauen, Selbst können">
+			<div class="model__track" aria-hidden="true">
+				<span class="model__flow"></span>
+				<span class="model__ends"><span>bei uns</span><span>bei Ihnen</span></span>
+			</div>
+			<ol class="model__stations">
+				{
+					stations.map((s, i) => (
+						<li style={`--i:${i}`}>
+							<span class="model__dot" aria-hidden="true">{i + 1}</span>
+							<strong>{s.title}</strong>
+							<span>{s.text}</span>
+						</li>
+					))
+				}
+			</ol>
+			<figcaption class="model__caption">Die Kompetenz wandert von uns zu Ihnen. Software, Daten und Wissen gehören Ihnen.</figcaption>
+		</figure>
 	</div>
 </section>

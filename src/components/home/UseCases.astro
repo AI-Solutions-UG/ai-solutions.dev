@@ -1,37 +1,20 @@
 ---
-// Konkrete Schmerzpunkte aus dem Alltag – und was eigene Software daraus macht.
-const pains = [
-	{ pain: 'Angebote dauern Tage.', fix: 'Ein Angebotstool erstellt sie aus Artikeln und Preisen. In Minuten, ohne Tippfehler.' },
-	{ pain: 'Daten werden abgetippt.', fix: 'Schnittstellen übertragen Preislisten, Aufträge und Rechnungen automatisch zwischen Ihren Systemen.' },
-	{ pain: 'Bestellungen kommen per Fax und Telefon.', fix: 'Ein Bestellportal für Kunden und Händler, direkt verbunden mit Ihrem ERP.' },
-	{ pain: 'Niemand weiß, wo der Kunde steht.', fix: 'Ein CRM, das genau Ihren Vertrieb abbildet. Mit Wiedervorlagen, damit nichts liegen bleibt.' },
-	{ pain: 'Das Reporting ist Handarbeit.', fix: 'Ein Dashboard holt die Zahlen selbst und ist jeden Morgen aktuell.' },
-	{ pain: 'Das Wissen steckt in Köpfen und Excel.', fix: 'Kalkulation und Variantenregeln werden zu Software, die jeder im Team nutzen kann.' },
-	{ pain: 'In Lager und Werkstatt regiert der Zettel.', fix: 'Bestände, Zeiten und Prüfprotokolle werden direkt am Tablet erfasst.' },
-	{ pain: 'Einsätze werden am Telefon geplant.', fix: 'Eine Einsatzplanung für Service und Montage, mit Infos für jeden Techniker.' },
-	{ pain: 'Für jede Website-Änderung braucht es die Agentur.', fix: 'Ein eigenes System, mit dem Sie Inhalte selbst pflegen. Sofort live.' },
-];
+import Demo from './Demo.astro';
 ---
 
-<section class="section" aria-labelledby="einstieg-title">
+<section class="section" id="beispiele" aria-labelledby="einstieg-title">
 	<div class="wrap">
 		<header class="section-head" data-reveal>
 			<p class="eyebrow">Wo es sich lohnt</p>
 			<h2 id="einstieg-title">Erkennen Sie sich wieder? <span class="accent">Genau dort fangen wir an.</span></h2>
 			<p class="section-lead">
-				In fast jedem Unternehmen gibt es Abläufe, die jeden Tag Zeit und Nerven kosten. Für jeden davon lässt sich heute
-				schnell eigene Software bauen.
+				In fast jedem Unternehmen gibt es Abläufe, die jeden Tag Zeit und Nerven kosten. Wählen Sie einen aus und sehen
+				Sie, wie daraus mit KI eigene Software entsteht.
 			</p>
 		</header>
-		<ul class="pains">
-			{
-				pains.map((p) => (
-					<li data-reveal>
-						<h3>{p.pain}</h3>
-						<p>{p.fix}</p>
-					</li>
-				))
-			}
-		</ul>
+		<Demo />
+		<p class="usecases__more" data-reveal>
+			Und vieles mehr: Lager und Bestände, Einsatzplanung, Prüfprotokolle, Zeiterfassung …
+		</p>
 	</div>
 </section>
