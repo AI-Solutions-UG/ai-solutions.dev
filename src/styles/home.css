@@ -1407,7 +1407,8 @@ p {
   display: block;
 }
 
-.product span {
+.product div span {
+  display: block;
   color: var(--muted);
   font-size: 0.74rem;
   text-decoration: line-through;
