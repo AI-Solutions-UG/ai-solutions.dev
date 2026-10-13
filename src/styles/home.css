@@ -1904,7 +1904,7 @@ p {
 .path {
   background: var(--navy);
   color: var(--on-dark);
-  padding: clamp(88px, 12vw, 160px) 0;
+  padding: clamp(88px, 12vw, 160px) 0 clamp(56px, 8vw, 96px);
   position: relative;
   overflow: clip;
 }
@@ -2033,7 +2033,7 @@ p {
 
 .path__closing {
   margin: clamp(56px, 8vw, 96px) auto 0;
-  padding-top: 40px;
+  padding-top: clamp(56px, 8vw, 96px);
   border-top: 1px solid var(--on-dark-line);
   font-family: var(--display);
   font-size: clamp(1.5rem, 3.2vw, 2.4rem);
