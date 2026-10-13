@@ -1,0 +1,13 @@
+---
+import { href } from './site';
+---
+
+<footer class="site-footer">
+	<div class="wrap site-footer__inner">
+		<p>© {new Date().getFullYear()} AI Solutions UG (haftungsbeschränkt) · Lünen</p>
+		<nav aria-label="Rechtliches">
+			<a href={href('/impress')}>Impressum</a>
+			<a href={href('/privacy')}>Datenschutz</a>
+		</nav>
+	</div>
+</footer>

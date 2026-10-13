@@ -1,0 +1,51 @@
+---
+const cases = [
+	{
+		title: 'Produktkonfiguratoren',
+		text: 'Für Kunden, Händler oder den Vertrieb, mit Regeln, Preisen und Visualisierung.',
+	},
+	{
+		title: 'Angebote & Aufträge',
+		text: 'Vom konfigurierten Produkt zum fertigen Angebot, PDF und Auftrag, ohne etwas abzutippen.',
+	},
+	{
+		title: 'Stücklisten & Fertigung',
+		text: 'Aus der Konfiguration direkt in Stückliste, Arbeitsvorbereitung und Produktion.',
+	},
+	{
+		title: 'Shop & Vertrieb',
+		text: 'Online-Shop und Händlerportal, angebunden an Ihre bestehenden Systeme.',
+	},
+	{
+		title: 'Produktdaten & Pflege',
+		text: 'Daten, Preise und Regeln an einem Ort und versioniert, statt verteilt auf zehn Excel-Dateien.',
+	},
+	{
+		title: 'Interne Werkzeuge',
+		text: 'Die kleinen Helfer, die sich nie gelohnt haben, etwa Auswertungen, Freigaben und Checklisten.',
+	},
+];
+---
+
+<section class="section" aria-labelledby="einstieg-title">
+	<div class="wrap">
+		<header class="section-head" data-reveal>
+			<p class="eyebrow">Wo wir anfangen</p>
+			<h2 id="einstieg-title">Wir kommen aus dem Konfiguratorbau. <em>Variantenreiche Produkte sind unser Zuhause.</em></h2>
+			<p class="section-lead">
+				Seit vielen Jahren bauen wir Produktkonfiguratoren für Hersteller mit komplexen, variantenreichen Produkten. Dort
+				fangen wir an. Danach gehen wir dorthin, wo es bei Ihnen am meisten bringt.
+			</p>
+		</header>
+		<ul class="usecases">
+			{
+				cases.map((c) => (
+					<li data-reveal>
+						<h3>{c.title}</h3>
+						<p>{c.text}</p>
+					</li>
+				))
+			}
+		</ul>
+	</div>
+</section>

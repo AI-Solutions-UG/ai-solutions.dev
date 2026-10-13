@@ -1,0 +1,54 @@
+---
+import { contactHref } from './site';
+
+const steps = [
+	{
+		tag: 'Kostenlos',
+		title: 'Der Beweis',
+		text: 'Sie nennen uns ein Problem, das Sie schon lange stört, und wir bauen dafür einen funktionierenden Prototyp. Statt Folien bekommen Sie Software, die läuft. So sehen Sie, was KI bei Ihnen konkret leisten kann.',
+		meta: 'ca. 2 Wochen · 0 €',
+	},
+	{
+		tag: 'Ohne Risiko',
+		title: 'Der Aufbau',
+		text: 'Wenn Sie überzeugt sind, arbeitet ein erfahrener Entwickler von uns an Ihren Themen. Er lernt Ihr Unternehmen kennen, baut mit KI die nächsten Lösungen und macht Ihr Team fit für die Arbeit mit KI.',
+		meta: 'flexibel, ohne lange Bindung',
+	},
+	{
+		tag: 'Ihr Team',
+		title: 'Die Übergabe',
+		text: 'Code, Daten und Wissen gehören von Anfang an Ihnen. Wenn die Zusammenarbeit passt, kann Ihr Entwickler auf Wunsch fest in Ihr Team wechseln.',
+		meta: 'die Kompetenz bleibt im Haus',
+	},
+];
+---
+
+<section class="section section--tinted" id="angebot" aria-labelledby="angebot-title">
+	<div class="wrap">
+		<header class="section-head" data-reveal>
+			<p class="eyebrow">Unser Angebot</p>
+			<h2 id="angebot-title">In drei Schritten zum KI-fähigen Unternehmen. <em>Ohne Risiko für Sie.</em></h2>
+		</header>
+		<ol class="offer">
+			{
+				steps.map((step, i) => (
+					<li class="offer__step" data-reveal>
+						<div class="offer__top">
+							<span class="offer__num" aria-hidden="true">{i + 1}</span>
+							<span class="tag">{step.tag}</span>
+						</div>
+						<h3>{step.title}</h3>
+						<p>{step.text}</p>
+						<p class="offer__meta">{step.meta}</p>
+					</li>
+				))
+			}
+		</ol>
+		<div class="note" data-reveal>
+			<p>
+				Sie sollen nicht dauerhaft von uns abhängen. <strong>Unser Ziel ist, dass Sie es am Ende selbst können.</strong>
+			</p>
+			<a href={contactHref} class="btn">Mit Schritt 1 starten</a>
+		</div>
+	</div>
+</section>

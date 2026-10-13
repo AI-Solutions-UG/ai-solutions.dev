@@ -1,0 +1,93 @@
+---
+const steps = [
+	{
+		when: 'Bisher',
+		title: 'Individuelle Software rechnet sich selten.',
+		text: 'Ein Produktkonfigurator, eine automatische Angebotserstellung, die Anbindung an die Fertigung: Das sind schnell sechsstellige Projekte. Also arbeitet der Mittelstand mit Standardsoftware, Excel-Listen und Umwegen. Der Bedarf war immer da. Er war nur zu teuer.',
+	},
+	{
+		when: 'Jetzt',
+		title: 'KI baut Software in einem Bruchteil der Zeit.',
+		text: 'Was früher Monate dauerte, entsteht heute in Tagen. Das Angebot an Software wächst sprunghaft, viel schneller als die Nachfrage. Die Preise fallen.',
+	},
+	{
+		when: 'Die Folge',
+		title: 'Erfahrene Entwickler werden frei.',
+		text: 'Wenn eine Person mit KI schafft, wofür früher ein Team nötig war, braucht nicht jedes Software-Haus alle seine Leute. So viele gute Entwickler wie lange nicht suchen eine neue Aufgabe.',
+	},
+	{
+		when: 'Die Wende',
+		title: 'Was sich nie gerechnet hat, rechnet sich plötzlich.',
+		text: 'Sinkt der Preis, wird aus „zu teuer“ ein „warum eigentlich nicht?“. Der aufgestaute Bedarf im Mittelstand wird bezahlbar. Am Ende wird nicht weniger Software gebaut, sondern viel mehr.',
+	},
+	{
+		when: 'In fünf Jahren',
+		title: 'Software wird Kernkompetenz.',
+		text: 'Erfolgreiche Mittelständler haben Entwickler im eigenen Haus, die mit KI genau die Werkzeuge bauen, die das Geschäft braucht. Unabhängig von Standardsoftware und unabhängig von externen Dienstleistern.',
+	},
+];
+---
+
+<section class="path" id="weg" aria-labelledby="weg-title">
+	<div class="wrap">
+		<header class="section-head" data-reveal>
+			<p class="eyebrow eyebrow--light">Unsere These</p>
+			<h2 id="weg-title">
+				Der Weg dahin: Warum Ihr Unternehmen in fünf Jahren <em>mehr eigene Software</em> haben wird als heute.
+			</h2>
+			<p class="section-lead">
+				Wir glauben, dass mittelständische Unternehmen in fünf Jahren deutlich stärker softwaregestützt sind als heute.
+				Das kommt nicht von noch mehr Standardsoftware, sondern von Software, die genau für sie gebaut wurde. So kommen
+				wir darauf:
+			</p>
+		</header>
+
+		<div class="path__grid">
+			<ol class="path__steps">
+				{
+					steps.map((step, i) => (
+						<li class="path__step" data-reveal>
+							<span class="path__num" aria-hidden="true">{String(i + 1).padStart(2, '0')}</span>
+							<div>
+								<p class="path__when">{step.when}</p>
+								<h3>{step.title}</h3>
+								<p>{step.text}</p>
+							</div>
+						</li>
+					))
+				}
+			</ol>
+
+			<figure class="path__chart" data-reveal>
+				<svg viewBox="0 0 400 300" role="img" aria-labelledby="chart-title chart-desc">
+					<title id="chart-title">Preis und Menge individueller Software im Zeitverlauf</title>
+					<desc id="chart-desc">
+						Bis heute sind Preis und Menge fast unverändert. Ab heute fällt der Preis pro Lösung steil, während die Menge
+						gebauter Software stark ansteigt.
+					</desc>
+					<line x1="40" y1="250" x2="380" y2="250" class="chart__axis"></line>
+					<line x1="40" y1="20" x2="40" y2="250" class="chart__axis"></line>
+					<line x1="200" y1="20" x2="200" y2="250" class="chart__today"></line>
+					<text x="200" y="272" class="chart__label" text-anchor="middle">heute</text>
+					<text x="40" y="272" class="chart__label">gestern</text>
+					<text x="380" y="272" class="chart__label" text-anchor="end">in 5 Jahren</text>
+
+					<path d="M40 70 C 120 66, 170 64, 200 70 S 280 190, 380 220" class="chart__line chart__line--price"></path>
+					<path d="M40 215 C 120 212, 170 208, 200 200 S 290 90, 380 45" class="chart__line chart__line--volume"></path>
+					<circle cx="200" cy="70" r="4" class="chart__dot chart__dot--price"></circle>
+					<circle cx="200" cy="200" r="4" class="chart__dot chart__dot--volume"></circle>
+
+					<text x="48" y="56" class="chart__series chart__series--price">Preis pro Lösung</text>
+					<text x="48" y="238" class="chart__series chart__series--volume">gebaute Software</text>
+				</svg>
+				<figcaption>
+					Vereinfacht: KI erhöht das Angebot an Software sprunghaft. Der Preis fällt, und genau dadurch wächst der Bedarf.
+				</figcaption>
+			</figure>
+		</div>
+
+		<p class="path__closing" data-reveal>
+			Wer jetzt anfängt, baut Vorsprung auf. <em>Wer wartet, kauft später, was alle haben.</em>
+		</p>
+	</div>
+</section>

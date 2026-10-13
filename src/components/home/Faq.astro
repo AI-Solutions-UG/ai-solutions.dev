@@ -1,0 +1,47 @@
+---
+const faqs = [
+	{
+		q: 'Was kostet der Einstieg?',
+		a: 'Nichts. Den ersten Prototyp bauen wir kostenlos. Danach entscheiden Sie, ob und wie es weitergeht.',
+	},
+	{
+		q: 'Warum ist der Prototyp kostenlos?',
+		a: 'Weil das Ergebnis mehr überzeugt als jede Präsentation. Und weil es der schnellste Weg ist, herauszufinden, ob wir zusammenpassen.',
+	},
+	{
+		q: 'Kann das mit KI nicht bald jeder selbst?',
+		a: 'Teilweise ja, und das ist gut so. Aber Software bleibt Software: Sie muss sicher laufen, mit Ihren Systemen zusammenarbeiten und gepflegt werden. Dafür braucht es Erfahrung. Unser Ziel ist, dass diese Erfahrung am Ende bei Ihnen im Haus sitzt.',
+	},
+	{
+		q: 'Was passiert mit unseren Daten?',
+		a: 'Wir arbeiten DSGVO-konform, setzen auf Hosting in der EU und nutzen nur die Daten, die für die jeweilige Aufgabe nötig sind. Das klären wir vor dem Start gemeinsam mit Ihnen.',
+	},
+	{
+		q: 'Wem gehört die Software?',
+		a: 'Ihnen. Code, Daten und Dokumentation gehören von Anfang an Ihrem Unternehmen.',
+	},
+	{
+		q: 'Brauchen wir eine eigene IT-Abteilung?',
+		a: 'Nein. Wir starten dort, wo Sie heute stehen. Ein Ziel der Zusammenarbeit ist ja gerade, diese Kompetenz bei Ihnen aufzubauen.',
+	},
+];
+---
+
+<section class="section" aria-labelledby="faq-title">
+	<div class="wrap faq">
+		<header class="section-head" data-reveal>
+			<p class="eyebrow">Fragen</p>
+			<h2 id="faq-title">Was Unternehmer uns <em>am häufigsten</em> fragen.</h2>
+		</header>
+		<div class="faq__list" data-reveal>
+			{
+				faqs.map((f) => (
+					<details>
+						<summary>{f.q}</summary>
+						<p>{f.a}</p>
+					</details>
+				))
+			}
+		</div>
+	</div>
+</section>

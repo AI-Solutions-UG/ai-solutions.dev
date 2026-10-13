@@ -1,50 +1,22 @@
 # AI Solutions
 
-Official website for AI Solutions.
+Official website for AI Solutions – [ai-solutions.dev](https://ai-solutions.dev).
 
 ## 🚀 Deployment
 
-This site is deployed to GitHub Pages using the `gh-pages` npm package.
+Deployment runs automatically via GitHub Actions and GitHub Pages (source: `gh-pages` branch, `/ (root)`).
 
-### Initial Setup
+- **Production:** every push to `main` builds the site and publishes `dist/` to the `gh-pages` branch (`.github/workflows/deploy.yml`).
+- **PR previews:** every pull request is built and published to `https://ai-solutions.dev/pr-preview/pr-<number>/` (`.github/workflows/preview.yml`). The workflow posts the link as a PR comment and removes the preview when the PR is closed. Previews are marked `noindex`.
 
-1. Make sure you have a GitHub repository for this project
-2. Push your code to the repository
-3. Run the deploy command (see below)
-
-### Deploy to GitHub Pages
-
-Simply run:
-
-```bash
-npm run deploy
-```
-
-This will:
-1. Build the site (`npm run build`)
-2. Deploy the `dist/` folder to the `gh-pages` branch
-3. GitHub Pages will automatically serve your site from that branch
-
-### GitHub Pages Settings
-
-After your first deployment:
-1. Go to your repository settings on GitHub
-2. Navigate to **Pages** in the left sidebar
-3. Under **Source**: Select **Deploy from a branch**
-4. Under **Branch**: Select `gh-pages` and `/ (root)`
-5. Your site will be live at `https://ai-solutions.dev`
+The base path is controlled by the `BASE_PATH` env var (defaults to `/`). Use `href()` from `src/components/home/site.ts` for internal links so they also work in previews.
 
 ### DNS Configuration
 
-Make sure your DNS records for `ai-solutions.dev` are configured:
-- Add an A record pointing to GitHub Pages IPs:
-  - `185.199.108.153`
-  - `185.199.109.153`
-  - `185.199.110.153`
-  - `185.199.111.153`
-- Or add a CNAME record pointing to `<your-github-username>.github.io`
+DNS records for `ai-solutions.dev` point to GitHub Pages:
+- A records: `185.199.108.153`, `185.199.109.153`, `185.199.110.153`, `185.199.111.153`
 
-The CNAME file in the `public/` directory ensures your custom domain is used.
+The CNAME file in the `public/` directory ensures the custom domain is used.
 
 ## 🧞 Commands
 
@@ -54,10 +26,10 @@ The CNAME file in the `public/` directory ensures your custom domain is used.
 | `npm run dev`     | Starts local dev server at `localhost:4321`  |
 | `npm run build`   | Build your production site to `./dist/`      |
 | `npm run preview` | Preview your build locally, before deploying |
-| `npm run deploy`  | Build and deploy to GitHub Pages             |
 
 ## 🌐 Tech Stack
 
-- [Astro](https://astro.build) - Static Site Generator
-- Custom CSS with animations and gradients
+- [Astro](https://astro.build) – static site generator
+- Landing page: Astro components in `src/components/home/`, styles in `src/styles/home.css`
+- Self-hosted fonts via Fontsource (no requests to Google Fonts on the landing page)
 - Deployed via GitHub Pages

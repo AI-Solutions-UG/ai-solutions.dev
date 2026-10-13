@@ -1,0 +1,42 @@
+---
+const gaps = [
+	{
+		title: 'Was bauen?',
+		text: 'Welche Abläufe kosten Zeit, wo entstehen Fehler, was bringt am meisten? Um das zu beantworten, muss man Ihre Produkte und Prozesse verstehen. Prompts helfen dabei nicht.',
+	},
+	{
+		title: 'Wie anbinden?',
+		text: 'Neue Software muss mit ERP, Shop, Warenwirtschaft und Fertigung zusammenarbeiten. Ob das gelingt, entscheiden saubere Daten und Schnittstellen.',
+	},
+	{
+		title: 'Wie betreiben?',
+		text: 'Hosting, Sicherheit, Datenschutz, Updates: Software muss auch in drei Jahren noch zuverlässig laufen.',
+	},
+];
+---
+
+<section class="section" aria-labelledby="engpass-title">
+	<div class="wrap">
+		<header class="section-head" data-reveal>
+			<p class="eyebrow">Aber</p>
+			<h2 id="engpass-title">KI schreibt Code. <em>Was Ihr Unternehmen braucht, weiß sie nicht.</em></h2>
+			<p class="section-lead">
+				Die Technik ist da. Es fehlt jemand, der Ihr Geschäft versteht und daraus funktionierende Software macht. Der
+				Engpass hat sich verschoben:
+			</p>
+		</header>
+		<div class="cards">
+			{
+				gaps.map((gap) => (
+					<article class="card" data-reveal>
+						<h3>{gap.title}</h3>
+						<p>{gap.text}</p>
+					</article>
+				))
+			}
+		</div>
+		<p class="statement" data-reveal>
+			Darum braucht es Menschen, die beides können: Software und KI. <strong>Genau die bringen wir mit.</strong>
+		</p>
+	</div>
+</section>

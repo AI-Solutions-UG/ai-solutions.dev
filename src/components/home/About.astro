@@ -1,0 +1,33 @@
+---
+const founders = [
+	{ name: 'Jörg Viola', initials: 'JV', role: 'Geschäftsführer' },
+	{ name: 'Vitus Forsmann', initials: 'VF', role: 'Geschäftsführer' },
+];
+---
+
+<section class="section section--tinted" id="wir" aria-labelledby="wir-title">
+	<div class="wrap about">
+		<header class="section-head" data-reveal>
+			<p class="eyebrow">Wer wir sind</p>
+			<h2 id="wir-title">Hinter AI Solutions stehen Entwickler, <em>keine Berater.</em></h2>
+			<p class="section-lead">
+				AI Solutions ist eine Gründung von Jörg Viola und Vitus Forsmann. Mit ObjectCode bauen wir seit vielen Jahren
+				Konfiguratoren und individuelle Software für den Mittelstand. KI nutzen wir jeden Tag selbst und erleben, wie
+				radikal sie unsere eigene Arbeit verändert. Diese Erfahrung bringen wir in Ihr Unternehmen.
+			</p>
+		</header>
+		<ul class="founders" data-reveal>
+			{
+				founders.map((f) => (
+					<li>
+						<span class="founders__avatar" aria-hidden="true">{f.initials}</span>
+						<span>
+							<strong>{f.name}</strong>
+							<span class="founders__role">{f.role}</span>
+						</span>
+					</li>
+				))
+			}
+		</ul>
+	</div>
+</section>
