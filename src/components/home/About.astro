@@ -6,23 +6,28 @@ const since = 1998;
 const years = new Date().getFullYear() - since;
 
 const milestones = [
-	{ when: '1998', title: 'Gründung von ObjectCode', text: 'Individuelle Software für Unternehmen, von Anfang an.' },
-	{ when: 'Plattformen', title: 'Mitentwicklung von ImmobilienScout24', text: 'Software für eines der großen deutschen Online-Portale.' },
-	{ when: '2014', title: 'Fokus auf hochindividuelle Software', text: 'Produktkonfiguratoren, Produktionsanbindungen und vieles mehr.' },
-	{ when: 'Heute', title: 'AI Solutions', text: 'Diese Erfahrung, kombiniert mit KI, für Ihr Unternehmen.' },
+	{ when: '1998', title: 'Gründung von ObjectCode', text: 'Individuelle Software für Unternehmen. Von Anfang an.' },
+	{ when: 'Plattformen', title: 'ImmobilienScout24', text: 'Mitentwicklung eines der großen deutschen Online-Portale.' },
+	{ when: '2014', title: 'Fokus auf Individualsoftware', text: 'Konfiguratoren, Produktionsanbindungen und vieles mehr.' },
+	{ when: 'Heute', title: 'AI Solutions', text: 'Unsere Erfahrung plus KI. Für Ihr Unternehmen.' },
 ];
 ---
 
-<section class="section section--tinted experience" id="wir" aria-labelledby="wir-title">
+<section class="experience" id="wir" aria-labelledby="wir-title">
 	<div class="wrap">
 		<header class="section-head" data-reveal>
-			<p class="eyebrow">Wer wir sind</p>
+			<p class="eyebrow eyebrow--light">Wer wir sind</p>
 			<h2 id="wir-title">Experten für individuelle Software. <span class="accent">Seit {since}.</span></h2>
 		</header>
 
 		<div class="experience__grid">
 			<figure class="experience__photo" data-reveal>
-				<Image src={founders} alt="Jörg Viola (links) und Vitus Forsmann (rechts), Gründer von AI Solutions" widths={[480, 760, 1100]} sizes="(max-width: 900px) 100vw, 560px" />
+				<Image
+					src={founders}
+					alt="Jörg Viola (links) und Vitus Forsmann (rechts), Gründer von AI Solutions"
+					widths={[560, 900, 1300]}
+					sizes="(max-width: 900px) 100vw, 600px"
+				/>
 				<figcaption>
 					<span><strong>Jörg Viola</strong>Geschäftsführer</span>
 					<span><strong>Vitus Forsmann</strong>Geschäftsführer</span>
@@ -34,15 +39,16 @@ const milestones = [
 					<span class="experience__num" data-since={since}>{years}</span>
 					<span class="experience__unit">Jahre Erfahrung mit individueller Software</span>
 				</p>
+				<p class="experience__claim">Im Herzen Entwickler. <span class="accent">Im Kopf Unternehmer.</span></p>
 				<p>
-					Hinter AI Solutions stehen Jörg Viola und Vitus Forsmann, Geschäftsführer der ObjectCode GmbH. ObjectCode baut
-					seit {since} individuelle Software und hat unter anderem ImmobilienScout24 mitentwickelt. Seit 2014 liegt der
-					Fokus auf hochindividueller Software für den Mittelstand: Produktkonfiguratoren, Produktionsanbindungen und vieles
-					mehr.
+					Hinter AI Solutions stehen Jörg Viola und Vitus Forsmann, die Geschäftsführer der ObjectCode GmbH. ObjectCode
+					baut seit {since} individuelle Software und hat unter anderem ImmobilienScout24 mitentwickelt. Seit 2014
+					konzentrieren wir uns auf Software, die man nirgends kaufen kann: Konfiguratoren, Produktionsanbindungen und
+					vieles mehr.
 				</p>
 				<p>
-					KI nutzen wir jeden Tag selbst und erleben, wie radikal sie unsere eigene Arbeit verändert. <strong>Wir sind
-					Entwickler, keine Berater.</strong> Diese Erfahrung bringen wir in Ihr Unternehmen.
+					Technik war für uns nie Selbstzweck. Unser Ziel war immer, Unternehmen mit Software und Automatisierung beim
+					Wachsen zu helfen. Mit KI geht das heute schneller als je zuvor.
 				</p>
 			</div>
 		</div>

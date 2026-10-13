@@ -1,115 +1,322 @@
 ---
-// Animierte Demo im Hero: Ein Anliegen wird in Klartext beschrieben, KI baut daraus
-// einen funktionierenden Konfigurator. Am Ende ist die Demo bedienbar.
-const steps = [
-	'Datenmodell aus Ihrer Preisliste',
-	'Regeln: Breite, Türen, Oberfläche',
-	'Live-Preisberechnung',
-	'Stückliste für die Fertigung',
+// Animierte Demo im Hero: Ein Anliegen in Klartext, KI baut daraus eine Anwendung.
+// Mehrere Beispiele laufen nacheinander durch; per Tab direkt anwählbar.
+// Mock-Anwendungen sind deklarativ: Elemente mit data-at="n" erscheinen ab Schritt n,
+// data-until="n" blendet sie ab Schritt n wieder aus, data-count-to zählt hoch.
+const scenarios = [
+	{
+		id: 'konfigurator',
+		label: 'Konfigurator',
+		url: 'konfigurator.ihr-unternehmen.de',
+		prompt: 'Wir brauchen einen Konfigurator für unsere Schränke. Mit Preis und Stückliste für die Fertigung.',
+		steps: ['Datenmodell aus Ihrer Preisliste', 'Regeln für Breite, Türen und Oberfläche', 'Preis wird live berechnet', 'Stückliste für die Fertigung'],
+	},
+	{
+		id: 'angebot',
+		label: 'Angebote',
+		url: 'angebote.ihr-unternehmen.de',
+		prompt: 'Unsere Angebote tippen wir in Word ab. Sie sollen automatisch aus Artikeln und Preisen entstehen.',
+		steps: ['Artikel und Preise übernommen', 'Rabatte und Staffelpreise', 'PDF in Ihrem Layout', 'Versand per E-Mail'],
+	},
+	{
+		id: 'crm',
+		label: 'CRM',
+		url: 'crm.ihr-unternehmen.de',
+		prompt: 'Unsere Kundenkontakte liegen in Excel und Outlook. Wir wollen sehen, wo welcher Kunde steht.',
+		steps: ['Kontakte aus Excel importiert', 'E-Mails den Kunden zugeordnet', 'Vertriebsphasen auf einen Blick', 'Erinnerungen an Wiedervorlagen'],
+	},
+	{
+		id: 'controlling',
+		label: 'Controlling',
+		url: 'controlling.ihr-unternehmen.de',
+		prompt: 'Unser Monatsreporting bauen wir jedes Mal von Hand in Excel. Das soll auf Knopfdruck gehen.',
+		steps: ['Buchhaltung angebunden', 'Kennzahlen festgelegt', 'Dashboard für die Geschäftsführung', 'Jeden Morgen aktuell'],
+	},
+	{
+		id: 'import',
+		label: 'Schnittstellen',
+		url: 'import.ihr-unternehmen.de',
+		prompt: 'Unser Lieferant schickt Preislisten als Excel. Die tippen wir ins ERP ab.',
+		steps: ['Excel-Format erkannt', 'Felder dem ERP zugeordnet', 'Fehler werden markiert', 'Import mit einem Klick'],
+	},
+	{
+		id: 'shop',
+		label: 'Händler-Shop',
+		url: 'shop.ihr-unternehmen.de',
+		prompt: 'Unsere Händler bestellen per Telefon und Fax. Wir wollen einen einfachen Online-Shop für sie.',
+		steps: ['Artikel und Händlerpreise', 'Eigener Login pro Händler', 'Warenkorb und Bestellung', 'Weitergabe an den Auftrag'],
+	},
+	{
+		id: 'marketing',
+		label: 'Marketing',
+		url: 'newsletter.ihr-unternehmen.de',
+		prompt: 'Wir wollen jeden Monat einen Newsletter verschicken. Aber niemand hat Zeit zum Schreiben.',
+		steps: ['Neuigkeiten und Produkte gesammelt', 'Texte in Ihrem Ton', 'Empfängerlisten gepflegt', 'Versand automatisch geplant'],
+	},
+	{
+		id: 'cms',
+		label: 'Website',
+		url: 'cms.ihr-unternehmen.de',
+		prompt: 'Unsere Website pflegt eine Agentur. Wir wollen Inhalte selbst ändern können.',
+		steps: ['Seiten übernommen', 'Bausteine für Ihr Design', 'Bearbeiten ohne Technik', 'Veröffentlichen mit einem Klick'],
+	},
 ];
 ---
 
-<figure class="demo" data-demo data-phase="0" aria-label="Animierte Demo: Aus einem Satz wird ein funktionierender Konfigurator">
-	<div class="demo__bar">
-		<span class="demo__dots" aria-hidden="true"><i></i><i></i><i></i></span>
-		<span class="demo__url">prototyp.ihr-unternehmen.de</span>
-		<span class="demo__status" data-status>Bereit</span>
+<figure class="demo" data-demo data-phase="0" aria-label="Animierte Beispiele: Aus einem Satz wird eine funktionierende Anwendung">
+	<div class="demo__tabs" role="tablist" aria-label="Beispiele">
+		{
+			scenarios.map((s, i) => (
+				<button type="button" role="tab" class="demo__tab" data-tab={i} aria-selected={i === 0 ? 'true' : 'false'}>
+					{s.label}
+				</button>
+			))
+		}
 	</div>
 
-	<div class="demo__body">
-		<div class="demo__chat">
-			<p class="demo__label">Ihr Anliegen</p>
-			<p class="demo__msg"><span data-type></span><span class="demo__caret" aria-hidden="true"></span></p>
-			<ul class="demo__steps">
-				{steps.map((s) => <li><span class="demo__check" aria-hidden="true"></span>{s}</li>)}
-			</ul>
+	<div class="demo__window">
+		<div class="demo__bar">
+			<span class="demo__dots" aria-hidden="true"><i></i><i></i><i></i></span>
+			<span class="demo__url" data-url>{scenarios[0].url}</span>
+			<span class="demo__status" data-status>Bereit</span>
 		</div>
 
-		<div class="demo__app">
-			<div class="demo__preview">
-				<svg viewBox="0 0 220 150" data-cabinet aria-hidden="true"></svg>
+		<div class="demo__body">
+			<div class="demo__chat">
+				<p class="demo__label">Ihr Anliegen</p>
+				<p class="demo__msg"><span data-type></span><span class="demo__caret" aria-hidden="true"></span></p>
+				<ul class="demo__steps" data-steps>
+					{scenarios[0].steps.map((s) => <li><span class="demo__check" aria-hidden="true"></span><span>{s}</span></li>)}
+				</ul>
 			</div>
-			<div class="demo__controls">
-				<div class="demo__row">
-					<span>Breite</span>
-					<div class="demo__seg" data-opt="width">
-						<button type="button" data-val="80">80 cm</button>
-						<button type="button" data-val="120">120 cm</button>
-						<button type="button" data-val="160">160 cm</button>
+
+			<div class="demo__stage">
+				<!-- Konfigurator (bedienbar) -->
+				<div class="demo__app demo__app--config" data-app="konfigurator">
+					<div class="demo__preview">
+						<svg viewBox="0 0 220 150" data-cabinet aria-hidden="true"></svg>
+					</div>
+					<div class="demo__controls">
+						<div class="demo__row">
+							<span>Breite</span>
+							<div class="demo__seg" data-opt="width">
+								<button type="button" data-val="80">80 cm</button>
+								<button type="button" data-val="120">120 cm</button>
+								<button type="button" data-val="160">160 cm</button>
+							</div>
+						</div>
+						<div class="demo__row">
+							<span>Türen</span>
+							<div class="demo__seg" data-opt="doors">
+								<button type="button" data-val="0">Ohne</button>
+								<button type="button" data-val="1">Mit</button>
+							</div>
+						</div>
+						<div class="demo__row">
+							<span>Oberfläche</span>
+							<div class="demo__seg demo__seg--swatch" data-opt="color">
+								<button type="button" data-val="oak" aria-label="Eiche"><i style="background:#C89F6E"></i></button>
+								<button type="button" data-val="white" aria-label="Weiß"><i style="background:#EDEBE6"></i></button>
+								<button type="button" data-val="anthracite" aria-label="Anthrazit"><i style="background:#3B4048"></i></button>
+							</div>
+						</div>
+					</div>
+					<div class="demo__result">
+						<div>
+							<span class="demo__small">Preis</span>
+							<strong data-price>–</strong>
+						</div>
+						<div class="demo__bom">
+							<span class="demo__small">Stückliste</span>
+							<span data-bom>–</span>
+						</div>
 					</div>
 				</div>
-				<div class="demo__row">
-					<span>Türen</span>
-					<div class="demo__seg" data-opt="doors">
-						<button type="button" data-val="0">Ohne</button>
-						<button type="button" data-val="1">Mit</button>
+
+				<!-- Angebot -->
+				<div class="demo__app mock-doc" data-app="angebot">
+					<div class="mock-doc__head">
+						<div><b>Angebot 2026-0412</b><span>Müller Metallbau GmbH</span></div>
+						<span class="mock-logo" aria-hidden="true"></span>
+					</div>
+					<table class="mock-table">
+						<thead><tr><th>Pos.</th><th>Artikel</th><th>Menge</th><th>Betrag</th></tr></thead>
+						<tbody>
+							<tr data-at="1"><td>1</td><td>Edelstahlgeländer, 4 m</td><td>1</td><td>2.480 €</td></tr>
+							<tr data-at="2"><td>2</td><td>Montage vor Ort</td><td>6 Std.</td><td>540 €</td></tr>
+							<tr data-at="3"><td>3</td><td>Pulverbeschichtung RAL 7016</td><td>1</td><td>320 €</td></tr>
+							<tr data-at="4"><td>4</td><td>Projektrabatt 5 %</td><td></td><td>−167 €</td></tr>
+						</tbody>
+					</table>
+					<div class="mock-doc__sum" data-at="5"><span>Summe netto</span><strong><span data-count-to="3173">0</span> €</strong></div>
+					<div class="mock-actions">
+						<span class="mock-btn" data-at="6" data-until="8">Als PDF senden</span>
+						<span class="mock-toast" data-at="8">✓ PDF an einkauf@mueller-metallbau.de gesendet</span>
 					</div>
 				</div>
-				<div class="demo__row">
-					<span>Oberfläche</span>
-					<div class="demo__seg demo__seg--swatch" data-opt="color">
-						<button type="button" data-val="oak" aria-label="Eiche"><i style="background:#C89F6E"></i></button>
-						<button type="button" data-val="white" aria-label="Weiß"><i style="background:#EDEBE6"></i></button>
-						<button type="button" data-val="anthracite" aria-label="Anthrazit"><i style="background:#3B4048"></i></button>
+
+				<!-- CRM -->
+				<div class="demo__app" data-app="crm">
+					<div class="mock-kanban">
+						<div class="mock-col">
+							<p class="mock-col__title">Neu</p>
+							<div class="mock-card" data-at="1"><b>Bäckerei Krämer</b><span>12.000 €</span></div>
+							<div class="mock-card" data-at="2" data-until="6"><b>Hofmann Logistik</b><span>48.000 €</span></div>
+						</div>
+						<div class="mock-col">
+							<p class="mock-col__title">Angebot</p>
+							<div class="mock-card" data-at="3" data-until="7"><b>Stadtwerke Ost</b><span>95.000 €</span></div>
+							<div class="mock-card mock-card--hot" data-at="6"><b>Hofmann Logistik</b><span>48.000 €</span></div>
+						</div>
+						<div class="mock-col">
+							<p class="mock-col__title">Gewonnen</p>
+							<div class="mock-card mock-card--won" data-at="7"><b>Stadtwerke Ost</b><span>95.000 €</span></div>
+						</div>
+					</div>
+					<div class="mock-actions">
+						<span class="mock-kpi" data-at="4">Pipeline <strong><span data-count-to="155">0</span>.000 €</strong></span>
+						<span class="mock-toast" data-at="8">Erinnerung: Hofmann Logistik heute anrufen</span>
 					</div>
 				</div>
-			</div>
-			<div class="demo__result">
-				<div>
-					<span class="demo__small">Preis</span>
-					<strong data-price>–</strong>
+
+				<!-- Controlling -->
+				<div class="demo__app" data-app="controlling">
+					<div class="mock-kpis">
+						<div data-at="1"><span>Umsatz lfd. Jahr</span><strong><span data-count-to="1842">0</span> T€</strong><em>+8 %</em></div>
+						<div data-at="2"><span>Rohertrag</span><strong><span data-count-to="31">0</span> %</strong><em>+2 Pkt.</em></div>
+						<div data-at="3"><span>Offene Posten</span><strong><span data-count-to="86">0</span> T€</strong><em class="is-neg">−12 %</em></div>
+					</div>
+					<div class="mock-bars" data-at="4">
+						{[48, 56, 52, 64, 71, 82].map((h, i) => (
+							<span style={`--h:${h}%`}><i>{['Jan', 'Feb', 'Mär', 'Apr', 'Mai', 'Jun'][i]}</i></span>
+						))}
+					</div>
+					<div class="mock-actions">
+						<span class="mock-toast" data-at="7">Automatisch aktualisiert: heute, 06:00 Uhr</span>
+					</div>
 				</div>
-				<div class="demo__bom">
-					<span class="demo__small">Stückliste</span>
-					<span data-bom>–</span>
+
+				<!-- Schnittstelle -->
+				<div class="demo__app" data-app="import">
+					<div class="mock-convert">
+						<div class="mock-file">
+							<p class="mock-file__name">preisliste_lieferant.xlsx</p>
+							<ul>
+								<li><span>A-1042</span><span>12,40</span></li>
+								<li><span>A-1043</span><span>13,10</span></li>
+								<li class="is-bad"><span>A-10x4</span><span>9,80</span></li>
+								<li><span>A-1045</span><span>15,95</span></li>
+							</ul>
+						</div>
+						<span class="mock-arrow" data-at="1" aria-hidden="true">→</span>
+						<div class="mock-file mock-file--target">
+							<p class="mock-file__name">ERP-Import</p>
+							<ul>
+								<li data-at="2"><span>A-1042</span><span>✓</span></li>
+								<li data-at="3"><span>A-1043</span><span>✓</span></li>
+								<li data-at="4" class="is-bad"><span>A-10x4</span><span>prüfen</span></li>
+								<li data-at="5"><span>A-1045</span><span>✓</span></li>
+							</ul>
+						</div>
+					</div>
+					<div class="mock-actions">
+						<span class="mock-kpi" data-at="6"><strong><span data-count-to="1248">0</span></strong> Artikel übertragen</span>
+						<span class="mock-toast" data-at="7">1 Fehler markiert, Rest automatisch importiert</span>
+					</div>
+				</div>
+
+				<!-- Shop -->
+				<div class="demo__app" data-app="shop">
+					<div class="mock-shopbar">
+						<span>Händlerportal · Schmidt Sanitär</span>
+						<span class="mock-cart">Warenkorb <b data-at="3" data-until="5">1</b><b data-at="5">2</b></span>
+					</div>
+					<div class="mock-products">
+						<div class="mock-product" data-at="1"><i class="mock-img"></i><b>Eckventil ½"</b><span>Händlerpreis 4,90 €</span><em data-at="2" data-until="3">In den Warenkorb</em><em class="is-done" data-at="3">✓ Im Warenkorb</em></div>
+						<div class="mock-product" data-at="1"><i class="mock-img mock-img--b"></i><b>Siphon DN 40</b><span>Händlerpreis 7,20 €</span><em data-at="4" data-until="5">In den Warenkorb</em><em class="is-done" data-at="5">✓ Im Warenkorb</em></div>
+						<div class="mock-product" data-at="1"><i class="mock-img mock-img--c"></i><b>Flexschlauch 50 cm</b><span>Händlerpreis 3,60 €</span></div>
+					</div>
+					<div class="mock-actions">
+						<span class="mock-toast" data-at="7">Bestellung 4711 an die Auftragsbearbeitung übergeben</span>
+					</div>
+				</div>
+
+				<!-- Marketing -->
+				<div class="demo__app" data-app="marketing">
+					<p class="demo__small">Newsletter März · Betreffzeile wählen</p>
+					<ul class="mock-options">
+						<li data-at="1">Neu im Sortiment: drei Lösungen für enge Bäder</li>
+						<li data-at="2" class="is-picked">Frühjahrsaktion: 10 % auf alle Armaturen</li>
+						<li data-at="3">Was Kunden im März am häufigsten fragen</li>
+					</ul>
+					<div class="mock-preview" data-at="4">
+						<i></i><i></i><i class="is-short"></i>
+					</div>
+					<div class="mock-actions">
+						<span class="mock-kpi" data-at="5"><strong><span data-count-to="2340">0</span></strong> Empfänger</span>
+						<span class="mock-toast" data-at="6">Versand geplant: Dienstag, 9:00 Uhr</span>
+					</div>
+				</div>
+
+				<!-- CMS -->
+				<div class="demo__app" data-app="cms">
+					<div class="mock-cms">
+						<ul class="mock-palette">
+							<li>Überschrift</li>
+							<li>Text</li>
+							<li>Bild</li>
+							<li>Kontakt</li>
+						</ul>
+						<div class="mock-page">
+							<div class="mock-block mock-block--title" data-at="1">Unsere neue Produktlinie</div>
+							<div class="mock-block mock-block--text" data-at="2"><i></i><i></i><i class="is-short"></i></div>
+							<div class="mock-block mock-block--img" data-at="3"></div>
+							<div class="mock-block mock-block--cta" data-at="4">Beratung anfragen</div>
+						</div>
+					</div>
+					<div class="mock-actions">
+						<span class="mock-btn" data-at="5" data-until="6">Veröffentlichen</span>
+						<span class="mock-toast" data-at="6">✓ Live auf ihr-unternehmen.de</span>
+					</div>
 				</div>
 			</div>
 		</div>
+
+		<figcaption class="demo__foot">
+			<span class="demo__then"><b>Früher</b> Lastenheft, Agentur, Monate Wartezeit</span>
+			<span class="demo__arrow" aria-hidden="true">→</span>
+			<span class="demo__now"><b>Mit KI</b> funktionierender Prototyp in Tagen</span>
+		</figcaption>
 	</div>
-
-	<figcaption class="demo__foot">
-		<span class="demo__then"><b>Früher</b> Lastenheft, Agentur, Monate Wartezeit</span>
-		<span class="demo__arrow" aria-hidden="true">→</span>
-		<span class="demo__now"><b>Mit KI</b> funktionierender Prototyp in Tagen</span>
-	</figcaption>
 </figure>
 
-<script>
-	type Color = 'oak' | 'white' | 'anthracite';
-	type State = { width: number; doors: boolean; color: Color };
-
-	const COLORS: Record<Color, { fill: string; line: string }> = {
+<script define:vars={{ scenarios }}>
+	// define:vars makes this an inline script; keep it plain JS.
+	const COLORS = {
 		oak: { fill: '#C89F6E', line: '#8A6A44' },
 		white: { fill: '#EDEBE6', line: '#A9A49A' },
 		anthracite: { fill: '#3B4048', line: '#1E2228' },
 	};
-	const TEXT = 'Wir brauchen einen Konfigurator für unsere Schränke, mit Preisen und Stückliste für die Fertigung.';
-
 	const euro = new Intl.NumberFormat('de-DE', { style: 'currency', currency: 'EUR', maximumFractionDigits: 0 });
-	const wait = (ms: number) => new Promise((r) => setTimeout(r, ms));
+	const num = new Intl.NumberFormat('de-DE');
+	const reduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
 
-	function price(s: State) {
+	const price = (s) => {
 		const cols = s.width / 40;
 		let p = 290 + s.width * 4.5 + (s.doors ? cols * 85 : 0);
 		if (s.color === 'anthracite') p *= 1.12;
 		return Math.round(p / 10) * 10;
-	}
-
-	function bom(s: State) {
+	};
+	const bom = (s) => {
 		const cols = s.width / 40;
-		const parts = [`2 Seitenwände`, `${cols - 1} Trennwände`, `${cols * 3} Fachböden`];
+		const parts = ['2 Seitenwände', `${cols - 1} Trennwände`, `${cols * 3} Fachböden`];
 		if (s.doors) parts.push(`${cols} Türen`);
 		return parts.join(' · ');
-	}
-
-	function cabinet(s: State) {
+	};
+	function cabinet(s) {
 		const c = COLORS[s.color];
-		const w = s.width * 1.15;
-		const h = 118;
-		const x = (220 - w) / 2;
-		const y = 14;
-		const cols = s.width / 40;
-		const cw = w / cols;
+		const w = s.width * 1.15, h = 118, x = (220 - w) / 2, y = 14;
+		const cols = s.width / 40, cw = w / cols;
 		let out = `<ellipse cx="110" cy="${y + h + 6}" rx="${w / 2 + 8}" ry="5" fill="rgba(14,27,44,.12)"/>`;
 		out += `<rect x="${x}" y="${y}" width="${w}" height="${h}" rx="3" fill="${c.fill}" stroke="${c.line}" stroke-width="1.5"/>`;
 		for (let i = 0; i < cols; i++) {
@@ -129,22 +336,51 @@ const steps = [
 		return out;
 	}
 
-	for (const root of document.querySelectorAll<HTMLElement>('[data-demo]')) {
-		const typeEl = root.querySelector<HTMLElement>('[data-type]')!;
-		const statusEl = root.querySelector<HTMLElement>('[data-status]')!;
-		const svg = root.querySelector<SVGSVGElement>('[data-cabinet]')!;
-		const priceEl = root.querySelector<HTMLElement>('[data-price]')!;
-		const bomEl = root.querySelector<HTMLElement>('[data-bom]')!;
-		const steps = [...root.querySelectorAll<HTMLElement>('.demo__steps li')];
+	function countUp(el) {
+		const target = Number(el.dataset.countTo);
+		if (reduced) return (el.textContent = num.format(target));
+		const start = performance.now();
+		const tick = (t) => {
+			const k = Math.min(1, (t - start) / 700);
+			el.textContent = num.format(Math.round(target * (1 - Math.pow(1 - k, 3))));
+			if (k < 1) requestAnimationFrame(tick);
+		};
+		requestAnimationFrame(tick);
+	}
 
-		const state: State = { width: 120, doors: false, color: 'oak' };
-		let userTookOver = false;
+	/** Show elements of a declarative mock up to the given step. */
+	function setStep(app, step) {
+		app.querySelectorAll('[data-at]').forEach((el) => {
+			const on = step >= Number(el.dataset.at) && (!el.dataset.until || step < Number(el.dataset.until));
+			const was = el.classList.contains('is-on');
+			el.classList.toggle('is-on', on);
+			if (on && !was) el.querySelectorAll('[data-count-to]').forEach(countUp);
+			if (on && !was && el.dataset.countTo) countUp(el);
+		});
+	}
+	const maxStep = (app) => Math.max(0, ...[...app.querySelectorAll('[data-at]')].map((el) => Number(el.dataset.at)));
+
+	for (const root of document.querySelectorAll('[data-demo]')) {
+		const typeEl = root.querySelector('[data-type]');
+		const statusEl = root.querySelector('[data-status]');
+		const urlEl = root.querySelector('[data-url]');
+		const stepsEl = root.querySelector('[data-steps]');
+		const tabs = [...root.querySelectorAll('[data-tab]')];
+		const apps = Object.fromEntries([...root.querySelectorAll('[data-app]')].map((a) => [a.dataset.app, a]));
+
+		// Konfigurator state + controls
+		const cfg = apps.konfigurator;
+		const svg = cfg.querySelector('[data-cabinet]');
+		const priceEl = cfg.querySelector('[data-price]');
+		const bomEl = cfg.querySelector('[data-bom]');
+		const state = { width: 120, doors: false, color: 'oak' };
 		let shownPrice = 0;
+		let token = 0;
+		let stopped = false;
 
-		function animatePrice(target: number) {
-			const from = shownPrice;
-			const start = performance.now();
-			const tick = (t: number) => {
+		function animatePrice(target) {
+			const from = shownPrice, start = performance.now();
+			const tick = (t) => {
 				const k = Math.min(1, (t - start) / 450);
 				shownPrice = Math.round(from + (target - from) * (1 - Math.pow(1 - k, 3)));
 				priceEl.textContent = euro.format(shownPrice);
@@ -152,111 +388,131 @@ const steps = [
 			};
 			requestAnimationFrame(tick);
 		}
-
-		function render() {
+		function renderCfg() {
 			svg.innerHTML = cabinet(state);
 			animatePrice(price(state));
 			bomEl.textContent = bom(state);
-			root.querySelectorAll<HTMLButtonElement>('[data-opt] button').forEach((b) => {
-				const opt = b.parentElement!.dataset.opt;
-				const v = b.dataset.val;
-				const on =
-					(opt === 'width' && Number(v) === state.width) ||
-					(opt === 'doors' && (v === '1') === state.doors) ||
-					(opt === 'color' && v === state.color);
+			cfg.querySelectorAll('[data-opt] button').forEach((b) => {
+				const opt = b.parentElement.dataset.opt, v = b.dataset.val;
+				const on = (opt === 'width' && Number(v) === state.width) || (opt === 'doors' && (v === '1') === state.doors) || (opt === 'color' && v === state.color);
 				b.setAttribute('aria-pressed', String(on));
 			});
 		}
-
-		function set(opt: string, val: string) {
+		function setCfg(opt, val) {
 			if (opt === 'width') state.width = Number(val);
 			if (opt === 'doors') state.doors = val === '1';
-			if (opt === 'color') state.color = val as Color;
-			render();
+			if (opt === 'color') state.color = val;
+			renderCfg();
 		}
-
-		root.querySelectorAll<HTMLButtonElement>('[data-opt] button').forEach((b) => {
+		cfg.querySelectorAll('[data-opt] button').forEach((b) => {
 			b.addEventListener('click', () => {
-				userTookOver = true;
+				// Visitor takes over: stop the slideshow and let them play.
+				stopped = true;
+				token++;
 				root.dataset.phase = '4';
-				set(b.parentElement!.dataset.opt!, b.dataset.val!);
+				setCfg(b.parentElement.dataset.opt, b.dataset.val);
 			});
 		});
 
-		const phase = (p: number) => (root.dataset.phase = String(p));
+		const wait = (ms, my) => new Promise((resolve, reject) => setTimeout(() => (my === token ? resolve() : reject('cancel')), ms));
 
-		function showFinal() {
-			typeEl.textContent = TEXT;
-			steps.forEach((s) => s.classList.add('is-done'));
-			statusEl.textContent = 'Prototyp läuft';
-			phase(4);
-			render();
-		}
-
-		if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
-			showFinal();
-			continue;
-		}
-
-		const autoplay: Array<[string, string]> = [
-			['width', '160'],
-			['doors', '1'],
-			['color', 'white'],
-			['width', '80'],
-			['color', 'anthracite'],
-			['doors', '0'],
-			['width', '120'],
-			['color', 'oak'],
-		];
-
-		async function run() {
-			while (!userTookOver) {
+		function show(i) {
+			const s = scenarios[i];
+			tabs.forEach((t, k) => t.setAttribute('aria-selected', String(k === i)));
+			Object.entries(apps).forEach(([id, a]) => a.classList.toggle('is-active', id === s.id));
+			urlEl.textContent = s.url;
+			stepsEl.innerHTML = s.steps.map((t) => `<li><span class="demo__check" aria-hidden="true"></span><span>${t}</span></li>`).join('');
+			typeEl.textContent = '';
+			statusEl.textContent = 'Bereit';
+			root.dataset.phase = '0';
+			if (s.id === 'konfigurator') {
 				Object.assign(state, { width: 120, doors: false, color: 'oak' });
 				shownPrice = 0;
-				typeEl.textContent = '';
-				steps.forEach((s) => s.classList.remove('is-done'));
-				statusEl.textContent = 'Bereit';
-				phase(0);
-				await wait(700);
-
-				phase(1);
-				for (const ch of TEXT) {
-					if (userTookOver) return;
-					typeEl.textContent += ch;
-					await wait(ch === ',' ? 160 : 26);
-				}
-				await wait(400);
-
-				phase(2);
-				statusEl.textContent = 'KI baut …';
-				for (const s of steps) {
-					if (userTookOver) return;
-					await wait(550);
-					s.classList.add('is-done');
-				}
-				await wait(350);
-
-				phase(3);
-				render();
-				statusEl.textContent = 'Prototyp läuft';
-				await wait(900);
-				phase(4);
-
-				for (const [opt, val] of autoplay) {
-					if (userTookOver) return;
-					await wait(1300);
-					if (userTookOver) return;
-					set(opt, val);
-				}
-				await wait(2200);
+				renderCfg();
+			} else {
+				setStep(apps[s.id], 0);
 			}
 		}
 
-		// Start only when visible, so the story begins where the visitor is looking.
+		function showFinal(i) {
+			const s = scenarios[i];
+			show(i);
+			typeEl.textContent = s.prompt;
+			stepsEl.querySelectorAll('li').forEach((li) => li.classList.add('is-done'));
+			statusEl.textContent = 'Läuft';
+			root.dataset.phase = '4';
+			if (s.id !== 'konfigurator') setStep(apps[s.id], maxStep(apps[s.id]));
+		}
+
+		async function play(i, my) {
+			const s = scenarios[i];
+			show(i);
+			await wait(500, my);
+			root.dataset.phase = '1';
+			for (const ch of s.prompt) {
+				typeEl.textContent += ch;
+				await wait(ch === '.' ? 180 : 22, my);
+			}
+			await wait(300, my);
+			root.dataset.phase = '2';
+			statusEl.textContent = 'KI baut …';
+			for (const li of stepsEl.querySelectorAll('li')) {
+				await wait(420, my);
+				li.classList.add('is-done');
+			}
+			await wait(300, my);
+			root.dataset.phase = '3';
+			statusEl.textContent = 'Läuft';
+			await wait(600, my);
+			root.dataset.phase = '4';
+			if (s.id === 'konfigurator') {
+				for (const [opt, val] of [['width', '160'], ['doors', '1'], ['color', 'white'], ['width', '80'], ['color', 'anthracite']]) {
+					await wait(1000, my);
+					setCfg(opt, val);
+				}
+				await wait(1800, my);
+			} else {
+				const app = apps[s.id];
+				const n = maxStep(app);
+				for (let k = 1; k <= n; k++) {
+					await wait(600, my);
+					setStep(app, k);
+				}
+				await wait(2600, my);
+			}
+		}
+
+		async function loop(from) {
+			const my = ++token;
+			let i = from;
+			try {
+				while (!stopped) {
+					await play(i, my);
+					i = (i + 1) % scenarios.length;
+				}
+			} catch (e) {
+				if (e !== 'cancel') throw e;
+			}
+		}
+
+		tabs.forEach((t, i) =>
+			t.addEventListener('click', () => {
+				stopped = false;
+				if (reduced) return showFinal(i);
+				loop(i);
+			}),
+		);
+
+		if (reduced) {
+			showFinal(0);
+			continue;
+		}
+
+		show(0);
 		const io = new IntersectionObserver((entries) => {
 			if (entries.some((e) => e.isIntersecting)) {
 				io.disconnect();
-				run();
+				loop(0);
 			}
 		});
 		io.observe(root);

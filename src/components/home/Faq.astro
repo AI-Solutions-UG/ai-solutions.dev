@@ -2,27 +2,42 @@
 const faqs = [
 	{
 		q: 'Was kostet der Einstieg?',
-		a: 'Nichts. Den ersten Prototyp bauen wir kostenlos. Danach entscheiden Sie, ob und wie es weitergeht.',
+		a: ['Nichts. Den ersten Prototyp bauen wir kostenlos. Danach entscheiden Sie, wie es weitergeht.'],
 	},
 	{
 		q: 'Warum ist der Prototyp kostenlos?',
-		a: 'Weil das Ergebnis mehr überzeugt als jede Präsentation. Und weil es der schnellste Weg ist, herauszufinden, ob wir zusammenpassen.',
+		a: [
+			'Über KI reden alle. Aber kaum jemand weiß, wie man sie im eigenen Unternehmen konkret einsetzt. Meist bleibt es bei ChatGPT für E-Mails. Wir sehen eine viel größere Chance. Die wollen wir Ihnen zeigen und beweisen, statt sie mit Worten zu verkaufen.',
+			'Außerdem haben wir in vielen Jahren gelernt: Nichts zeigt besser als ein erstes gemeinsames Projekt, ob man auch menschlich zusammenpasst.',
+		],
 	},
 	{
 		q: 'Kann das mit KI nicht bald jeder selbst?',
-		a: 'Teilweise ja, und das ist gut so. Aber Software bleibt Software: Sie muss sicher laufen, mit Ihren Systemen zusammenarbeiten und gepflegt werden. Dafür braucht es Erfahrung. Unser Ziel ist, dass diese Erfahrung am Ende bei Ihnen im Haus sitzt.',
+		a: [
+			'Ja, genau das ist unsere These. Software zu entwickeln wird eine Kernkompetenz Ihres Unternehmens. Bisher haben sich das nur Firmen mit eigener IT-Abteilung zugetraut.',
+			'Entscheidend ist, dass die Software auch langfristig funktioniert. Denken Sie an den Vertrieb: Verkaufen kann im Prinzip jeder Mitarbeiter. Trotzdem bauen Sie dafür ein eigenes Team auf. Sonst endet jedes zweite Angebot im Chaos. Mit Software ist es genauso. Wir helfen Ihnen, diese Kompetenz richtig aufzubauen.',
+		],
+	},
+	{
+		q: 'Wir haben schon jemanden, der sich für KI begeistert. Passt das?',
+		a: [
+			'Sehr gut sogar. Dann machen wir diese Person zu Ihrem KI-Digitalisierungsexperten. Wir geben Anleitung und Support, bis sie selbstständig arbeitet.',
+		],
 	},
 	{
 		q: 'Was passiert mit unseren Daten?',
-		a: 'Wir arbeiten DSGVO-konform, setzen auf Hosting in der EU und nutzen nur die Daten, die für die jeweilige Aufgabe nötig sind. Das klären wir vor dem Start gemeinsam mit Ihnen.',
+		a: [
+			'Wir arbeiten immer DSGVO-konform, im Prototyp genauso wie danach.',
+			'Geht eine Anwendung live und verarbeitet echte Daten von Ihnen oder Ihren Kunden, wird sie DSGVO-konform gehostet. Server und Dienste bestellen wir in Ihrem Namen. So gehören die Anwendungen Ihnen, und Sie behalten jederzeit die volle Kontrolle.',
+		],
 	},
 	{
 		q: 'Wem gehört die Software?',
-		a: 'Ihnen. Code, Daten und Dokumentation gehören von Anfang an Ihrem Unternehmen.',
+		a: ['Ihnen. Code, Daten und Dokumentation gehören von Anfang an Ihrem Unternehmen.'],
 	},
 	{
 		q: 'Brauchen wir eine eigene IT-Abteilung?',
-		a: 'Nein. Wir starten dort, wo Sie heute stehen. Ein Ziel der Zusammenarbeit ist ja gerade, diese Kompetenz bei Ihnen aufzubauen.',
+		a: ['Nein. Wir fangen da an, wo Sie heute stehen. Die Kompetenz bauen wir gemeinsam auf.'],
 	},
 ];
 ---
@@ -38,7 +53,7 @@ const faqs = [
 				faqs.map((f) => (
 					<details>
 						<summary>{f.q}</summary>
-						<p>{f.a}</p>
+						{f.a.map((p) => <p>{p}</p>)}
 					</details>
 				))
 			}

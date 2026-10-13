@@ -1,54 +1,79 @@
 ---
 import { contactHref } from './site';
-
-const steps = [
-	{
-		tag: 'Kostenlos',
-		title: 'Der Beweis',
-		text: 'Sie nennen uns ein Problem, das Sie schon lange stört, und wir bauen dafür einen funktionierenden Prototyp. Statt Folien bekommen Sie Software, die läuft. So sehen Sie, was KI bei Ihnen konkret leisten kann.',
-		meta: 'ca. 2 Wochen · 0 €',
-	},
-	{
-		tag: 'Ohne Risiko',
-		title: 'Der Aufbau',
-		text: 'Wenn Sie überzeugt sind, arbeitet ein erfahrener KI-Digitalisierungsexperte von uns an Ihren Themen. Er lernt Ihr Unternehmen kennen, baut mit KI die nächsten Lösungen und macht Ihr Team fit für die Arbeit mit KI.',
-		meta: 'flexibel, ohne lange Bindung',
-	},
-	{
-		tag: 'Ihr Team',
-		title: 'Die Übergabe',
-		text: 'Code, Daten und Wissen gehören von Anfang an Ihnen. Wenn die Zusammenarbeit passt, kann Ihr Experte auf Wunsch fest in Ihr Team wechseln.',
-		meta: 'die Kompetenz bleibt im Haus',
-	},
-];
 ---
 
 <section class="section section--tinted" id="angebot" aria-labelledby="angebot-title">
 	<div class="wrap">
 		<header class="section-head" data-reveal>
 			<p class="eyebrow">Unser Angebot</p>
-			<h2 id="angebot-title">In drei Schritten zum KI-fähigen Unternehmen. <span class="accent">Ohne Risiko für Sie.</span></h2>
+			<h2 id="angebot-title">So starten wir. <span class="accent">Ohne Risiko für Sie.</span></h2>
+			<p class="section-lead">Drei Schritte vom ersten Prototyp bis zur eigenen KI-Kompetenz im Haus.</p>
 		</header>
+
 		<ol class="offer">
-			{
-				steps.map((step, i) => (
-					<li class="offer__step" data-reveal>
-						<div class="offer__top">
-							<span class="offer__num" aria-hidden="true">{i + 1}</span>
-							<span class="tag">{step.tag}</span>
-						</div>
-						<h3>{step.title}</h3>
-						<p>{step.text}</p>
-						<p class="offer__meta">{step.meta}</p>
-					</li>
-				))
-			}
+			<li class="offer__step" data-reveal>
+				<div class="offer__top">
+					<span class="offer__num" aria-hidden="true">1</span>
+					<span class="tag">Kostenlos</span>
+				</div>
+				<h3>Der Beweis</h3>
+				<p>
+					Sie nennen uns ein Problem, das Sie schon lange stört. Wir bauen dafür einen funktionierenden Prototyp.
+				</p>
+				<p>
+					Und Sie sind dabei. Wir zeigen Ihnen, wie wir mit KI arbeiten. Wer möchte, setzt sich selbst ans Steuer, zum
+					Beispiel mit Claude Code. <strong>Das ist meist der Moment, in dem es „klick“ macht.</strong>
+				</p>
+				<p class="offer__meta">ca. 2 Wochen · 0 €</p>
+			</li>
+
+			<li class="offer__step offer__step--wide" data-reveal>
+				<div class="offer__top">
+					<span class="offer__num" aria-hidden="true">2</span>
+					<span class="tag">Ohne Risiko</span>
+				</div>
+				<h3>Der Aufbau</h3>
+				<p>Danach bauen wir die Kompetenz bei Ihnen auf. Dafür gibt es zwei Wege:</p>
+				<div class="paths">
+					<div class="paths__item">
+						<p class="paths__label">Weg A</p>
+						<h4>Unser Experte für Sie</h4>
+						<p>
+							Ein erfahrener KI-Digitalisierungsexperte von uns arbeitet für Ihr Unternehmen. Wenn es passt, kann er
+							später fest zu Ihnen wechseln.
+						</p>
+					</div>
+					<div class="paths__item">
+						<p class="paths__label">Weg B</p>
+						<h4>Ihr Mitarbeiter wird zum Experten</h4>
+						<p>
+							Sie haben schon jemanden, der sich für KI begeistert? Wir übernehmen Anleitung und Support, bis er
+							selbstständig arbeitet.
+						</p>
+					</div>
+				</div>
+				<p class="offer__meta">flexibel, ohne lange Bindung</p>
+			</li>
+
+			<li class="offer__step" data-reveal>
+				<div class="offer__top">
+					<span class="offer__num" aria-hidden="true">3</span>
+					<span class="tag">Ihr Team</span>
+				</div>
+				<h3>Das Ergebnis</h3>
+				<p>
+					Sie haben eigene Leute, die mit KI Software bauen. Software, Daten und Wissen gehören Ihnen. Und wir bleiben
+					ansprechbar, wenn Sie uns brauchen.
+				</p>
+				<p class="offer__meta">Die Kompetenz bleibt im Haus</p>
+			</li>
 		</ol>
+
 		<div class="note" data-reveal>
 			<p>
-				Sie sollen nicht dauerhaft von uns abhängen. <strong>Unser Ziel ist, dass Sie es am Ende selbst können.</strong>
+				Sie sollen nicht dauerhaft von uns abhängen. <strong>Unser Ziel: Am Ende können Sie es selbst.</strong>
 			</p>
-			<a href={contactHref} class="btn">Mit Schritt 1 starten</a>
+			<a href={contactHref} class="btn btn--light">Mit Schritt 1 starten</a>
 		</div>
 	</div>
 </section>
