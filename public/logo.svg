@@ -4,6 +4,6 @@
     <rect x="0" y="23" width="17" height="17" rx="4"/>
     <rect x="23" y="23" width="17" height="17" rx="4"/>
   </g>
-  <circle cx="31.5" cy="8.5" r="8.5" fill="#C2410C"/>
+  <circle cx="31.5" cy="8.5" r="8.5" fill="#E35420"/>
   <text x="54" y="29" fill="#0E1B2C" font-family="'Inter Tight', 'Inter', Arial, sans-serif" font-size="26" font-weight="700" letter-spacing="-0.6">AI Solutions</text>
 </svg>
