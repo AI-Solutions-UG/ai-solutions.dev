@@ -4,44 +4,38 @@ const steps = [
 		when: 'Bisher',
 		title: 'Individuelle Software war zu teuer.',
 		text: 'Ein Konfigurator, ein Angebotstool, eine Anbindung an die Fertigung: Das kostete schnell sechsstellig. Also blieben Excel, Standardsoftware und Umwege. Der Bedarf war immer da. Nur das Budget nicht.',
+		key: '6-stellig',
+		keySub: 'kostete individuelle Software',
 	},
 	{
 		when: 'Jetzt',
 		title: 'KI baut Software. Und zwar schnell.',
 		text: 'Was früher Monate dauerte, geht heute in Tagen. Es gibt plötzlich viel mehr Software-Leistung als Nachfrage. Die Preise fallen.',
+		key: 'Tage',
+		keySub: 'statt Monate',
 	},
 	{
 		when: 'Die Folge',
 		title: 'Gute Entwickler werden frei.',
 		text: 'Ein Entwickler mit KI schafft heute, wofür früher ein Team nötig war. Viele Software-Firmen brauchen nicht mehr alle ihre Leute.',
+		key: '1 statt 5',
+		keySub: 'Entwickler für dasselbe Projekt',
 	},
 	{
 		when: 'Die Wende',
 		title: 'Plötzlich lohnt es sich.',
 		text: 'Wird Software günstig, heißt es nicht mehr „zu teuer“, sondern „warum nicht?“. Unternehmen holen nach, was sie lange aufgeschoben haben. Es wird mehr Software gebaut, nicht weniger.',
+		key: '„Warum nicht?“',
+		keySub: 'statt „zu teuer“',
 	},
 	{
 		when: 'In fünf Jahren',
 		title: 'Software wird Kernkompetenz.',
 		text: 'Erfolgreiche Unternehmen haben eigene KI-Digitalisierungsexperten. Die bauen genau die Software, die das Geschäft braucht. Ohne Abhängigkeit von Standardsoftware oder Agenturen.',
+		key: 'Ihr Team',
+		keySub: 'baut Ihre Software',
 	},
 ];
-
-// Modell hinter der Grafik (t = 0 … 1 entlang der Geschichte). Dieselben Formeln nutzt das Skript unten.
-const ease = (t: number) => {
-	const k = Math.min(1, Math.max(0, (t - 0.28) / 0.62));
-	return k * k * (3 - 2 * k);
-};
-const X = (t: number) => 40 + 340 * t;
-const priceY = (t: number) => 60 + 152 * ease(t);
-const volumeY = (t: number) => 215 - 170 * ease(t);
-const curve = (fy: (t: number) => number) =>
-	Array.from({ length: 61 }, (_, i) => i / 60)
-		.map((t, i) => `${i ? 'L' : 'M'}${X(t).toFixed(1)} ${fy(t).toFixed(1)}`)
-		.join(' ');
-const pricePath = curve(priceY);
-const volumePath = curve(volumeY);
-const firms = 24;
 ---
 
 <section class="path" id="weg" aria-labelledby="weg-title">
@@ -56,13 +50,16 @@ const firms = 24;
 		</header>
 
 		<div class="path__grid" data-path>
-			<ol class="path__steps" data-path-steps>
+			<ol class="path__steps">
 				{
 					steps.map((step, i) => (
-						<li class:list={['path__step', { 'is-active': i === steps.length - 1 }]}>
+						<li class:list={['path__step', { 'is-active': i === 0 }]} data-step={i}>
 							<span class="path__num" aria-hidden="true">{String(i + 1).padStart(2, '0')}</span>
 							<div>
 								<p class="path__when">{step.when}</p>
+								<p class="path__key">
+									<strong>{step.key}</strong> <span>{step.keySub}</span>
+								</p>
 								<h3>{step.title}</h3>
 								<p>{step.text}</p>
 							</div>
@@ -71,58 +68,24 @@ const firms = 24;
 				}
 			</ol>
 
-			<figure class="scene" data-scene>
-				<div class="scene__head">
-					<span class="scene__num" data-scene-num>05</span>
-					<span class="scene__label" data-scene-label>In fünf Jahren</span>
+			<div class="keyword" aria-hidden="true">
+				<div class="keyword__stage">
+					{
+						steps.map((step, i) => (
+							<div class:list={['keyword__item', { 'is-active': i === 0 }]} data-key={i}>
+								<p class="keyword__when">
+									{String(i + 1).padStart(2, '0')} · {step.when}
+								</p>
+								<p class="keyword__word">{step.key}</p>
+								<p class="keyword__sub">{step.keySub}</p>
+							</div>
+						))
+					}
 				</div>
-
-				<svg class="scene__chart" viewBox="0 0 400 290" role="img" aria-labelledby="chart-title chart-desc">
-					<title id="chart-title">Kosten und Menge individueller Software im Zeitverlauf</title>
-					<desc id="chart-desc">
-						Bis heute bleiben die Kosten pro Lösung hoch und es wird wenig individuelle Software gebaut. Danach fallen die
-						Kosten stark, und die Menge gebauter Software steigt um ein Vielfaches.
-					</desc>
-					<defs>
-						<clipPath id="scene-reveal"><rect x="0" y="0" width="400" height="290" data-scene-clip></rect></clipPath>
-					</defs>
-					<line x1="40" y1="250" x2="380" y2="250" class="chart__axis"></line>
-					<text x="40" y="272" class="chart__label">gestern</text>
-					<text x={X(0.28)} y="272" class="chart__label" text-anchor="middle">heute</text>
-					<text x="380" y="272" class="chart__label" text-anchor="end">in 5 Jahren</text>
-
-					<path d={pricePath} class="chart__line chart__line--price chart__line--ghost"></path>
-					<path d={volumePath} class="chart__line chart__line--volume chart__line--ghost"></path>
-					<g clip-path="url(#scene-reveal)">
-						<path d={pricePath} class="chart__line chart__line--price"></path>
-						<path d={volumePath} class="chart__line chart__line--volume"></path>
-					</g>
-
-					<line x1="380" y1="30" x2="380" y2="250" class="chart__now" data-scene-now></line>
-					<circle cx="380" cy={priceY(1)} r="5" class="chart__dot chart__dot--price" data-scene-price-dot></circle>
-					<circle cx="380" cy={volumeY(1)} r="5" class="chart__dot chart__dot--volume" data-scene-volume-dot></circle>
-				</svg>
-
-				<div class="scene__stats">
-					<div>
-						<span class="scene__key scene__key--price">Kosten pro Lösung</span>
-						<strong data-scene-price>20 %</strong>
-					</div>
-					<div>
-						<span class="scene__key scene__key--volume">Gebaute Software</span>
-						<strong data-scene-volume>6,0×</strong>
-					</div>
+				<div class="keyword__ticks">
+					{steps.map((_, i) => <i class:list={{ 'is-active': i === 0 }} data-tick={i} />)}
 				</div>
-
-				<div class="scene__firms">
-					<p>Unternehmen mit eigener Software-Kompetenz</p>
-					<div class="firms" data-scene-firms>
-						{Array.from({ length: firms }, (_, i) => <i class:list={{ 'is-on': i < 16 }} />)}
-					</div>
-				</div>
-
-				<figcaption>Vereinfachtes Modell: Durch KI gibt es viel mehr Software-Leistung. Der Preis sinkt, und dadurch wird mehr gebaut.</figcaption>
-			</figure>
+			</div>
 		</div>
 
 		<p class="path__closing" data-reveal>
@@ -132,90 +95,21 @@ const firms = 24;
 </section>
 
 <script>
-	// Keep in sync with the model in the frontmatter.
-	const ease = (t: number) => {
-		const k = Math.min(1, Math.max(0, (t - 0.28) / 0.62));
-		return k * k * (3 - 2 * k);
-	};
-	const X = (t: number) => 40 + 340 * t;
-	const priceY = (t: number) => 60 + 152 * ease(t);
-	const volumeY = (t: number) => 215 - 170 * ease(t);
-	const pct = new Intl.NumberFormat('de-DE', { maximumFractionDigits: 0 });
-	const one = new Intl.NumberFormat('de-DE', { minimumFractionDigits: 1, maximumFractionDigits: 1 });
-
+	// The step crossing the middle of the viewport decides which keyword is shown.
 	const root = document.querySelector<HTMLElement>('[data-path]');
 	if (root) {
-		const q = <T extends Element>(s: string) => root.querySelector<T>(s)!;
-		const stepsEl = q<HTMLElement>('[data-path-steps]');
-		const items = [...stepsEl.querySelectorAll<HTMLElement>('.path__step')];
-		const clip = q<SVGRectElement>('[data-scene-clip]');
-		const now = q<SVGLineElement>('[data-scene-now]');
-		const priceDot = q<SVGCircleElement>('[data-scene-price-dot]');
-		const volumeDot = q<SVGCircleElement>('[data-scene-volume-dot]');
-		const priceEl = q<HTMLElement>('[data-scene-price]');
-		const volumeEl = q<HTMLElement>('[data-scene-volume]');
-		const numEl = q<HTMLElement>('[data-scene-num]');
-		const labelEl = q<HTMLElement>('[data-scene-label]');
-		const firms = [...q<HTMLElement>('[data-scene-firms]').children];
-		let active = -1;
-
-		const update = (t: number) => {
-			const x = X(t);
-			const e = ease(t);
-			clip.setAttribute('width', String(x));
-			now.setAttribute('x1', String(x));
-			now.setAttribute('x2', String(x));
-			priceDot.setAttribute('cx', String(x));
-			priceDot.setAttribute('cy', String(priceY(t)));
-			volumeDot.setAttribute('cx', String(x));
-			volumeDot.setAttribute('cy', String(volumeY(t)));
-			priceEl.textContent = `${pct.format(100 - 80 * e)} %`;
-			volumeEl.textContent = `${one.format(1 + 5 * e)}×`;
-			const lit = Math.round(1 + 15 * Math.min(1, Math.max(0, (t - 0.55) / 0.45)));
-			firms.forEach((f, i) => f.classList.toggle('is-on', i < lit));
-
-			const idx = Math.min(items.length - 1, Math.floor(t * items.length));
-			if (idx !== active) {
-				active = idx;
-				items.forEach((li, i) => li.classList.toggle('is-active', i === idx));
-				numEl.textContent = String(idx + 1).padStart(2, '0');
-				labelEl.textContent = items[idx].querySelector('.path__when')!.textContent;
-			}
+		const steps = [...root.querySelectorAll<HTMLElement>('[data-step]')];
+		const keys = [...root.querySelectorAll<HTMLElement>('[data-key]')];
+		const ticks = [...root.querySelectorAll<HTMLElement>('[data-tick]')];
+		const activate = (idx: number) => {
+			for (const list of [steps, keys, ticks]) list.forEach((el, i) => el.classList.toggle('is-active', i === idx));
 		};
-
-		// Motion is loaded only when the section approaches, so it never delays the first paint.
-		const start = async () => {
-			const { animate, inView, scroll } = await import('motion');
-			if (window.matchMedia('(min-width: 901px)').matches) {
-				// Desktop: the chart tells the story as the visitor scrolls through the steps.
-				scroll((progress: number) => update(progress), {
-					target: stepsEl,
-					offset: ['start 70%', 'end 55%'],
-				});
-			} else {
-				// Mobile: play the story once when the chart comes into view.
-				inView(
-					q('[data-scene]'),
-					() => {
-						animate(0, 1, { duration: 4, ease: 'easeInOut', onUpdate: update });
-					},
-					{ amount: 0.5 },
-				);
-			}
-		};
-
-		if (!window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
-			update(0);
-			const io = new IntersectionObserver(
-				(entries) => {
-					if (entries.some((e) => e.isIntersecting)) {
-						io.disconnect();
-						start();
-					}
-				},
-				{ rootMargin: '600px 0px' },
-			);
-			io.observe(root);
-		}
+		const io = new IntersectionObserver(
+			(entries) => {
+				for (const e of entries) if (e.isIntersecting) activate(Number((e.target as HTMLElement).dataset.step));
+			},
+			{ rootMargin: '-45% 0px -45% 0px' },
+		);
+		steps.forEach((s) => io.observe(s));
 	}
 </script>
