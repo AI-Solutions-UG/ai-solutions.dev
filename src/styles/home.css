@@ -203,78 +203,93 @@ p {
 /* ---------- Buttons ---------- */
 
 .btn {
+  position: relative;
+  isolation: isolate;
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  min-height: 50px;
-  padding: 0 26px;
+  min-height: 54px;
+  padding: 0 28px;
   border-radius: 10px;
   background: var(--accent);
-  color: var(--accent-ink);
-  font-weight: 600;
-  font-size: 1rem;
+  /* White on #E35420 is 3.8:1 – compliant because the label is large bold text (≥ 18.7px). */
+  color: #fff;
+  font-weight: 700;
+  font-size: 1.2rem;
+  letter-spacing: -0.01em;
   text-decoration: none;
   border: 1px solid var(--accent);
-  transition: transform 0.15s ease, background-color 0.15s ease, box-shadow 0.15s ease;
+  transition: transform 0.15s ease;
   white-space: nowrap;
 }
 
-.btn:not(.btn--ghost):not(.btn--small) {
-  animation: cta-glow 2.8s ease-in-out infinite;
+/* Soft orange halo behind primary buttons */
+.btn:not(.btn--ghost):not(.btn--small)::before {
+  content: '';
+  position: absolute;
+  inset: -4px;
+  z-index: -1;
+  border-radius: 14px;
+  background: var(--accent);
+  filter: blur(14px);
+  opacity: 0.35;
+  animation: cta-glow 2.6s ease-in-out infinite;
 }
 
 @keyframes cta-glow {
   0%,
   100% {
-    box-shadow: 0 0 0 0 var(--accent-glow);
+    opacity: 0.25;
+    transform: scale(0.94);
   }
   50% {
-    box-shadow: 0 0 22px 2px var(--accent-glow);
-  }
-}
-
-@media (prefers-reduced-motion: reduce) {
-  .btn:not(.btn--ghost):not(.btn--small) {
-    animation: none;
+    opacity: 0.7;
+    transform: scale(1.06);
   }
 }
 
 .btn:hover {
-  background: var(--accent-hover);
-  border-color: var(--accent-hover);
   transform: translateY(-1px);
-  box-shadow: 0 10px 24px -12px rgba(227, 84, 32, 0.7);
+}
+
+.btn:hover::before {
+  opacity: 0.8;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .btn:not(.btn--ghost):not(.btn--small)::before {
+    animation: none;
+    opacity: 0.45;
+  }
 }
 
 .btn--ghost {
   background: transparent;
   color: var(--ink);
   border-color: var(--line);
+  font-size: 1.05rem;
+  font-weight: 600;
 }
 
 .btn--ghost:hover {
   background: var(--white);
   border-color: var(--ink);
-  box-shadow: none;
 }
 
+/* Small nav button: navy, so the small label keeps full contrast */
 .btn--small {
   min-height: 40px;
   padding: 0 18px;
   font-size: 0.92rem;
+  font-weight: 600;
   border-radius: 8px;
+  background: var(--navy);
+  border-color: var(--navy);
 }
 
 .btn--light {
-  background: var(--accent-light);
-  color: var(--navy);
-  border-color: var(--accent-light);
-}
-
-.btn--light:hover {
   background: var(--accent);
   border-color: var(--accent);
-  box-shadow: 0 10px 28px -12px rgba(227, 84, 32, 0.8);
 }
 
 /* ---------- Nav ---------- */
