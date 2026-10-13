@@ -1,0 +1,264 @@
+---
+// Animierte Demo im Hero: Ein Anliegen wird in Klartext beschrieben, KI baut daraus
+// einen funktionierenden Konfigurator. Am Ende ist die Demo bedienbar.
+const steps = [
+	'Datenmodell aus Ihrer Preisliste',
+	'Regeln: Breite, Türen, Oberfläche',
+	'Live-Preisberechnung',
+	'Stückliste für die Fertigung',
+];
+---
+
+<figure class="demo" data-demo data-phase="0" aria-label="Animierte Demo: Aus einem Satz wird ein funktionierender Konfigurator">
+	<div class="demo__bar">
+		<span class="demo__dots" aria-hidden="true"><i></i><i></i><i></i></span>
+		<span class="demo__url">prototyp.ihr-unternehmen.de</span>
+		<span class="demo__status" data-status>Bereit</span>
+	</div>
+
+	<div class="demo__body">
+		<div class="demo__chat">
+			<p class="demo__label">Ihr Anliegen</p>
+			<p class="demo__msg"><span data-type></span><span class="demo__caret" aria-hidden="true"></span></p>
+			<ul class="demo__steps">
+				{steps.map((s) => <li><span class="demo__check" aria-hidden="true"></span>{s}</li>)}
+			</ul>
+		</div>
+
+		<div class="demo__app">
+			<div class="demo__preview">
+				<svg viewBox="0 0 220 150" data-cabinet aria-hidden="true"></svg>
+			</div>
+			<div class="demo__controls">
+				<div class="demo__row">
+					<span>Breite</span>
+					<div class="demo__seg" data-opt="width">
+						<button type="button" data-val="80">80 cm</button>
+						<button type="button" data-val="120">120 cm</button>
+						<button type="button" data-val="160">160 cm</button>
+					</div>
+				</div>
+				<div class="demo__row">
+					<span>Türen</span>
+					<div class="demo__seg" data-opt="doors">
+						<button type="button" data-val="0">Ohne</button>
+						<button type="button" data-val="1">Mit</button>
+					</div>
+				</div>
+				<div class="demo__row">
+					<span>Oberfläche</span>
+					<div class="demo__seg demo__seg--swatch" data-opt="color">
+						<button type="button" data-val="oak" aria-label="Eiche"><i style="background:#C89F6E"></i></button>
+						<button type="button" data-val="white" aria-label="Weiß"><i style="background:#EDEBE6"></i></button>
+						<button type="button" data-val="anthracite" aria-label="Anthrazit"><i style="background:#3B4048"></i></button>
+					</div>
+				</div>
+			</div>
+			<div class="demo__result">
+				<div>
+					<span class="demo__small">Preis</span>
+					<strong data-price>–</strong>
+				</div>
+				<div class="demo__bom">
+					<span class="demo__small">Stückliste</span>
+					<span data-bom>–</span>
+				</div>
+			</div>
+		</div>
+	</div>
+
+	<figcaption class="demo__foot">
+		<span class="demo__then"><b>Früher</b> Lastenheft, Agentur, Monate Wartezeit</span>
+		<span class="demo__arrow" aria-hidden="true">→</span>
+		<span class="demo__now"><b>Mit KI</b> funktionierender Prototyp in Tagen</span>
+	</figcaption>
+</figure>
+
+<script>
+	type Color = 'oak' | 'white' | 'anthracite';
+	type State = { width: number; doors: boolean; color: Color };
+
+	const COLORS: Record<Color, { fill: string; line: string }> = {
+		oak: { fill: '#C89F6E', line: '#8A6A44' },
+		white: { fill: '#EDEBE6', line: '#A9A49A' },
+		anthracite: { fill: '#3B4048', line: '#1E2228' },
+	};
+	const TEXT = 'Wir brauchen einen Konfigurator für unsere Schränke, mit Preisen und Stückliste für die Fertigung.';
+
+	const euro = new Intl.NumberFormat('de-DE', { style: 'currency', currency: 'EUR', maximumFractionDigits: 0 });
+	const wait = (ms: number) => new Promise((r) => setTimeout(r, ms));
+
+	function price(s: State) {
+		const cols = s.width / 40;
+		let p = 290 + s.width * 4.5 + (s.doors ? cols * 85 : 0);
+		if (s.color === 'anthracite') p *= 1.12;
+		return Math.round(p / 10) * 10;
+	}
+
+	function bom(s: State) {
+		const cols = s.width / 40;
+		const parts = [`2 Seitenwände`, `${cols - 1} Trennwände`, `${cols * 3} Fachböden`];
+		if (s.doors) parts.push(`${cols} Türen`);
+		return parts.join(' · ');
+	}
+
+	function cabinet(s: State) {
+		const c = COLORS[s.color];
+		const w = s.width * 1.15;
+		const h = 118;
+		const x = (220 - w) / 2;
+		const y = 14;
+		const cols = s.width / 40;
+		const cw = w / cols;
+		let out = `<ellipse cx="110" cy="${y + h + 6}" rx="${w / 2 + 8}" ry="5" fill="rgba(14,27,44,.12)"/>`;
+		out += `<rect x="${x}" y="${y}" width="${w}" height="${h}" rx="3" fill="${c.fill}" stroke="${c.line}" stroke-width="1.5"/>`;
+		for (let i = 0; i < cols; i++) {
+			const cx = x + i * cw;
+			if (i > 0) out += `<line x1="${cx}" y1="${y}" x2="${cx}" y2="${y + h}" stroke="${c.line}" stroke-width="1.5"/>`;
+			if (s.doors) {
+				out += `<rect x="${cx + 3}" y="${y + 3}" width="${cw - 6}" height="${h - 6}" rx="2" fill="${c.fill}" stroke="${c.line}" stroke-width="1"/>`;
+				const hx = i % 2 === 0 ? cx + cw - 10 : cx + 7;
+				out += `<rect x="${hx}" y="${y + h / 2 - 9}" width="3" height="18" rx="1.5" fill="${c.line}"/>`;
+			} else {
+				for (let k = 1; k <= 3; k++) {
+					const sy = y + (h / 4) * k;
+					out += `<line x1="${cx + 2}" y1="${sy}" x2="${cx + cw - 2}" y2="${sy}" stroke="${c.line}" stroke-width="1.5"/>`;
+				}
+			}
+		}
+		return out;
+	}
+
+	for (const root of document.querySelectorAll<HTMLElement>('[data-demo]')) {
+		const typeEl = root.querySelector<HTMLElement>('[data-type]')!;
+		const statusEl = root.querySelector<HTMLElement>('[data-status]')!;
+		const svg = root.querySelector<SVGSVGElement>('[data-cabinet]')!;
+		const priceEl = root.querySelector<HTMLElement>('[data-price]')!;
+		const bomEl = root.querySelector<HTMLElement>('[data-bom]')!;
+		const steps = [...root.querySelectorAll<HTMLElement>('.demo__steps li')];
+
+		const state: State = { width: 120, doors: false, color: 'oak' };
+		let userTookOver = false;
+		let shownPrice = 0;
+
+		function animatePrice(target: number) {
+			const from = shownPrice;
+			const start = performance.now();
+			const tick = (t: number) => {
+				const k = Math.min(1, (t - start) / 450);
+				shownPrice = Math.round(from + (target - from) * (1 - Math.pow(1 - k, 3)));
+				priceEl.textContent = euro.format(shownPrice);
+				if (k < 1) requestAnimationFrame(tick);
+			};
+			requestAnimationFrame(tick);
+		}
+
+		function render() {
+			svg.innerHTML = cabinet(state);
+			animatePrice(price(state));
+			bomEl.textContent = bom(state);
+			root.querySelectorAll<HTMLButtonElement>('[data-opt] button').forEach((b) => {
+				const opt = b.parentElement!.dataset.opt;
+				const v = b.dataset.val;
+				const on =
+					(opt === 'width' && Number(v) === state.width) ||
+					(opt === 'doors' && (v === '1') === state.doors) ||
+					(opt === 'color' && v === state.color);
+				b.setAttribute('aria-pressed', String(on));
+			});
+		}
+
+		function set(opt: string, val: string) {
+			if (opt === 'width') state.width = Number(val);
+			if (opt === 'doors') state.doors = val === '1';
+			if (opt === 'color') state.color = val as Color;
+			render();
+		}
+
+		root.querySelectorAll<HTMLButtonElement>('[data-opt] button').forEach((b) => {
+			b.addEventListener('click', () => {
+				userTookOver = true;
+				root.dataset.phase = '4';
+				set(b.parentElement!.dataset.opt!, b.dataset.val!);
+			});
+		});
+
+		const phase = (p: number) => (root.dataset.phase = String(p));
+
+		function showFinal() {
+			typeEl.textContent = TEXT;
+			steps.forEach((s) => s.classList.add('is-done'));
+			statusEl.textContent = 'Prototyp läuft';
+			phase(4);
+			render();
+		}
+
+		if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+			showFinal();
+			continue;
+		}
+
+		const autoplay: Array<[string, string]> = [
+			['width', '160'],
+			['doors', '1'],
+			['color', 'white'],
+			['width', '80'],
+			['color', 'anthracite'],
+			['doors', '0'],
+			['width', '120'],
+			['color', 'oak'],
+		];
+
+		async function run() {
+			while (!userTookOver) {
+				Object.assign(state, { width: 120, doors: false, color: 'oak' });
+				shownPrice = 0;
+				typeEl.textContent = '';
+				steps.forEach((s) => s.classList.remove('is-done'));
+				statusEl.textContent = 'Bereit';
+				phase(0);
+				await wait(700);
+
+				phase(1);
+				for (const ch of TEXT) {
+					if (userTookOver) return;
+					typeEl.textContent += ch;
+					await wait(ch === ',' ? 160 : 26);
+				}
+				await wait(400);
+
+				phase(2);
+				statusEl.textContent = 'KI baut …';
+				for (const s of steps) {
+					if (userTookOver) return;
+					await wait(550);
+					s.classList.add('is-done');
+				}
+				await wait(350);
+
+				phase(3);
+				render();
+				statusEl.textContent = 'Prototyp läuft';
+				await wait(900);
+				phase(4);
+
+				for (const [opt, val] of autoplay) {
+					if (userTookOver) return;
+					await wait(1300);
+					if (userTookOver) return;
+					set(opt, val);
+				}
+				await wait(2200);
+			}
+		}
+
+		// Start only when visible, so the story begins where the visitor is looking.
+		const io = new IntersectionObserver((entries) => {
+			if (entries.some((e) => e.isIntersecting)) {
+				io.disconnect();
+				run();
+			}
+		});
+		io.observe(root);
+	}
+</script>

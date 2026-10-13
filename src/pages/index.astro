@@ -1,7 +1,6 @@
 ---
 import '@fontsource-variable/inter';
-import '@fontsource/instrument-serif/400.css';
-import '@fontsource/instrument-serif/400-italic.css';
+import '@fontsource-variable/inter-tight';
 import '@styles/home.css';
 
 import Nav from '@components/home/Nav.astro';
@@ -27,7 +26,7 @@ const isPreview = import.meta.env.BASE_URL !== '/';
 		<meta charset="utf-8" />
 		<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
 		<link rel="icon" type="image/svg+xml" href={`${import.meta.env.BASE_URL.replace(/\/$/, '')}/favicon.svg`} />
-		<meta name="theme-color" content="#f6f4ef" />
+		<meta name="theme-color" content="#f6f5f1" />
 		<meta name="generator" content={Astro.generator} />
 		{isPreview && <meta name="robots" content="noindex, nofollow" />}
 		<title>{title}</title>

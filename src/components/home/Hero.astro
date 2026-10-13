@@ -1,5 +1,6 @@
 ---
 import { contactHref } from './site';
+import HeroDemo from './HeroDemo.astro';
 ---
 
 <section class="hero" id="top">
@@ -7,7 +8,7 @@ import { contactHref } from './site';
 		<p class="eyebrow">KI-Software für den Mittelstand</p>
 		<h1 class="hero__title">
 			Individuelle Software war für den Mittelstand bisher zu teuer.
-			<em>Das ändert sich gerade.</em>
+			<span class="accent">Das ändert sich gerade.</span>
 		</h1>
 		<p class="hero__lead">
 			KI senkt die Kosten für Software, die genau zu Ihren Abläufen passt, drastisch. Wir zeigen Ihnen das an einem
@@ -17,10 +18,11 @@ import { contactHref } from './site';
 			<a href={contactHref} class="btn">Problem schildern</a>
 			<a href="#weg" class="btn btn--ghost">Unsere These lesen ↓</a>
 		</div>
+		<HeroDemo />
 		<ul class="hero__facts" aria-label="Das Wichtigste in Kürze">
 			<li><strong>Kostenloser Prototyp</strong><span>an einem echten Problem aus Ihrem Unternehmen</span></li>
 			<li><strong>Ohne Risiko</strong><span>Code, Daten und Wissen gehören Ihnen</span></li>
-			<li><strong>Aus der Praxis</strong><span>jahrelange Erfahrung mit Konfiguratoren und Individualsoftware</span></li>
+			<li><strong>Seit 1998</strong><span>Erfahrung mit individueller Software</span></li>
 		</ul>
 	</div>
 </section>
