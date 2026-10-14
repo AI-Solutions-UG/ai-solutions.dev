@@ -1,0 +1,96 @@
+---
+const steps = [
+	{
+		when: 'Bisher',
+		title: 'Individuelle Software war zu teuer.',
+		text: 'Ein Konfigurator, ein Angebotstool, eine Anbindung an die Fertigung: Das kostete schnell sechsstellig. Also blieben Excel, Standardsoftware und Umwege. Der Bedarf war immer da. Nur das Budget nicht.',
+	},
+	{
+		when: 'Jetzt',
+		title: 'KI baut Software. Und zwar schnell.',
+		text: 'Was früher Monate dauerte, geht heute in Tagen. Es gibt plötzlich viel mehr Software-Leistung als Nachfrage. Die Preise fallen.',
+	},
+	{
+		when: 'Die Folge',
+		title: 'Gute Entwickler werden frei.',
+		text: 'Ein Entwickler mit KI schafft heute, wofür früher ein Team nötig war. Viele Software-Firmen brauchen nicht mehr alle ihre Leute.',
+	},
+	{
+		when: 'Die Wende',
+		title: 'Plötzlich lohnt es sich.',
+		text: 'Wird Software günstig, heißt es nicht mehr „zu teuer“, sondern „warum nicht?“. Unternehmen holen nach, was sie lange aufgeschoben haben. Es wird mehr Software gebaut, nicht weniger.',
+	},
+	{
+		when: 'In fünf Jahren',
+		title: 'Software wird Kernkompetenz.',
+		text: 'Erfolgreiche Unternehmen haben eigene, interne KI-Digitalisierungsexperten. Die bauen genau die Software, die das Geschäft braucht. Ohne Abhängigkeit von Standardsoftware oder Agenturen.',
+	},
+];
+---
+
+<section class="path" id="weg" aria-labelledby="weg-title">
+	<div class="wrap">
+		<header class="section-head" data-reveal>
+			<p class="eyebrow eyebrow--light">Unsere These</p>
+			<h2 id="weg-title">In fünf Jahren hat Ihr Unternehmen <span class="accent">mehr eigene Software</span> als heute.</h2>
+			<p class="section-lead">
+				Wir glauben: Unternehmen jeder Größe werden bald viel mehr Software nutzen. Nicht von der Stange, sondern genau
+				passend gebaut. So kommen wir darauf:
+			</p>
+		</header>
+
+		<div class="path__grid" data-path>
+			<ol class="path__steps" data-path-steps>
+				{
+					steps.map((step, i) => (
+						<li class:list={['path__step', { 'is-active': i === 0 }]} data-step={i}>
+							<span class="path__num" aria-hidden="true">{String(i + 1).padStart(2, '0')}</span>
+							<div>
+								<p class="path__when">{step.when}</p>
+								<h3>{step.title}</h3>
+								<p>{step.text}</p>
+							</div>
+						</li>
+					))
+				}
+			</ol>
+		</div>
+
+		<p class="path__closing" data-reveal>
+			Wer jetzt anfängt, hat einen Vorsprung. <span class="accent">Wer wartet, kauft später, was alle haben.</span>
+		</p>
+	</div>
+</section>
+
+<script>
+	// Highlight the step at the centre of the viewport and fill the centre line up to it.
+	const root = document.querySelector<HTMLElement>('[data-path]');
+	if (root) {
+		const list = root.querySelector<HTMLElement>('[data-path-steps]')!;
+		const steps = [...root.querySelectorAll<HTMLElement>('[data-step]')];
+		const io = new IntersectionObserver(
+			(entries) => {
+				for (const e of entries) {
+					if (!e.isIntersecting) continue;
+					const idx = Number((e.target as HTMLElement).dataset.step);
+					steps.forEach((el, i) => {
+						el.classList.toggle('is-active', i === idx);
+						el.classList.toggle('is-past', i < idx);
+					});
+				}
+			},
+			{ rootMargin: '-45% 0px -45% 0px' },
+		);
+		steps.forEach((s) => io.observe(s));
+
+		let ticking = false;
+		const fill = () => {
+			ticking = false;
+			const r = list.getBoundingClientRect();
+			const p = Math.min(1, Math.max(0, (innerHeight / 2 - r.top) / r.height));
+			list.style.setProperty('--p', p.toFixed(3));
+		};
+		addEventListener('scroll', () => !ticking && (ticking = true) && requestAnimationFrame(fill), { passive: true });
+		fill();
+	}
+</script>

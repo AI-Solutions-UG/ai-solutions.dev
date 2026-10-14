@@ -1,0 +1,31 @@
+---
+// Gemeinsamer Rahmen für die Beispiel-Apps in der Demo: Seitenleiste, Kopfzeile, Inhalt, Aktionen.
+interface Props {
+	title: string;
+	crumb: string;
+	nav?: number;
+}
+const { title, crumb, nav = 4 } = Astro.props;
+---
+
+<div class="app" data-at="1">
+	<aside class="app__side" aria-hidden="true">
+		<span class="app__logo"></span>
+		{Array.from({ length: nav }, (_, i) => <i class:list={{ 'is-active': i === 0 }} />)}
+	</aside>
+	<div class="app__main">
+		<div class="app__head">
+			<b>{title}</b>
+			<span class="app__crumb">{crumb}</span>
+			<span class="app__user" aria-hidden="true">MK</span>
+		</div>
+		<div class="app__body">
+			<slot />
+		</div>
+		{Astro.slots.has('actions') && (
+			<div class="app__actions">
+				<slot name="actions" />
+			</div>
+		)}
+	</div>
+</div>

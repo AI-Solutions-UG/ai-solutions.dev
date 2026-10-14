@@ -1,0 +1,91 @@
+---
+import { Image } from 'astro:assets';
+import founders from '../../assets/gruender.png';
+
+const since = 1998;
+const years = new Date().getFullYear() - since;
+
+const milestones = [
+	{ when: '1998', title: 'Gründung von ObjectCode', text: 'Individuelle Software für Unternehmen. Von Anfang an.' },
+	{ when: 'Plattformen', title: 'ImmobilienScout24', text: 'Mitentwicklung eines der großen deutschen Online-Portale.' },
+	{ when: '2014', title: 'Fokus auf Individualsoftware', text: 'Konfiguratoren, Produktionsanbindungen und vieles mehr.' },
+	{ when: 'Heute', title: 'AI Solutions', text: 'Unsere Erfahrung plus KI. Für Ihr Unternehmen.' },
+];
+---
+
+<section class="experience" id="wir" aria-labelledby="wir-title">
+	<div class="wrap">
+		<header class="section-head" data-reveal>
+			<p class="eyebrow eyebrow--light">Wer wir sind</p>
+			<h2 id="wir-title">Experten für individuelle Software. <span class="accent accent--line">Seit {since}.</span></h2>
+		</header>
+
+		<div class="experience__grid">
+			<figure class="experience__photo" data-reveal>
+				<Image
+					src={founders}
+					alt="Jörg Viola (links) und Vitus Forsmann (rechts), Gründer von AI Solutions"
+					widths={[560, 900, 1300]}
+					sizes="(max-width: 900px) 100vw, 600px"
+				/>
+				<figcaption>
+					<span><strong>Jörg Viola</strong>Geschäftsführer</span>
+					<span><strong>Vitus Forsmann</strong>Geschäftsführer</span>
+				</figcaption>
+			</figure>
+
+			<div class="experience__text" data-reveal>
+				<p class="experience__counter">
+					<span class="experience__num" data-since={since}>{years}</span>
+					<span class="experience__unit">Jahre Erfahrung mit individueller Software</span>
+				</p>
+				<p class="experience__claim">Im Herzen Entwickler. <span class="accent">Im Kopf Unternehmer.</span></p>
+				<p>
+					Hinter AI Solutions stehen Jörg Viola und Vitus Forsmann, die Geschäftsführer der ObjectCode GmbH. ObjectCode
+					baut seit {since} individuelle Software und hat unter anderem ImmobilienScout24 mitentwickelt. Seit 2014
+					konzentrieren wir uns auf Software, die man nirgends kaufen kann: Konfiguratoren, Produktionsanbindungen und
+					vieles mehr.
+				</p>
+				<p>
+					Technik war für uns nie Selbstzweck. Unser Ziel war immer, Unternehmen mit Software und Automatisierung beim
+					Wachsen zu helfen. Mit KI geht das heute schneller als je zuvor.
+				</p>
+			</div>
+		</div>
+
+		<ol class="timeline" data-reveal>
+			{
+				milestones.map((m) => (
+					<li>
+						<span class="timeline__dot" aria-hidden="true" />
+						<p class="timeline__when">{m.when}</p>
+						<h3>{m.title}</h3>
+						<p>{m.text}</p>
+					</li>
+				))
+			}
+		</ol>
+	</div>
+</section>
+
+<script>
+	// Count the years up once the number scrolls into view.
+	const el = document.querySelector<HTMLElement>('[data-since]');
+	if (el && !window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+		// Computed in the browser so the number stays right without a rebuild.
+		const target = new Date().getFullYear() - Number(el.dataset.since);
+		el.textContent = '0';
+		const io = new IntersectionObserver((entries) => {
+			if (!entries.some((e) => e.isIntersecting)) return;
+			io.disconnect();
+			const start = performance.now();
+			const tick = (t: number) => {
+				const k = Math.min(1, (t - start) / 1400);
+				el.textContent = String(Math.round(target * (1 - Math.pow(1 - k, 3))));
+				if (k < 1) requestAnimationFrame(tick);
+			};
+			requestAnimationFrame(tick);
+		});
+		io.observe(el);
+	}
+</script>

@@ -1,0 +1,44 @@
+---
+import { contactHref } from './site';
+
+const stations = [
+	{ title: 'Beweisen', text: 'Sie erleben an Ihrem Problem, was KI kann. Kostenlos.' },
+	{ title: 'Aufbauen', text: 'Wir bauen das Know-how bei Ihnen auf.' },
+	{ title: 'Selbst können', text: 'Sie entwickeln Ihre Software selbst.' },
+];
+---
+
+<section class="hero" id="top">
+	<div class="wrap">
+		<p class="eyebrow">Kompetenzaufbau statt Agentur</p>
+		<h1 class="hero__title">
+			Ihren Vertrieb machen Sie selbst.
+			<span class="accent">Bald auch Ihre Software.</span>
+		</h1>
+		<p class="hero__lead">
+			KI macht eigene Software-Entwicklung für jedes Unternehmen möglich. Was das heißt, zeigen wir Ihnen an einem
+			echten Problem aus Ihrem Alltag. Kostenlos. Danach bauen wir die Kompetenz bei Ihnen auf.
+		</p>
+		<div class="hero__actions">
+			<a href={contactHref} class="btn">Problem schildern</a>
+			<a href="#weg" class="btn btn--ghost">Warum jetzt? ↓</a>
+		</div>
+
+		<figure class="model" aria-label="Unser Modell: Beweisen, Aufbauen, Selbst können">
+			<div class="model__track" aria-hidden="true">
+				<span class="model__flow"></span>
+			</div>
+			<ol class="model__stations">
+				{
+					stations.map((s, i) => (
+						<li style={`--i:${i}`}>
+							<span class="model__dot" aria-hidden="true">{i + 1}</span>
+							<strong>{s.title}</strong>
+							<span>{s.text}</span>
+						</li>
+					))
+				}
+			</ol>
+		</figure>
+	</div>
+</section>

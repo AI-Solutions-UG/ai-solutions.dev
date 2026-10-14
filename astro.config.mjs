@@ -7,8 +7,12 @@ import react from "@astrojs/react";
 export default defineConfig({
   site: "https://ai-solutions.dev",
 
-  // GitHub Pages uses the repo name as base, but with custom domain we don't need it
-  base: "/",
+  // Custom domain → root. PR previews are built into a subfolder
+  // (e.g. /pr-preview/pr-3/) by the preview workflow via BASE_PATH.
+  base: process.env.BASE_PATH || "/",
+
+  // Inline CSS so nothing blocks the first paint (Lighthouse 100 on mobile).
+  build: { inlineStylesheets: "always" },
 
   integrations: [react()],
 });

@@ -1,0 +1,62 @@
+---
+const faqs = [
+	{
+		q: 'Was kostet der Einstieg?',
+		a: ['Nichts. Den ersten Prototyp bauen wir kostenlos. Danach entscheiden Sie, wie es weitergeht.'],
+	},
+	{
+		q: 'Warum ist der Prototyp kostenlos?',
+		a: [
+			'Über KI reden alle. Aber kaum jemand weiß, wie man sie im eigenen Unternehmen konkret einsetzt. Meist bleibt es bei ChatGPT für E-Mails. Wir sehen eine viel größere Chance. Die wollen wir Ihnen zeigen und beweisen, statt sie mit Worten zu verkaufen.',
+			'Außerdem haben wir in vielen Jahren gelernt: Nichts zeigt besser als ein erstes gemeinsames Projekt, ob man auch menschlich zusammenpasst.',
+		],
+	},
+	{
+		q: 'Kann das mit KI nicht bald jeder selbst?',
+		a: [
+			'Ja, genau das ist unsere These. Software zu entwickeln wird eine Kernkompetenz Ihres Unternehmens. Bisher haben sich das nur Firmen mit eigener IT-Abteilung zugetraut.',
+			'Entscheidend ist, dass die Software auch langfristig funktioniert. Denken Sie an den Vertrieb: Verkaufen kann im Prinzip jeder Mitarbeiter. Trotzdem bauen Sie dafür ein eigenes Team auf. Sonst endet jedes zweite Angebot im Chaos. Mit Software ist es genauso. Wir helfen Ihnen, diese Kompetenz richtig aufzubauen.',
+		],
+	},
+	{
+		q: 'Wir haben schon jemanden, der sich für KI begeistert. Passt das?',
+		a: [
+			'Sehr gut sogar. Dann machen wir diese Person zu Ihrem KI-Digitalisierungsexperten. Wir geben Anleitung und Support, bis sie selbstständig arbeitet.',
+		],
+	},
+	{
+		q: 'Was passiert mit unseren Daten?',
+		a: [
+			'Wir arbeiten immer DSGVO-konform, im Prototyp genauso wie danach.',
+			'Geht eine Anwendung live und verarbeitet echte Daten von Ihnen oder Ihren Kunden, wird sie DSGVO-konform gehostet. Server und Dienste bestellen wir in Ihrem Namen. So gehören die Anwendungen Ihnen, und Sie behalten jederzeit die volle Kontrolle.',
+		],
+	},
+	{
+		q: 'Wem gehört die Software?',
+		a: ['Ihnen. Code, Daten und Dokumentation gehören von Anfang an Ihrem Unternehmen.'],
+	},
+	{
+		q: 'Brauchen wir eine eigene IT-Abteilung?',
+		a: ['Nein. Wir fangen da an, wo Sie heute stehen. Die Kompetenz bauen wir gemeinsam auf.'],
+	},
+];
+---
+
+<section class="section" aria-labelledby="faq-title">
+	<div class="wrap faq">
+		<header class="section-head" data-reveal>
+			<p class="eyebrow">Fragen</p>
+			<h2 id="faq-title">Was Unternehmer uns <span class="accent">am häufigsten</span> fragen.</h2>
+		</header>
+		<div class="faq__list" data-reveal>
+			{
+				faqs.map((f) => (
+					<details>
+						<summary>{f.q}</summary>
+						{f.a.map((p) => <p>{p}</p>)}
+					</details>
+				))
+			}
+		</div>
+	</div>
+</section>

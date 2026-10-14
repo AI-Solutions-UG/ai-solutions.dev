@@ -1,0 +1,18 @@
+---
+import Logo from './Logo.astro';
+import { contactHref, href } from './site';
+---
+
+<header class="nav">
+	<div class="wrap nav__inner">
+		<a href={href('/')} class="nav__brand" aria-label="AI Solutions – Startseite">
+			<Logo />
+		</a>
+		<nav class="nav__links" aria-label="Hauptnavigation">
+			<a href={href('/#weg')}>Unsere These</a>
+			<a href={href('/#angebot')}>Angebot</a>
+			<a href={href('/#wir')}>Über uns</a>
+		</nav>
+		<a href={contactHref} class="btn btn--small">Kontakt</a>
+	</div>
+</header>

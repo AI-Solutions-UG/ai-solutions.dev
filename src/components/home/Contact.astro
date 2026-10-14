@@ -1,0 +1,17 @@
+---
+import { contactEmail, contactHref } from './site';
+---
+
+<section class="contact" id="kontakt" aria-labelledby="kontakt-title">
+	<div class="wrap" data-reveal>
+		<h2 id="kontakt-title">Welches Problem wären Sie <span class="accent">morgen gern los?</span></h2>
+		<p class="section-lead">
+			Schreiben Sie uns in zwei, drei Sätzen, was Sie stört. Wir melden uns persönlich. Und sagen Ihnen ehrlich, ob KI
+			dabei hilft.
+		</p>
+		<div class="contact__actions">
+			<a href={contactHref} class="btn btn--light">Problem schildern</a>
+			<a href={`mailto:${contactEmail}`} class="contact__mail">{contactEmail}</a>
+		</div>
+	</div>
+</section>

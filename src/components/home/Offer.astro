@@ -1,0 +1,86 @@
+---
+import { contactHref } from './site';
+---
+
+<section class="section section--tinted" id="angebot" aria-labelledby="angebot-title">
+	<div class="wrap">
+		<header class="section-head" data-reveal>
+			<p class="eyebrow">Unser Angebot</p>
+			<h2 id="angebot-title">KI schreibt den Code. <span class="accent accent--line">Wir bringen das Know-how.</span></h2>
+			<p class="section-lead">
+				Damit aus KI gute Software wird, braucht es jemanden, der Ihr Geschäft versteht, Ihre Systeme anbindet und an
+				Sicherheit und Datenschutz denkt. Genau diese Kompetenz bauen wir bei Ihnen auf. In drei Schritten, ohne Risiko
+				für Sie.
+			</p>
+		</header>
+
+		<ol class="offer">
+			<li class="offer__step" data-reveal>
+				<div class="offer__top">
+					<span class="offer__num" aria-hidden="true">1</span>
+					<span class="tag">Kostenlos</span>
+				</div>
+				<h3>Der Beweis</h3>
+				<p>
+					Sie nennen uns ein Problem, das Sie lange stört. Wir bauen dafür einen funktionierenden Prototyp. Und Sie
+					sitzen mit am Steuer, zum Beispiel mit Claude Code.
+				</p>
+				<p class="offer__meta">ca. 2 Wochen · 0 €</p>
+			</li>
+
+			<li class="offer__step" data-reveal data-choice-root>
+				<div class="offer__top">
+					<span class="offer__num" aria-hidden="true">2</span>
+					<span class="tag">Ohne Risiko</span>
+				</div>
+				<h3>Der Aufbau</h3>
+				<div class="choice" role="group" aria-label="Weg wählen">
+					<button type="button" aria-pressed="true" data-choice="b">Ihr Mitarbeiter</button>
+					<button type="button" aria-pressed="false" data-choice="a">Unser Experte</button>
+				</div>
+				<p data-choice-text="b">
+					Sie haben jemanden, der für KI brennt? Wir machen ihn mit Anleitung und Support zu Ihrem Experten.
+				</p>
+				<p data-choice-text="a" hidden>
+					Ein erfahrener KI-Digitalisierungsexperte von uns arbeitet für Sie. Passt es, wechselt er später fest zu Ihnen.
+				</p>
+				<p class="offer__meta">flexibel, ohne lange Bindung</p>
+			</li>
+
+			<li class="offer__step" data-reveal>
+				<div class="offer__top">
+					<span class="offer__num" aria-hidden="true">3</span>
+					<span class="tag">Ihr Team</span>
+				</div>
+				<h3>Das Ergebnis</h3>
+				<p>
+					Sie haben eigene Leute, die mit KI Software bauen. Software, Daten und Wissen gehören Ihnen. Wir bleiben
+					ansprechbar, wenn Sie uns brauchen.
+				</p>
+				<p class="offer__meta">Die Kompetenz bleibt im Haus</p>
+			</li>
+		</ol>
+
+		<div class="note" data-reveal>
+			<p>
+				Sie sollen nicht dauerhaft von uns abhängen. <strong>Unser Ziel: Am Ende können Sie es selbst.</strong>
+			</p>
+			<a href={contactHref} class="btn btn--light">Mit Schritt 1 starten</a>
+		</div>
+	</div>
+</section>
+
+<script>
+	// Weg A / Weg B im zweiten Schritt umschalten.
+	for (const root of document.querySelectorAll<HTMLElement>('[data-choice-root]')) {
+		const buttons = root.querySelectorAll<HTMLButtonElement>('[data-choice]');
+		buttons.forEach((b) =>
+			b.addEventListener('click', () => {
+				buttons.forEach((o) => o.setAttribute('aria-pressed', String(o === b)));
+				root.querySelectorAll<HTMLElement>('[data-choice-text]').forEach((t) => {
+					t.hidden = t.dataset.choiceText !== b.dataset.choice;
+				});
+			}),
+		);
+	}
+</script>

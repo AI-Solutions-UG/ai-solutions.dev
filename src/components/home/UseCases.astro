@@ -1,0 +1,21 @@
+---
+import Demo from './Demo.astro';
+import { contactHref } from './site';
+---
+
+<section class="section" id="beispiele" aria-labelledby="einstieg-title">
+	<div class="wrap">
+		<header class="section-head" data-reveal>
+			<p class="eyebrow">Wo es sich lohnt</p>
+			<h2 id="einstieg-title">Erkennen Sie sich wieder? <span class="accent accent--line">Genau dort fangen wir an.</span></h2>
+			<p class="section-lead">
+				In fast jedem Unternehmen gibt es Abläufe, die jeden Tag Zeit und Nerven kosten. Wählen Sie einen aus und sehen
+				Sie, wie daraus mit KI eigene Software entsteht.
+			</p>
+		</header>
+		<Demo />
+		<p class="usecases__more" data-reveal>
+			Ihr Problem ist nicht dabei? <a href={contactHref}>Erzählen Sie es uns.</a>
+		</p>
+	</div>
+</section>
